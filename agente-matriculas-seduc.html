@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formação de Classes e Matrículas 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0e1526;
+    --ink-2:#16203a;
+    --ink-3:#202c4d;
+    --paper:#faf8f3;
+    --paper-2:#f2efe6;
+    --line:#e3ddd0;
+    --line-soft:#ece7db;
+    --text:#1b2030;
+    --text-muted:#6b7280;
+    --gold:#b8873b;
+    --gold-soft:#e8d9b8;
+    --blue:#3c6690;
+    --brick:#8f3b2b;
+    --brick-soft:#f3e4e0;
+    --radius:10px;
+    --serif:'Newsreader', Georgia, 'Times New Roman', serif;
+    --sans:'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --mono:'IBM Plex Mono', 'SF Mono', Consolas, monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--text);
+    background:var(--ink);
+    overflow:hidden;
+  }
+  .app{
+    display:grid;
+    grid-template-columns:300px 1fr;
+    height:100vh;
+    width:100vw;
+  }
+
+  /* ---------- SIDEBAR ---------- */
+  .sidebar{
+    background:linear-gradient(180deg,var(--ink) 0%, var(--ink-2) 100%);
+    color:#dfe4f0;
+    display:flex;
+    flex-direction:column;
+    padding:26px 22px;
+    border-right:1px solid rgba(255,255,255,.06);
+  }
+  .brand{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding-bottom:22px;
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .brand-mark{
+    width:42px;height:42px;
+    flex:0 0 42px;
+    border-radius:8px;
+    background:linear-gradient(145deg,var(--gold) 0%, #8f6423 100%);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:14px;
+    color:#241703;
+  }
+  .brand-name{
+    font-size:15px;
+    font-weight:600;
+    line-height:1.3;
+    color:#f4f1e8;
+  }
+  .brand-sub{
+    font-size:12px;
+    color:#9aa3bd;
+    margin-top:3px;
+    line-height:1.4;
+  }
+
+  .status{
+    margin-top:18px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+    color:#9be3ac;
+    font-family:var(--mono);
+  }
+  .status .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:#59d17e;
+    box-shadow:0 0 0 3px rgba(89,209,126,.18);
+  }
+
+  .side-section{
+    margin-top:24px;
+  }
+  .side-title{
+    font-size:11px;
+    letter-spacing:.03em;
+    color:#8890ab;
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  .source-item{
+    display:flex;
+    gap:10px;
+    padding:10px 0;
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  .source-item:last-child{border-bottom:none;}
+  .source-ico{
+    width:26px;height:26px;flex:0 0 26px;
+    border-radius:6px;
+    background:rgba(184,135,59,.16);
+    color:var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;
+  }
+  .source-name{font-size:13px;color:#eceffa;font-weight:500;line-height:1.35;}
+  .source-meta{font-size:11px;color:#828bab;margin-top:2px;}
+
+  .suggestions{margin-top:24px;}
+  .chip{
+    display:block;
+    width:100%;
+    text-align:left;
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.08);
+    color:#cfd5e8;
+    font-family:var(--sans);
+    font-size:12.5px;
+    padding:9px 12px;
+    border-radius:8px;
+    margin-bottom:7px;
+    cursor:pointer;
+    transition:border-color .15s ease, background .15s ease;
+    line-height:1.4;
+  }
+  .chip:hover{background:rgba(255,255,255,.07);border-color:rgba(184,135,59,.5);}
+
+  .side-footer{
+    margin-top:auto;
+    padding-top:16px;
+    font-size:11px;
+    color:#6d7592;
+    border-top:1px solid rgba(255,255,255,.07);
+    line-height:1.5;
+  }
+  .copyright{
+    margin-top:12px;
+    font-size:11px;
+    color:#8890ab;
+    line-height:1.5;
+  }
+  .copyright strong{color:#c3cbe0;font-weight:600;}
+
+  /* ---------- MAIN ---------- */
+  .main{
+    background:var(--paper);
+    display:flex;
+    flex-direction:column;
+    height:100vh;
+    position:relative;
+  }
+  .topbar{
+    padding:20px 34px 16px 34px;
+    border-bottom:1px solid var(--line);
+    background:var(--paper);
+  }
+  .topbar h1{
+    font-family:var(--serif);
+    font-size:21px;
+    font-weight:600;
+    margin:0;
+    color:var(--text);
+  }
+  .topbar p{
+    margin:5px 0 0 0;
+    font-size:13px;
+    color:var(--text-muted);
+  }
+  .disclaimer{
+    margin:14px 0 0 0;
+    display:flex;
+    align-items:flex-start;
+    gap:9px;
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:9px 13px;
+    font-size:12.5px;
+    color:#4a5163;
+    line-height:1.5;
+  }
+  .disclaimer svg{flex:0 0 auto;margin-top:2px;}
+
+  .chat{
+    flex:1;
+    overflow-y:auto;
+    padding:26px 34px 10px 34px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+
+  .msg{
+    display:flex;
+    max-width:720px;
+    animation:rise .28s ease;
+  }
+  @keyframes rise{
+    from{opacity:0;transform:translateY(6px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  .msg.user{align-self:flex-end;justify-content:flex-end;}
+  .msg.agent{align-self:flex-start;}
+
+  .bubble-user{
+    background:var(--ink);
+    color:#f2f3f8;
+    padding:11px 16px;
+    border-radius:14px 14px 3px 14px;
+    font-size:14.5px;
+    line-height:1.5;
+  }
+
+  .agent-wrap{display:flex;gap:12px;}
+  .avatar{
+    width:34px;height:30px;flex:0 0 34px;
+    border-radius:7px;
+    background:linear-gradient(145deg,var(--gold),#8f6423);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-weight:600;color:#241703;font-size:11px;
+    letter-spacing:.01em;
+    margin-top:2px;
+  }
+  .agent-card{
+    background:#ffffff;
+    border:1px solid var(--line);
+    border-radius:3px 14px 14px 14px;
+    padding:15px 18px;
+    box-shadow:0 1px 2px rgba(20,20,10,.03);
+  }
+  .agent-card .lead{
+    font-size:14px;
+    color:var(--text);
+    margin:0 0 10px 0;
+    font-family:var(--sans);
+    font-weight:500;
+  }
+  .ans-block{
+    border-left:3px solid var(--gold-soft);
+    padding:2px 0 2px 14px;
+    margin-bottom:12px;
+  }
+  .ans-block:last-of-type{margin-bottom:0;}
+  .ans-block p{
+    margin:0 0 8px 0;
+    font-family:var(--serif);
+    font-size:15.5px;
+    line-height:1.6;
+    color:#232840;
+  }
+  .kb-list{
+    margin:0 0 8px 20px;
+    padding:0;
+    font-family:var(--serif);
+    font-size:15px;
+    line-height:1.7;
+    color:#232840;
+  }
+  .kb-list li{margin-bottom:5px;}
+  .kb-list li::marker{
+    font-weight:700;
+    color:var(--gold);
+  }
+  .num{
+    font-weight:700;
+    color:#8a5a1f;
+    background:rgba(184,135,59,.16);
+    padding:0 4px;
+    border-radius:4px;
+    white-space:nowrap;
+  }
+  .kb-note{
+    font-family:var(--sans);
+    font-size:12.5px;
+    color:var(--text-muted);
+    margin:0 0 6px 0;
+    font-style:italic;
+  }
+  .cite{
+    font-family:var(--mono);
+    font-size:10.5px;
+    color:var(--blue);
+    letter-spacing:.01em;
+  }
+  .not-found{
+    border-left:3px solid var(--brick);
+    background:var(--brick-soft);
+    padding:10px 14px;
+    border-radius:0 8px 8px 0;
+    font-size:13.5px;
+    color:#5c261b;
+    line-height:1.55;
+  }
+  .not-found b{display:block;margin-bottom:3px;font-size:13px;}
+
+  .typing{
+    display:flex;gap:4px;align-items:center;padding:4px 0;
+  }
+  .typing span{
+    width:6px;height:6px;border-radius:50%;
+    background:#b7bdd0;
+    animation:pulse 1.1s infinite ease-in-out;
+  }
+  .typing span:nth-child(2){animation-delay:.15s;}
+  .typing span:nth-child(3){animation-delay:.3s;}
+  @keyframes pulse{
+    0%,60%,100%{opacity:.3;transform:scale(.85);}
+    30%{opacity:1;transform:scale(1);}
+  }
+
+  .composer{
+    padding:16px 34px 22px 34px;
+    background:var(--paper);
+    border-top:1px solid var(--line);
+  }
+  .composer-inner{
+    display:flex;
+    align-items:flex-end;
+    gap:10px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:8px 8px 8px 16px;
+  }
+  .composer-inner:focus-within{border-color:var(--gold);}
+  textarea{
+    flex:1;
+    border:none;
+    outline:none;
+    resize:none;
+    font-family:var(--sans);
+    font-size:14.5px;
+    line-height:1.5;
+    padding:8px 0;
+    max-height:120px;
+    color:var(--text);
+    background:transparent;
+  }
+  textarea::placeholder{color:#9aa0b0;}
+  .send-btn{
+    background:var(--ink);
+    color:#fff;
+    border:none;
+    width:38px;height:38px;
+    border-radius:9px;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    flex:0 0 38px;
+    transition:background .15s ease, transform .1s ease;
+  }
+  .send-btn:hover{background:var(--ink-3);}
+  .send-btn:active{transform:scale(.94);}
+  .send-btn:disabled{opacity:.35;cursor:not-allowed;}
+  .composer-note{
+    text-align:center;
+    font-size:11px;
+    color:#9aa0b0;
+    margin-top:9px;
+  }
+
+  .chat::-webkit-scrollbar{width:8px;}
+  .chat::-webkit-scrollbar-thumb{background:#ded6c3;border-radius:8px;}
+
+  @media (max-width: 820px){
+    .app{grid-template-columns:1fr;}
+    .sidebar{display:none;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">EdIA</div>
+      <div>
+        <div class="brand-name">Agente de Matrículas</div>
+        <div class="brand-sub">Coordenadoria de Demanda Escolar · SEDUC-SP</div>
+      </div>
+    </div>
+
+    <div class="status"><span class="dot"></span> Base de dados carregada</div>
+
+    <div class="side-section">
+      <div class="side-title">BASE DE CONHECIMENTO</div>
+      <div class="source-item">
+        <div class="source-ico">§</div>
+        <div>
+          <div class="source-name">Resolução SEDUC nº 78/2026</div>
+          <div class="source-meta">DOE 29/07/2026 · 51 artigos + anexos</div>
+        </div>
+      </div>
+      <div class="source-item">
+        <div class="source-ico">▤</div>
+        <div>
+          <div class="source-name">Formação de Classes e Matrículas 2027</div>
+          <div class="source-meta">Apresentação técnica · 14/08/2026</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-section suggestions">
+      <div class="side-title">PERGUNTAS SUGERIDAS</div>
+      <button class="chip" data-q="Quais são os referenciais numéricos de estudantes por classe?">Referenciais numéricos por classe</button>
+      <button class="chip" data-q="Como funciona a Inscrição por Alocação?">Como funciona a Inscrição por Alocação?</button>
+      <button class="chip" data-q="Qual o cronograma de matrículas para 2027?">Cronograma de matrículas 2027</button>
+      <button class="chip" data-q="Quais os critérios para o atendimento no período noturno?">Critérios para período noturno</button>
+      <button class="chip" data-q="A falta de comprovante da escola anterior pode impedir a matrícula?">Falta de documento impede matrícula?</button>
+    </div>
+
+    <div class="side-footer">
+      Fonte: PDFs anexados pelo usuário (Diário Oficial do Estado de São Paulo, 29/07/2026, e apresentação institucional, 14/08/2026).
+      <div class="copyright">© <strong>Edilson Gomes Vieira</strong><br>Gerente de Organização Escolar</div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+    <div class="topbar">
+      <h1>Formação de Classes e Matrículas 2027</h1>
+      <p>Consulta restrita à Resolução SEDUC nº 78/2026 e à apresentação "Matrículas 2027"</p>
+      <div class="disclaimer">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8f6423" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><circle cx="12" cy="16.2" r="0.3" fill="#8f6423"/></svg>
+        <div>Este assistente não gera respostas fora da Base de Conhecimento.</div>
+      </div>
+    </div>
+
+    <div class="chat" id="chat"></div>
+
+    <div class="composer">
+      <div class="composer-inner">
+        <textarea id="input" rows="1" placeholder="Pergunte algo sobre a Resolução 78/2026 ou o cronograma de matrículas 2027..."></textarea>
+        <button class="send-btn" id="sendBtn" aria-label="Enviar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+      <div class="composer-note">© 2026 Edilson Gomes Vieira · Gerente de Organização Escolar</div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+/* ======================================================================
+   BASE DE CONHECIMENTO
+   Extraída dos dois PDFs anexados pelo usuário:
+   DOC A — Resolução SEDUC nº 78, de 28/07/2026 (DOE 29/07/2026)
+   DOC B — Apresentação "Formação de Classes e Matrículas 2027" (14/08/2026)
+
+   Cada item tem:
+   - text     -> conteúdo integral (usado na busca)
+   - summary  -> explicação curta e humanizada (usada na resposta)
+   - list     -> opcional, itens sequenciais/datas (exibidos em lista numerada)
+   - note     -> opcional, observação curta complementar
+   ====================================================================== */
+const KB = [
+// ---------------------- DOC A: RESOLUÇÃO SEDUC 78/2026 ----------------------
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 1º a 4º", title:"Etapas da formação de classes e matrícula",
+ tags:["etapas","matricula","classes","sed","plataforma","idade","emancipado","fundamental","medio","eja"],
+ summary:"A formação de classes e matrícula segue 7 etapas, tudo pela plataforma SED, em parceria entre estado e municípios. Um detalhe: a partir dos 18 anos completos (ou se emancipado), o próprio estudante passa a responder por seus atos.",
+ list:[
+  "Formação inicial de classes e matrícula automática de quem já está na rede",
+  "Definição automática dos estudantes vindos da rede municipal",
+  "Divulgação preliminar dos resultados de matrícula",
+  "Chamada Pública de Matrícula",
+  "Alocação automática dos estudantes da Chamada Pública",
+  "Divulgação final dos resultados de matrícula",
+  "Abertura do Cadastro Regular"
+ ],
+ text:"As ações de formação de classes e matrículas obedecem a sete etapas: I) formação inicial de classes e efetivação automática da matrícula em continuidade; II) definição automática dos estudantes provenientes das redes municipais; III) divulgação preliminar dos resultados; IV) Chamada Pública de Matrícula; V) alocação automática dos estudantes identificados na Chamada Pública; VI) divulgação final dos resultados; VII) abertura de Cadastro Regular. Todas as etapas são executadas de forma conjunta entre a rede estadual e as redes municipais por meio da plataforma SED. O estudante com 18 anos completos ou emancipado responde por seus próprios atos."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 5º", title:"Referenciais numéricos por classe",
+ tags:["referencial","numerico","modulo","30","35","40","45","estudantes por classe","eja","fundamental","medio"],
+ summary:"Cada tipo de turma tem um número de referência de estudantes:",
+ list:[
+  "Anos iniciais do Ensino Fundamental — 30 estudantes",
+  "Anos finais do Ensino Fundamental — 35 estudantes",
+  "Ensino Médio — 40 estudantes",
+  "EJA, Fundamental e Médio — 45 estudantes"
+ ],
+ text:"As classes da rede estadual seguem os seguintes referenciais numéricos de estudantes: I) 30 estudantes para os anos iniciais do Ensino Fundamental; II) 35 estudantes para os anos finais do Ensino Fundamental; III) 40 estudantes para o Ensino Médio; IV) 45 estudantes para a Educação de Jovens e Adultos (EJA), nos níveis Fundamental e Médio."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 6º", title:"Acréscimo de até 10% ao módulo",
+ tags:["10%","acrescimo","modulo","demanda","intencao","unidade regional"],
+ summary:"Havendo demanda justificada, dá para acrescentar até 10% ao número de estudantes por turma, mas só com análise da Unidade Regional de Ensino. Esse acréscimo não pode ser usado para quem se inscreveu apenas por intenção (preferência) — vale só para situações realmente justificadas.",
+ text:"Quando a demanda devidamente justificada exigir, poderá ser acrescido até 10% aos referenciais do artigo 5º, mediante análise da Unidade Regional de Ensino. É vedado usar esse acréscimo para atender estudantes inscritos por intenção — ele só pode ser aplicado a situações devidamente justificadas e analisadas pela Unidade Regional de Ensino."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 7º e 8º", title:"Metragem da sala e casos excepcionais",
+ tags:["metragem","sala","m2","1,20","1,00","decreto 12342","excepcional","homologacao"],
+ summary:"Se a sala for pequena para o número ideal de estudantes, vale o índice de 1,20 m² por estudante, podendo chegar a no mínimo 1,00 m². Situações fora dessas regras são analisadas pela Unidade Regional de Ensino e homologadas pela Coordenadoria de Demanda Escolar.",
+ text:"Quando a metragem da sala não permitir o referencial do artigo 5º, deve-se observar o índice de 1,20 m² por estudante em carteira individual (Decreto Estadual nº 12.342/1978), correspondendo no mínimo a 1,00 m² por estudante, conforme a Resolução SS nº 493/1994. Casos excepcionais e não previstos nos artigos 5º a 7º são analisados pela Unidade Regional de Ensino e submetidos à homologação da Coordenadoria de Demanda Escolar."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 9º", title:"Redimensionamento de classes",
+ tags:["redimensionamento","ampliacao","adequacao","bimestre","4o bimestre"],
+ summary:"Redimensionar é ajustar o número de turmas conforme a demanda muda. Ampliar pode acontecer a qualquer momento do ano; já reduzir turmas só é permitido no fim de cada bimestre, com exceção do 4º bimestre.",
+ text:"Redimensionamento é a ampliação ou adequação da quantidade de classes para equalizar o atendimento da demanda. A ampliação pode ocorrer a qualquer época do ano, inclusive quando classes existentes ultrapassam o referencial máximo. Já a adequação (por diminuição de demanda) só pode ser efetivada ao final de cada bimestre letivo, com exceção do 4º bimestre, mediante análise da Unidade Regional de Ensino."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 10", title:"Formação inicial de classes e matrículas",
+ tags:["continuidade","2km","endereco","georreferenciado","itinerario formativo","if","1o ano","6o ano","1a serie"],
+ summary:"A matrícula inicial acontece de forma automática, seguindo esta lógica:",
+ list:[
+  "Continuidade na mesma escola — matrícula automática",
+  "Escola sem a série seguinte — matrícula por endereço, em escola a até 2 km",
+  "Concluintes do 9º ano — preferência por escola com Ensino Médio diurno, no mesmo raio",
+  "Vagas de ingresso (1º, 6º ano, 1ª série e EJA) — consideram o histórico da escola e a demanda da região"
+ ],
+ text:"A formação inicial ocorre de forma automatizada: estudantes em continuidade na própria unidade são matriculados automaticamente; quando a unidade não oferta o ano/série seguinte, a matrícula é feita por endereço residencial georreferenciado em escola a até 2.000 metros (2 km); concluintes do 9º ano são preferencialmente encaminhados a escola com Ensino Médio diurno no mesmo raio. Para vagas de ingresso (1º e 6º ano do Fundamental, 1ª série do Médio e EJA), considera-se a série histórica da escola e a demanda da região. Itinerários Formativos profissionalizantes e propedêuticos/acadêmicos são gerados pelo Órgão Central."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 11", title:"Formação de novas classes",
+ tags:["novas classes","cadastro regular","noturno","polo","trabalhador","eja seriada"],
+ summary:"Novas turmas são abertas para atender o Cadastro Regular, a demanda que sobrou da matrícula inicial e os estudantes trabalhadores no período noturno — nesse último caso, priorizando as escolas definidas como Polo de atendimento noturno.",
+ text:"Novas classes são formadas para: I) atender inscrições do Cadastro Regular; II) atender demanda não contemplada na formação inicial; III) atender estudantes trabalhadores no período noturno, considerando demanda justificada com documentos comprobatórios e unidades definidas como Polo de atendimento noturno. A abertura de classes para atendimento por intenção de transferência depende de aprovação da Coordenadoria de Demanda Escolar."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 12 e 13", title:"Definição de estudantes da rede municipal",
+ tags:["rede municipal","definicao de estudantes","ficha do aluno","gemeos","irmaos","acessibilidade","ordem de atendimento"],
+ summary:"A alocação de estudantes vindos da rede municipal segue esta ordem de prioridade:",
+ list:[
+  "Estudantes que precisam de escola com acessibilidade",
+  "Estudantes gêmeos, com o mesmo endereço",
+  "Estudantes irmãos, com o mesmo endereço",
+  "Estudantes que pretendem período integral",
+  "Demais estudantes"
+ ],
+ text:"A indicação de estudantes da rede municipal (quando a escola de origem não oferece a etapa seguinte) é feita pelo processo automatizado 'Definição de Estudantes', com base na Ficha do Aluno. A alocação segue a ordem: a) estudantes com necessidade de escolas com acessibilidade; b) estudantes gêmeos vinculados na Ficha do Aluno com o mesmo endereço; c) estudantes irmãos com o mesmo endereço; d) estudantes pretendentes ao período integral; e) demais estudantes."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 14 e 15", title:"Divulgação preliminar e final dos resultados",
+ tags:["divulgacao","resultado","consulta publica","poupatempo","preliminar","final"],
+ summary:"Os resultados, preliminares e finais, são divulgados na própria escola, na Consulta Pública on-line (sed.educacao.sp.gov.br/ConsultaPublica/Consulta) e nos postos do Poupatempo. O resultado preliminar ainda pode mudar, pois durante a Chamada Pública é possível pedir transferência.",
+ text:"A divulgação preliminar dos resultados ocorre pela unidade escolar onde o estudante tem matrícula ativa, pela consulta pública e pelos postos do Poupatempo — é considerada preliminar porque, durante a Chamada Pública, ainda pode haver manifestação de interesse em transferência. A divulgação final segue os mesmos três canais, acrescida da possibilidade de consulta em qualquer escola pública mediante solicitação."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 16", title:"Escolha de Itinerários Formativos",
+ tags:["itinerario formativo","1a serie","eja","4 opcoes","responsavel","validacao"],
+ summary:"Estudantes da 1ª série do Médio e da última etapa da EJA escolhem de 1 a 4 Itinerários Formativos, em ordem de preferência, pela plataforma da SEDUC. Se o estudante for menor de idade e a escolha mudar de escola, o responsável precisa validar. E atenção: a escolha não garante vaga, depende da demanda e da disponibilidade.",
+ text:"Estudantes com matrícula ativa na 1ª série do Ensino Médio e da última etapa da EJA devem manifestar interesse em Itinerário Formativo indicando de 1 a 4 opções, em ordem de preferência, pelo perfil nas plataformas da SEDUC. Se o estudante for menor de 18 anos e não emancipado e a escolha envolver unidade diversa da atual, a validação do responsável legal é obrigatória. A manifestação de interesse não garante vaga — depende de demanda, ordenação e disponibilidade."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 17", title:"Intenção de transferência por preferência de escola",
+ tags:["intencao de transferencia","3 escolas","online","presencial","transporte escolar"],
+ summary:"Quem já tem matrícula na rede estadual pode indicar até 3 escolas de interesse para transferência, on-line ou presencialmente. Isso não garante vaga: é preciso continuar frequentando a escola atual até sair o resultado.",
+ text:"Estudantes com matrícula ativa na rede estadual podem inscrever intenção de transferência para até 3 unidades escolares de interesse, on-line pela plataforma SED ou presencialmente em qualquer escola estadual. A inscrição não assegura vaga; o candidato deve permanecer matriculado e frequentando a escola de origem até a divulgação dos resultados."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 18", title:"Inscrição por Alocação",
+ tags:["inscricao por alocacao","mais de 2km","1 a 3 escolas","transporte escolar gratuito","opcional"],
+ summary:"É uma inscrição opcional para quem ainda não tem vaga garantida e quer indicar de 1 a 3 escolas a mais de 2 km de casa. A prioridade continua sendo uma vaga dentro do raio de 2 km; só se não houver, as escolas indicadas entram em jogo.",
+ note:"Quem usa essa opção perde o direito ao transporte escolar gratuito.",
+ text:"A Inscrição por Alocação é um procedimento opcional para estudante definido ou em continuidade sem vaga na rede pública, destinado a atender preferência por unidade situada a mais de 2 km da residência (percurso a pé). Permite indicar de 1 a 3 escolas. Não garante vaga: primeiro se prioriza a alocação dentro do raio de 2 km; só na inexistência de vaga nesse raio o estudante é atendido em uma das opções indicadas. O atendimento por essa via cessa o direito ao transporte escolar gratuito."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 19 e 20", title:"Inscrição de candidatos fora da rede",
+ tags:["fora da rede","documentos","rg","cpf","certidao de nascimento","comprovante escolaridade","vacinacao","idade","1o ano","eja fundamental","eja medio"],
+ summary:"Quem não tem matrícula na rede pública pode se inscrever presencialmente ou on-line. A falta de documento não impede a matrícula — os documentos normalmente pedidos são:",
+ list:[
+  "RG/CIN e CPF, ou RNM para estrangeiros",
+  "Certidão de nascimento",
+  "Comprovante de escolaridade",
+  "Comprovante de endereço",
+  "Comprovante ou declaração de vacinação"
+ ],
+ note:"Os critérios de idade também variam por tipo de ensino — por exemplo, 6 anos completos até 31/03 para o 1º ano do Fundamental.",
+ text:"Candidatos sem matrícula ativa na rede pública podem se inscrever presencialmente (em escola pública ou Poupatempo) ou on-line, apresentando RG/CIN e CPF (ou RNM), certidão de nascimento, comprovante de escolaridade, comprovante de endereço e comprovante/declaração de vacinação. A falta de documentação NÃO impede a inscrição e a matrícula — aplicam-se depois procedimentos de classificação e atualização. Critérios etários: 6 anos completos até 31/03 para o 1º ano do Fundamental; 15 anos para EJA Fundamental presencial; 18 anos para EJA Médio presencial; 18 anos para EJA de presença flexível (CEEJA)."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 21", title:"Alocação automática na Chamada Pública",
+ tags:["alocacao automatica","iae","indice de alocacao","acessibilidade","gemeos","irmaos","integral","transferencia por intencao"],
+ summary:"A alocação automática na Chamada Pública segue esta ordem:",
+ list:[
+  "Itinerário Formativo — prioridade para a escola de continuidade",
+  "Estudantes fora da rede — acessibilidade, gêmeos, irmãos, período integral e demais",
+  "Transferência por intenção — primeiro período integral, depois parcial, por ordem de inscrição"
+ ],
+ text:"A alocação automática entre demanda e vagas ocorre assim: I) inscrições em Itinerário Formativo — primeiro na escola de continuidade pela 1ª opção, com Índice de Alocação do Estudante (IAE) em caso de excesso de demanda; II) estudantes fora da rede, na ordem: acessibilidade, gêmeos, irmãos, período integral, demais; III) transferência por intenção, priorizando primeiro período integral e depois parcial, por ordem cronológica de inscrição. A distância de 2 km de rota a pé é considerada nos incisos I e II, mas não no III."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 22 a 24", title:"Cadastro Regular e Atendimento Periódico",
+ tags:["cadastro regular","compatibilizacao","semanal","transferencia","alteracao de endereco","vaga ociosa"],
+ summary:"Toda semana, o sistema compara demanda e vagas (a chamada 'compatibilização'), atendendo nesta ordem:",
+ list:[
+  "Candidatos inscritos fora da rede",
+  "Inscritos por transferência com mudança de endereço",
+  "Inscritos por transferência por intenção — só se sobrar vaga"
+ ],
+ note:"Inscrições por intenção de transferência são canceladas automaticamente ao fim do semestre letivo.",
+ text:"O Cadastro Regular permite inscrição de candidatos sem matrícula ativa e de pedidos de transferência durante todo o ano letivo. Há duas modalidades de transferência: por mudança de endereço e por intenção. O atendimento periódico ocorre semanalmente pelo sistema de 'compatibilização', priorizando: candidatos fora da rede, depois inscritos por transferência com alteração de endereço, depois inscritos por intenção (condicionados a vaga ociosa)."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 25 e 26", title:"Atendimento do período noturno",
+ tags:["noturno","trabalhador","jovem aprendiz","ctps","estagiario","atleta","eca","decreto 6481"],
+ summary:"O período noturno prioriza estudantes trabalhadores. As situações aceitas são:",
+ list:[
+  "14 a 16 anos incompletos — Jovem Aprendiz, com contrato formal",
+  "A partir de 16 anos — empregado com carteira assinada, estagiário ou autônomo",
+  "A partir de 14 anos — atleta federado",
+  "Sem vaga diurna disponível — matrícula noturna pode ser autorizada mesmo sem essas condições, em caráter excepcional"
+ ],
+ note:"É vedado ao adolescente trabalho noturno perigoso ou insalubre (ECA e Decreto Federal nº 6.481/2008); a comprovação deve ser atualizada a cada semestre.",
+ text:"O atendimento noturno no Ensino Médio destina-se prioritariamente a estudantes trabalhadores. Critérios manuais conforme idade e vínculo: 14–16 anos incompletos como Jovem Aprendiz (contrato formal); a partir de 16 anos como empregado com CTPS, estagiário, trabalhador autônomo ou em regime familiar de trabalho; a partir de 14 anos como atleta federado. É vedado ao adolescente trabalho noturno, perigoso ou insalubre (ECA e Decreto Federal nº 6.481/2008). A comprovação deve ser atualizada semestralmente e não se aplica a estudantes da EJA. Excepcionalmente, havendo inexistência de vagas diurnas, pode-se autorizar matrícula noturna mesmo sem essas condições."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 27 a 29", title:"Vinculação do fundamento legal e homologação de classes",
+ tags:["fundamento legal","matriz curricular","homologacao","status","aguardando homologacao","em revisao"],
+ summary:"Depois que a turma é criada, ela nasce com o status 'Aguardando Homologação'. Depois pode virar 'Homologada' (pronta para gerar aulas) ou 'Em revisão' — e, sem justificativa válida, acaba sendo excluída.",
+ text:"A vinculação do fundamento legal da matriz curricular às classes coletadas ocorre automaticamente (ou manualmente, se necessário). As classes coletadas nascem com status 'Aguardando Homologação' e podem passar a 'Homologada' (apta a gerar quadro de aulas) ou 'Em revisão' (análise da Unidade Regional de Ensino e da Coordenadoria de Demanda Escolar); sem justificativa válida, a classe em revisão é excluída."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 30 a 32", title:"Movimentações de matrícula",
+ tags:["baixa transferencia","ncom","nao comparecimento","cessao","desistencia","reclassificacao","terminalidade","busca ativa"],
+ summary:"Nenhum estudante pode simplesmente 'sumir' do sistema — mesmo quem está infrequente precisa ser registrado com o motivo certo na SED, como baixa por transferência, não comparecimento após busca ativa, cessão, reclassificação ou terminalidade. É vedada a exclusão simples de matrícula em qualquer momento do ano.",
+ text:"É vedada a exclusão de matrícula em qualquer momento do ano, mesmo de estudante infrequente — deve-se usar as movimentações específicas na SED: baixa transferência, não comparecimento (NCOM, após Busca Ativa infrutífera), cessão por exame/desistência/objetivos atingidos/não frequência, reclassificação e terminalidade. Serão canceladas automaticamente as definições, inscrições ou matrículas do ano subsequente de estudantes que tiverem movimentação de matrícula ou reprovação no ano vigente."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 33 a 36", title:"Vedações e regras sobre transferência",
+ tags:["transporte escolar","transferencia indevida","falsificacao","boletim de ocorrencia","centro de internacao"],
+ summary:"Pedir transferência por preferência de escola tira o direito ao transporte escolar. Só o responsável legal (ou o próprio estudante, se maior/emancipado) pode solicitar transferência — usar documento falso de endereço pode gerar boletim de ocorrência, além do ajuste da matrícula.",
+ text:"O atendimento por intenção de transferência descaracteriza o direito ao transporte escolar. Inscrições de transferência por alteração de endereço ou preferência por escola específica só podem ser solicitadas pelo responsável legal ou pelo próprio estudante maior/emancipado — o descumprimento sujeita-se à apuração de responsabilidade. Em caso de falsificação de comprovante de endereço, pode-se ajustar a matrícula e registrar boletim de ocorrência, sem prejuízo da persecução penal."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 37 a 41", title:"Responsabilidades das URE, escolas e órgão central",
+ tags:["responsabilidade","unidade regional de ensino","equipe gestora","coordenadoria de demanda escolar","coordenadoria de matricula"],
+ summary:"As Diretorias Regionais cuidam do planejamento e definem quantas turmas cada escola terá; as escolas cuidam do cadastro e da matrícula direto na SED; e a Coordenadoria de Demanda Escolar, no órgão central, homologa as turmas e resolve os casos excepcionais.",
+ text:"Compete às Unidades Regionais de Ensino orientar, acompanhar e fiscalizar a formação de classes e matrículas, definir o quantitativo de classes de cada escola de sua circunscrição e compatibilizar demanda e vagas. Às Equipes Gestoras das escolas compete atualizar cadastros, efetivar inscrições exclusivamente na plataforma SED e divulgar resultados. No Órgão Central, a Coordenadoria de Demanda Escolar homologa classes, e a Coordenadoria de Matrícula orienta os procedimentos de efetivação, movimentação e Chamada Pública."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 42 e 43", title:"Postos de inscrição e sigilo de dados",
+ tags:["poupatempo","sigilo","dados cadastrais","prioridade"],
+ summary:"Qualquer escola pública ou posto do Poupatempo pode receber inscrições. Estudantes com sigilo de dados cadastrais têm prioridade na alocação de inscritos fora da rede e na transferência por mudança de endereço.",
+ text:"Todas as escolas públicas e os postos do Poupatempo são pontos de inscrição de candidatos e de informação aos responsáveis. Estudantes com sigilo de dados cadastrais têm prioridade de atendimento na alocação de inscritos fora da rede e na transferência por alteração de endereço."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 44", title:"Uso de imagem do estudante (ECA Digital)",
+ tags:["imagem","eca digital","lei 15211/2025","oposicao","autorizacao"],
+ summary:"Sobre o uso da imagem do estudante: se a família (ou o próprio estudante, se maior de idade) não se manifestar, entende-se que autorizou. Mas dá para se opor a qualquer momento, formalizando isso na escola — conforme o ECA Digital (Lei nº 15.211/2025).",
+ text:"Em consonância com o ECA Digital (Lei nº 15.211/2025), responsáveis legais ou o estudante maior/emancipado podem manifestar oposição à captação, uso ou divulgação da imagem do estudante em atividades institucionais e pedagógicas. A manifestação é formalizada na escola ou no ato da inscrição/transferência. A ausência de manifestação é considerada autorização para uso de imagem, podendo ser alterada a qualquer tempo."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 45 e 46", title:"Campanhas de vacinação e atendimento oftalmológico",
+ tags:["vacinacao","oftalmologista","oculos","campanha","oposicao","autorizacao"],
+ summary:"Para vacinação, é preciso manifestar interesse para participar — é uma adesão, não uma presunção. Já para consultas oftalmológicas e óculos de grau, é o contrário: quem não se opuser é considerado como tendo autorizado.",
+ text:"Para campanhas de vacinação, os responsáveis (ou o estudante maior/emancipado) manifestam interesse na participação — é uma adesão positiva, formalizada na escola ou na inscrição. Já para consultas oftalmológicas e recebimento de óculos de grau em campanhas da Secretaria, a lógica é inversa: pode-se manifestar oposição; a ausência de manifestação formal é considerada autorização para a participação."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Art. 47 a 51", title:"Disposições finais, cronograma e revogações",
+ tags:["cronograma","portaria","casos omissos","revogacao","vigencia","resolucao se 2/2016","resolucao se 62/2018","resolucao seduc 115/2025"],
+ summary:"Erros de matrícula por falta de comprovante são corrigidos depois, com parecer da Supervisão de Ensino. O cronograma anual sai por portaria, e esta resolução (78/2026) substituiu três resoluções antigas.",
+ list:[
+  "Revogada a Resolução SE nº 2/2016",
+  "Revogada a Resolução SE nº 62/2018",
+  "Revogada a Resolução SEDUC nº 115/2025"
+ ],
+ note:"A Resolução SEDUC nº 78/2026 entra em vigor na data de publicação: 29/07/2026.",
+ text:"Erros de matrícula em ano/série indevido por falta de comprovante de escolarização são regularizados por parecer da Supervisão de Ensino após análise da Unidade Regional de Ensino. O cronograma anual das ações é publicado por Portaria da Subsecretaria de Planejamento da Rede Escolar. Ficam revogadas a Resolução SE nº 2/2016, a Resolução SE nº 62/2018 e a Resolução SEDUC nº 115/2025. A Resolução SEDUC nº 78/2026 entra em vigor na data de sua publicação (29/07/2026)."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Anexo I", title:"Comprovantes de residência aceitos",
+ tags:["comprovante de residencia","conta de agua","aluguel","irpf","iptu","fgts","declaracao"],
+ summary:"Vários documentos servem como comprovante de residência, entre eles:",
+ list:[
+  "Conta de água, luz, gás ou telefone",
+  "Contrato de aluguel com firma reconhecida",
+  "Declaração anual de IRPF",
+  "Guia de IPTU ou IPVA",
+  "Extrato do FGTS"
+ ],
+ note:"A lista completa do Anexo I inclui outras opções, como contracheque, fatura de cartão de crédito e declaração do próprio interessado.",
+ text:"São aceitos como comprovantes de residência, entre outros: contas de água, gás, energia ou telefone; contrato de aluguel com firma reconhecida acompanhado de conta de consumo; declaração do proprietário com firma reconhecida; declaração anual de IRPF; contracheque de órgão público; boleto de mensalidade escolar, plano de saúde, condomínio ou financiamento habitacional; fatura de cartão de crédito; extrato bancário; extrato do FGTS; guia de IPTU ou IPVA; CRLV; ou declaração firmada pelo próprio interessado, conforme a Lei nº 7.115/1983."},
+
+{doc:"Resolução SEDUC nº 78/2026", ref:"Anexo II", title:"Modelos de declaração e solicitação",
+ tags:["modelo","declaracao de desistencia","baixa de transferencia","declaracao de trabalho"],
+ summary:"O Anexo II traz três modelos prontos:",
+ list:[
+  "Declaração de desistência de vaga no Ensino Profissionalizante",
+  "Solicitação de baixa de transferência",
+  "Declaração de trabalho para regime familiar de trabalho"
+ ],
+ text:"O Anexo II relaciona os modelos disponíveis: declaração de desistência de vaga no Ensino Profissionalizante (para estudantes menores e maiores de idade), solicitação de baixa de transferência (para menores e maiores de idade) e declaração de trabalho para o regime familiar de trabalho."},
+
+// ---------------------- DOC B: APRESENTAÇÃO MATRÍCULAS 2027 ----------------------
+{doc:"Apresentação Matrículas 2027", ref:"Slide 2", title:"Atribuições do Serviço de Gestão da Rede Escolar",
+ tags:["semat","sevesc","atribuicoes","resolucao seduc 108/2025","secao de matricula","secao de vida escolar"],
+ summary:"O Serviço de Gestão da Rede Escolar, com as seções de Vida Escolar e de Matrícula, dimensiona a demanda, orienta as escolas e operacionaliza as matrículas, sempre em conjunto com a Diretoria de Matrícula e Vida Escolar (Resolução SEDUC nº 108/2025).",
+ text:"Conforme a Resolução SEDUC nº 108/2025, os Serviços de Gestão da Rede Escolar contam com Seção de Vida Escolar e Seção de Matrícula. Entre as competências: dimensionar necessidades de atendimento escolar e consolidar a demanda por vagas; operacionalizar o processo de matrícula em articulação com a Diretoria de Matrícula e Vida Escolar; orientar unidades escolares e municípios sobre matrícula, transferências e Censo Escolar."},
+
+{doc:"Apresentação Matrículas 2027", ref:"Slide 3", title:"Cronograma de Classes e Matrículas 2027",
+ tags:["cronograma","2027","agosto","setembro","outubro","novembro","dezembro","janeiro","fevereiro","chamada publica","atribuicao de aulas","inicio das aulas"],
+ summary:"Aqui está o passo a passo do calendário de 2027:",
+ list:[
+  "03 a 14/08/2026 — 1ª Orientação Técnica (cronograma e Chamada Pública)",
+  "10 a 30/08/2026 — Ajuste de Turmas e Matrículas",
+  "01/09/2026 — Divulgação dos resultados para a rede estadual",
+  "01 a 18/09/2026 — Chamada Pública de Matrícula",
+  "01 a 04/09/2026 — Matriz automática",
+  "21 a 25/09/2026 — Compatibilização da Chamada",
+  "28/09 a 16/10/2026 — Análise e ajuste de pendências",
+  "26/10 a 20/11/2026 — Homologação de Classes",
+  "23/11/2026 — Geração de Quadro de Aulas",
+  "10 a 20/12/2026 — Atribuição de Aulas",
+  "15 a 23/12/2026 — Ajuste de matrícula de alunos retidos",
+  "04/01/2027 — Divulgação dos resultados para a rede pública e reabertura das inscrições",
+  "11/02/2027 — Início das aulas"
+ ],
+ text:"Cronograma: 03–05/08/2026 e 10–14/08/2026, 1ª Orientação Técnica; 10–30/08/2026, Ajuste de Turmas e Matrículas; 01/09/2026, divulgação dos resultados para a rede estadual; 01–18/09/2026, Chamada Pública de Matrícula; 01–04/09, matriz automática; 21–25/09, compatibilização da chamada; 28/09–16/10, análise e ajuste de pendências; 26/10–20/11, homologação de classes; 23/11, geração de quadro de aulas; 10–20/12, atribuição de aulas; 15–23/12, ajuste de matrícula de alunos retidos; 04/01/2027, divulgação dos resultados para a rede pública e reabertura das inscrições; 11/02/2027, início das aulas."},
+
+{doc:"Apresentação Matrículas 2027", ref:"Slide 4", title:"O que a Resolução 78/2026 traz de novo",
+ tags:["novidades","resolucao se 2/2016","resolucao se 62/2018","modulos","redimensionamento"],
+ summary:"A nova resolução ficou mais organizada, juntou regras que antes estavam espalhadas em duas resoluções antigas — módulos e redimensionamento — e atualizou procedimentos e responsabilidades.",
+ text:"A nova Resolução está melhor estruturada e formatada, incorpora a Resolução SE nº 2/2016 (módulos) e a Resolução SE nº 62/2018 (redimensionamento), além de trazer atualizações em procedimentos e responsabilidades."},
+
+{doc:"Apresentação Matrículas 2027", ref:"Slide 5 e 6", title:"Destaques: módulo, redimensionamento e noturno",
+ tags:["destaques","art 5","art 6","art 9","art 11","art 10","polo noturno","2km","ensino medio diurno"],
+ summary:"Alguns destaques importantes: o acréscimo de 10% não vale para quem pediu vaga só por preferência; reduzir turmas só pode acontecer no fim do bimestre, menos no 4º; e o aluno do 9º ano sem vaga no diurno na própria escola tem prioridade em outra unidade a até 2 km.",
+ text:"Destaques da resolução: o Art. 6º traz um parágrafo único vedando o uso do acréscimo de 10% para atendimento por intenção; o Art. 9º esclarece que a adequação de turmas só ocorre ao final de cada bimestre, exceto o 4º. O inciso II do Art. 10 garante que o aluno de 9º ano sem vaga de 1ª série no diurno na própria escola seja priorizado em outra unidade até 2 km, no Ensino Médio diurno."},
+
+{doc:"Apresentação Matrículas 2027", ref:"Slide 6", title:"Destaques: homologação, responsabilização e oferta de IF",
+ tags:["homologacao","status","segre","semat","art 29","art 38","if propedeutico","if profissionalizante"],
+ summary:"Agora só existem dois status de turma: Homologada ou Em Revisão — não existe mais 'Não Homologada'. As Diretorias de Ensino (SEGRE/SEMAT) ficaram oficialmente responsáveis por definir quantas turmas cada escola terá, e quem oferece IF Profissionalizante também precisa garantir a opção Propedêutica.",
+ text:"O Art. 29 define apenas dois status de homologação de turmas: Homologada e Em Revisão. O inciso VII do Art. 38 responsabiliza os SEGREs e SEMATs pela definição do quantitativo de classes de cada unidade escolar de sua regional. O parágrafo único do Art. 10 garante a oferta de Itinerário Formativo Propedêutico em escolas que também ofertam o IF Profissionalizante."},
+
+{doc:"Apresentação Matrículas 2027", ref:"Slide 7 a 9", title:"Melhorias na plataforma SED",
+ tags:["sed","consulta de salas","troca de sala","layout","gestao escolar","coleta de classes"],
+ summary:"A SED ganhou um novo jeito de consultar as salas disponíveis e uma função para trocar a sala de uma turma de forma bem mais simples, direto na tela de Coleta de Classes.",
+ text:"A plataforma SED ganhou um novo layout para Consulta de Salas (Início > Gestão Escolar > Cadastro de alunos > Coleta > Coleta de Classes), permitindo ver a disponibilidade por sala, turno e capacidade física. A funcionalidade de Troca de Sala já está disponível e permite trocar salas entre classes de forma simplificada."},
+
+{doc:"Apresentação Matrículas 2027", ref:"Slide 10", title:"Coletas 2027 na rede estadual",
+ tags:["coletas","periodo","10 a 30/08/2026","ure","ue","acessos","demanda escolar","coleta de classes"],
+ summary:"As coletas de turmas para 2027 acontecem de 10 a 30/08/2026. A Diretoria de Ensino ajusta turmas e módulos; já a escola troca salas e turnos (menos para o noturno) e ajusta a nomenclatura.",
+ text:"O período de coletas para 2027 é de 10 a 30/08/2026. O módulo 'Demanda Escolar' é acessado pela URE e permite coletar/ajustar turmas, trocar de sala, excluir turma e alterar módulo. O módulo 'Coleta de Classes' é acessado pela unidade escolar e permite trocar turmas de sala, trocar de turno (exceto para noturno) e alterar nomenclatura."},
+
+{doc:"Apresentação Matrículas 2027", ref:"Slide 11", title:"Documentos para abertura de classes noturnas",
+ tags:["noturno","documentos","oficio","declaracao de trabalho","parecer","supervisao de ensino","segre","sei"],
+ summary:"Para abrir turma no período noturno, a escola precisa reunir:",
+ list:[
+  "Ofício da unidade escolar",
+  "Declarações de trabalho, emitidas há no máximo 30 dias",
+  "Parecer da Supervisão de Ensino",
+  "Parecer do SEGRE"
+ ],
+ note:"Ambos os pareceres são emitidos pelo sistema SEI.",
+ text:"Para abrir classes no período noturno são necessários: ofício da unidade escolar; declarações de trabalho emitidas há no máximo 30 dias; parecer da Supervisão de Ensino; e parecer do SEGRE. Ambos os pareceres devem ser emitidos via SEI."},
+
+{doc:"Apresentação Matrículas 2027", ref:"Slide 12 a 16", title:"Uso de imagem, vacinação, óculos e estudantes circenses/ciganos",
+ tags:["imagem","vacinacao","oftalmologico","circense","cigano","atendimento manual","transferencia indevida"],
+ summary:"Alguns pontos de atenção: uso de imagem e atendimento oftalmológico seguem a regra 'quem cala, autoriza'; vacinação é o oposto, precisa de adesão; estudantes de família circense ou cigana recebem atendimento manual, como exceção; e o pedido de transferência só vale se vier do responsável legal ou do próprio estudante maior de idade.",
+ text:"Sobre uso de imagem e campanhas oftalmológicas: sem manifestação, considera-se autorizado. Sobre vacinação: a lógica é inversa, é preciso manifestar interesse para participar. Estudantes indicados como membros de comunidade circense e/ou cigana na Ficha do Aluno recebem atendimento manual, em caráter excepcional. A solicitação de transferência só pode ser feita pelo responsável legal ou pelo estudante maior/emancipado, sob pena de apuração de responsabilidade em caso de descumprimento."},
+
+{doc:"Apresentação Matrículas 2027", ref:"Slide 17 e 18", title:"Projeção de matrículas: entrada, continuidade e alocação de definidos",
+ tags:["projecao","entrada","continuidade","alocacao de definidos","2km"],
+ summary:"As turmas de entrada (1º ano, 6º ano, etc.) foram criadas repetindo o ano anterior, mas sem repetir automaticamente as matrículas. Já quem já estuda na rede foi projetado direto para a série seguinte — e, se a escola não tiver essa série, o sistema aponta uma escola próxima, em até 2 km.",
+ text:"As classes de entrada foram criadas replicando o ano letivo anterior, mas as matrículas de entrada NÃO são projetadas automaticamente. Para garantir a continuidade dos estudos, estudantes com matrícula ativa foram projetados automaticamente na série seguinte; quando a escola não oferece continuidade, o estudante é encaminhado a uma escola próxima ao endereço cadastrado, dentro do raio de até 2 km."},
+
+{doc:"Apresentação Matrículas 2027", ref:"Slide 19 e 20", title:"Inscrição por Alocação — detalhes e benefícios",
+ tags:["inscricao por alocacao","beneficios","3 escolas","escolas estaduais","matricula antecipada"],
+ summary:"A Inscrição por Alocação existe para ajudar quem não tem vaga garantida a até 2 km de casa. Ela traz alguns benefícios:",
+ list:[
+  "Amplia as chances de matrícula para quem está sem vaga",
+  "Permite indicar até 3 escolas — por exemplo, perto do trabalho",
+  "Permite matrícula antecipada se não houver vaga em 2 km",
+  "Torna o processo mais ágil",
+  "Reduz a necessidade de pedir transferência depois"
+ ],
+ note:"Vale só para escolas estaduais.",
+ text:"A Inscrição por Alocação foi criada para aumentar as chances de matrícula de estudantes sem vaga a até 2 km da residência. Nessa inscrição só é possível indicar escolas estaduais. É destinada exclusivamente a quem não possui matrícula ativa na rede estadual para o ano seguinte."},
+
+{doc:"Apresentação Matrículas 2027", ref:"Slide 21", title:"Diferenças entre Inscrição por Alocação e Intenção de Transferência",
+ tags:["diferencas","alocacao","intencao de transferencia","matricula ativa","sem matricula"],
+ summary:"A diferença principal: a Inscrição por Alocação é para quem AINDA NÃO tem matrícula garantida; já a Intenção de Transferência é para quem JÁ tem matrícula e quer mudar de escola — nesse caso, só as escolas indicadas na solicitação entram na disputa.",
+ text:"A Inscrição por Alocação é destinada a estudantes SEM matrícula ativa para o ano letivo seguinte, e o estudante concorre às escolas dentro do raio de 2 km e, se necessário, às indicadas fora desse raio. Já a Intenção de Transferência é destinada a estudantes COM matrícula ativa na rede estadual no ano seguinte, e somente as escolas informadas na solicitação são consideradas."},
+
+{doc:"Apresentação Matrículas 2027", ref:"Slide 22", title:"Onde participar da Chamada Pública de Matrícula",
+ tags:["chamada publica","sala do futuro","poupatempo","sed","01/09 a 18/09"],
+ summary:"Dependendo do que você precisa fazer, o canal muda:",
+ list:[
+  "Escolha do Itinerário Formativo — pela plataforma Sala do Futuro",
+  "Aluno fora da rede — SED, Poupatempo ou qualquer escola pública",
+  "Inscrição por Alocação — qualquer escola estadual",
+  "Transferência por preferência — SED, Sala do Futuro ou qualquer escola estadual"
+ ],
+ note:"A Chamada Pública de Matrícula ocorre de 01/09 a 18/09.",
+ text:"A Chamada Pública de Matrícula ocorre de 01/09 a 18/09. Canais de participação: Escolha do Itinerário Formativo pela plataforma Sala do Futuro; inscrição de Aluno Fora da Rede pela SED, Poupatempo ou qualquer escola pública do Estado; Inscrição por Alocação em qualquer escola estadual; Transferência por Preferência pela SED, Sala do Futuro ou qualquer escola estadual."},
+
+{doc:"Apresentação Matrículas 2027", ref:"Slide 23", title:"Ordem de prioridade da compatibilização",
+ tags:["compatibilizacao","ordem de prioridade","itinerario formativo","definidos","alocacao","fora da rede","intencao de transferencia"],
+ summary:"A ordem de prioridade da compatibilização é:",
+ list:[
+  "Escolha de Itinerário Formativo",
+  "Estudantes definidos pela rede municipal",
+  "Inscrição por Alocação",
+  "Inscrição de alunos fora da rede",
+  "Intenção de transferência"
+ ],
+ text:"A compatibilização segue, em geral, as mesmas regras do ano anterior, na seguinte ordem de prioridade: 1) Escolha de Itinerário Formativo; 2) Definidos; 3) Inscrição por Alocação; 4) Inscrição de Alunos Fora da Rede; 5) Intenção de Transferência."},
+
+{doc:"Apresentação Matrículas 2027", ref:"Slide 25 a 30", title:"Matrícula não pode ser impedida por falta de documento ou ausência de responsável",
+ tags:["matricula escolar","comprovante","escola anterior","responsavel presente","eca","ldb","conselho tutelar","art 19","art 20","art 47","documento"],
+ summary:"Duas coisas nunca podem travar uma matrícula: faltar comprovante da escola anterior e não ter um responsável presente na hora. Nos dois casos, a orientação é a mesma: acolher, matricular e resolver a papelada depois — acionando o Conselho Tutelar se for necessário. Negar matrícula por isso pode gerar risco jurídico para a escola.",
+ text:"A resolução, a LDB e o ECA definem duas situações que NÃO podem impedir o acesso à matrícula: (1) falta de comprovante/declaração da escola anterior — pelo Art. 19, §1º e Art. 20, II, a ausência de documentação não impede inscrição e matrícula (Art. 47); (2) ausência de responsável presente — o dever primário de matrícula é dos pais (LDB, art. 6º; ECA, art. 55), mas a omissão não autoriza negar o direito à educação; a escola deve acolher, registrar, orientar e, se necessário, acionar o Conselho Tutelar. Procedimento recomendado: registrar a inscrição na SED; se faltar documento, matricular primeiro e regularizar depois; se faltar responsável, orientar, registrar e acionar a rede de proteção quando necessário; nunca criar exigências extras fora da norma."},
+];
+
+/* ======================================================================
+   MOTOR DE BUSCA (offline, baseado em correspondência de termos)
+   ====================================================================== */
+const STOPWORDS = new Set(["a","o","as","os","um","uma","de","da","do","das","dos","em","no","na","nos","nas",
+  "e","ou","que","com","para","por","ao","aos","à","às","se","é","são","como","qual","quais","quando","onde",
+  "sobre","tem","têm","pode","podem","isso","essa","esse","esta","este","meu","minha","seu","sua","mais","menos",
+  "muito","ja","já","nao","não","sim","preciso","gostaria","queria","quero","favor","obrigado","obrigada","me",
+  "eu","voce","você","ele","ela","eles","elas","foi","ser","estar","tera","terá","haver","ha","há"]);
+
+function normalize(str){
+  return str.toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9%º°\s]/g," ")
+    .replace(/\s+/g," ")
+    .trim();
+}
+
+function tokenize(str){
+  return normalize(str).split(" ").filter(t => t.length >= 3 && !STOPWORDS.has(t));
+}
+
+// pré-computa texto de indexação de cada chunk
+KB.forEach(c => {
+  c.indexTitle = normalize(c.title);
+  c.indexTags = c.tags.map(normalize);
+  c.indexBody = normalize(c.text);
+});
+
+function search(query){
+  const qTokens = tokenize(query);
+  if(qTokens.length === 0) return [];
+
+  const scored = KB.map(chunk => {
+    let score = 0;
+    qTokens.forEach(tok => {
+      if(chunk.indexTitle.includes(tok)) score += 4;
+      if(chunk.indexTags.some(tag => tag.includes(tok) || tok.includes(tag))) score += 3;
+      const occurrences = chunk.indexBody.split(tok).length - 1;
+      if(occurrences > 0) score += Math.min(occurrences, 3);
+    });
+    return {chunk, score};
+  }).filter(s => s.score > 0).sort((a,b) => b.score - a.score);
+
+  if(scored.length === 0) return [];
+
+  const results = [scored[0].chunk];
+  // só inclui um segundo trecho se ele for quase tão relevante quanto o primeiro
+  if(scored.length > 1 && scored[1].score >= scored[0].score * 0.65){
+    results.push(scored[1].chunk);
+  }
+  return results;
+}
+
+/* ======================================================================
+   INTERFACE DE CHAT
+   ====================================================================== */
+const chatEl = document.getElementById("chat");
+const inputEl = document.getElementById("input");
+const sendBtn = document.getElementById("sendBtn");
+
+const OPENERS = [
+  "Aqui está o que a base traz sobre isso:",
+  "Boa pergunta! Veja o que encontrei:",
+  "Olha só o que consta na nossa base:",
+  "Vou te explicar com base no que temos registrado:"
+];
+
+function escapeHtml(str){
+  return str.replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+}
+
+// Termos-chave do domínio: sempre exibidos em negrito nas respostas.
+// Ordenados por tamanho (do maior para o menor) para casar frases inteiras
+// antes de partes menores da mesma frase.
+const KEYWORDS = [
+  "Chamada Pública de Matrícula","Inscrição por Alocação","Intenção de Transferência",
+  "Itinerários Formativos","Itinerário Formativo","Unidade Regional de Ensino",
+  "Coordenadoria de Demanda Escolar","Coordenadoria de Matrícula","Polo de atendimento noturno",
+  "Índice de Alocação do Estudante","Transporte escolar gratuito","Boletim de Ocorrência",
+  "Ensino Médio diurno","Ensino Fundamental","Cadastro Regular","Chamada Pública",
+  "Jovem Aprendiz","Conselho Tutelar","Ficha do Aluno","Busca Ativa","Compatibilização",
+  "Redimensionamento","Ensino Médio","ECA Digital","Órgão Central","Sala do Futuro",
+  "Em Revisão","Homologada","Poupatempo","SEGRE","SEMAT","SED","EJA","IAE"
+].sort((a,b) => b.length - a.length);
+
+const KEYWORDS_PATTERN = new RegExp(
+  "(?<![\\p{L}\\p{N}])(" + KEYWORDS.map(k => k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")).join("|") + ")(?![\\p{L}\\p{N}])",
+  "gu"
+);
+
+// Números, datas e medidas: sempre em negrito e destacados em cor.
+const NUMBERS_PATTERN = /\d{1,2}\/\d{1,2}(?:\/\d{2,4})?|\d+(?:[.,]\d+)?\s?(?:%|km|m²)|\d+(?:[.,]\d+)?º?/g;
+
+function highlightKeywords(str){
+  return str.replace(KEYWORDS_PATTERN, m => `<strong>${m}</strong>`);
+}
+
+function highlightNumbers(str){
+  return str.replace(NUMBERS_PATTERN, m => `<span class="num">${m}</span>`);
+}
+
+function boldify(str){
+  // 1) escapa HTML  2) negrito automático em termos-chave
+  // 3) permite **negrito** manual remanescente  4) destaca números/datas
+  let out = escapeHtml(str);
+  out = highlightKeywords(out);
+  out = out.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  out = highlightNumbers(out);
+  return out;
+}
+
+function addUserMsg(text){
+  const div = document.createElement("div");
+  div.className = "msg user";
+  div.innerHTML = `<div class="bubble-user">${escapeHtml(text)}</div>`;
+  chatEl.appendChild(div);
+  chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+function addTyping(){
+  const div = document.createElement("div");
+  div.className = "msg agent";
+  div.id = "typingMsg";
+  div.innerHTML = `<div class="agent-wrap">
+      <div class="avatar">EdIA</div>
+      <div class="agent-card"><div class="typing"><span></span><span></span><span></span></div></div>
+    </div>`;
+  chatEl.appendChild(div);
+  chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+function removeTyping(){
+  const t = document.getElementById("typingMsg");
+  if(t) t.remove();
+}
+
+function renderChunk(chunk){
+  let html = `<div class="ans-block">`;
+  html += `<p>${boldify(chunk.summary)}</p>`;
+  if(chunk.list){
+    html += `<ol class="kb-list">` + chunk.list.map(item => `<li>${boldify(item)}</li>`).join("") + `</ol>`;
+  }
+  if(chunk.note){
+    html += `<p class="kb-note">${boldify(chunk.note)}</p>`;
+  }
+  html += `<div class="cite">${escapeHtml(chunk.doc)} — ${escapeHtml(chunk.ref)}</div>`;
+  html += `</div>`;
+  return html;
+}
+
+function addAgentAnswer(query){
+  const results = search(query);
+  const wrap = document.createElement("div");
+  wrap.className = "msg agent";
+
+  let inner = `<div class="agent-wrap"><div class="avatar">EdIA</div><div class="agent-card">`;
+
+  if(results.length === 0){
+    inner += `<div class="not-found">
+      <b>Não encontrei isso na nossa base de conhecimento.</b>
+      Ela reúne só a Resolução SEDUC nº 78/2026 e a apresentação Matrículas 2027 — nada é buscado na internet nem completado por suposição. Tenta reformular a pergunta?
+    </div>`;
+  } else {
+    const opener = OPENERS[Math.floor(Math.random() * OPENERS.length)];
+    inner += `<p class="lead">${opener}</p>`;
+    results.forEach(r => { inner += renderChunk(r); });
+  }
+
+  inner += `</div></div>`;
+  wrap.innerHTML = inner;
+  chatEl.appendChild(wrap);
+  chatEl.scrollTop = chatEl.scrollHeight;
+}
+
+function handleSend(){
+  const text = inputEl.value.trim();
+  if(!text) return;
+  addUserMsg(text);
+  inputEl.value = "";
+  inputEl.style.height = "auto";
+  sendBtn.disabled = true;
+  addTyping();
+  const delay = 450 + Math.random()*350;
+  setTimeout(() => {
+    removeTyping();
+    addAgentAnswer(text);
+    sendBtn.disabled = inputEl.value.trim().length === 0;
+  }, delay);
+}
+
+sendBtn.addEventListener("click", handleSend);
+inputEl.addEventListener("keydown", e => {
+  if(e.key === "Enter" && !e.shiftKey){
+    e.preventDefault();
+    handleSend();
+  }
+});
+inputEl.addEventListener("input", () => {
+  inputEl.style.height = "auto";
+  inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + "px";
+  sendBtn.disabled = inputEl.value.trim().length === 0;
+});
+
+document.querySelectorAll(".chip").forEach(chip => {
+  chip.addEventListener("click", () => {
+    inputEl.value = chip.dataset.q;
+    handleSend();
+  });
+});
+
+// Mensagem de boas-vindas
+window.addEventListener("DOMContentLoaded", () => {
+  const wrap = document.createElement("div");
+  wrap.className = "msg agent";
+  wrap.innerHTML = `<div class="agent-wrap">
+    <div class="avatar">EdIA</div>
+    <div class="agent-card">
+      <p class="lead">Olá! Posso te ajudar com dúvidas sobre a Resolução SEDUC nº 78/2026 e o cronograma de Matrículas 2027 — referenciais numéricos, Inscrição por Alocação, período noturno, transferências e mais.</p>
+      <div class="ans-block">
+        <p>Escolha uma sugestão ao lado ou digite sua pergunta abaixo.</p>
+      </div>
+    </div>
+  </div>`;
+  chatEl.appendChild(wrap);
+  sendBtn.disabled = true;
+});
+</script>
+</body>
+</html>
