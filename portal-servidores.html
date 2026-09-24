@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05080d">
+<title>Hub de acesso rápido</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%233b82f6'/%3E%3Cstop offset='1' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M18 20h12v12H18zM34 20h12v12H34zM18 36h12v12H18zM34 36h12v12H34z' fill='white' opacity='.95'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05080d; --bg2:#070b12;
+  --glass:rgba(12,20,32,.72); --glass-b:rgba(34,211,238,.16);
+  --text:#eaf6ff; --muted:#7f8ea6;
+  --blue:#8b5cf6; --cyan:#22d3ee; --gold:#34d399;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Space Grotesk',system-ui,sans-serif;color:var(--text);
+  background:var(--bg);overflow-x:hidden;min-height:100vh;
+}
+/* ---------- Fundo escuro futurista ---------- */
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;
+  background:radial-gradient(700px 420px at 0% 0%,rgba(20,184,166,.16),transparent 70%),
+             radial-gradient(800px 460px at 100% 0%,rgba(124,58,237,.22),transparent 70%),
+             radial-gradient(900px 500px at 50% 120%,rgba(34,211,238,.06),transparent 70%),
+             var(--bg);}
+.grid-lines{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(34,211,238,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(34,211,238,.05) 1px,transparent 1px);
+  background-size:48px 48px;mask-image:linear-gradient(180deg,black 0%,rgba(0,0,0,.5) 60%,transparent 100%)}
+.scan{position:absolute;left:0;right:0;height:140px;top:-140px;
+  background:linear-gradient(180deg,transparent,rgba(34,211,238,.05),transparent);animation:scan 9s linear infinite}
+@keyframes scan{to{top:100%}}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:3px;text-transform:uppercase;
+  background:linear-gradient(90deg,#22d3ee,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent;
+  display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.kicker::before{content:"";width:8px;height:8px;border-radius:50%;background:#22d3ee;box-shadow:0 0 10px #22d3ee}
+
+/* ---------- Layout ---------- */
+.app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;padding:28px clamp(16px,4vw,64px)}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#22d3ee,#8b5cf6);box-shadow:0 0 28px rgba(34,211,238,.35)}
+.brand h1{font-size:1.2rem;font-weight:700;letter-spacing:.3px}
+.brand small{display:block;color:var(--muted);font-size:.78rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase}
+.tools{display:flex;gap:10px;align-items:center}
+.clock{text-align:right;margin-right:8px}
+.clock b{font-size:1.5rem;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:1px}
+.clock span{display:block;color:var(--muted);font-size:.8rem}
+.btn{border:1px solid var(--glass-b);background:var(--glass);color:var(--text);backdrop-filter:blur(12px);
+  height:42px;padding:0 16px;border-radius:12px;cursor:pointer;font:600 .85rem inherit;font-family:inherit;
+  display:inline-flex;align-items:center;gap:8px;transition:.2s}
+.btn:hover{background:rgba(255,255,255,.12);transform:translateY(-1px)}
+.btn.icon{width:42px;padding:0;justify-content:center}
+.btn.primary{background:linear-gradient(135deg,#22d3ee,#8b5cf6);color:#05080d;border:none;box-shadow:0 0 24px rgba(34,211,238,.35)}
+.btn.active{background:var(--gold);color:#1b1300;border-color:var(--gold)}
+
+/* ---------- Hero ---------- */
+.hero{margin:clamp(32px,7vh,80px) 0 clamp(28px,5vh,52px);max-width:900px}
+.greet{display:inline-flex;align-items:center;gap:10px;padding:10px 18px;border-radius:12px;
+  background:rgba(8,20,22,.7);border:1px solid rgba(52,211,153,.35);color:var(--gold);font-weight:600;font-size:.85rem;margin-bottom:22px}
+.greet i{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.hero h2{font-size:clamp(1.6rem,3.2vw,2.5rem);font-weight:700;line-height:1.15;letter-spacing:-.5px}
+.hero h2 em{font-style:normal;background:linear-gradient(90deg,#22d3ee,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
+.quote{margin-top:22px;font-size:clamp(1rem,1.6vw,1.25rem);color:#c7d4ee;font-weight:400;line-height:1.6;min-height:3.2em;
+  border-left:3px solid var(--cyan);padding-left:18px;transition:opacity .6s}
+
+/* ---------- Cards ---------- */
+.section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.section-title h3{font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);font-weight:600}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px}
+.card{position:relative;display:flex;flex-direction:column;gap:18px;padding:26px;border-radius:22px;text-decoration:none;color:var(--text);
+  background:linear-gradient(160deg,rgba(14,24,38,.85),rgba(8,13,22,.85));border:1px solid var(--glass-b);
+  backdrop-filter:blur(16px);min-height:190px;overflow:hidden;transition:.3s cubic-bezier(.2,.8,.2,1);animation:rise .6s both}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}}
+.card::before{content:"";position:absolute;inset:-1px;border-radius:22px;padding:1px;opacity:0;transition:.3s;
+  background:linear-gradient(135deg,var(--c1),var(--c2));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.card::after{content:"";position:absolute;width:220px;height:220px;right:-80px;top:-80px;border-radius:50%;
+  background:radial-gradient(circle,var(--c1),transparent 70%);opacity:.18;transition:.3s}
+.card:hover{transform:translateY(-6px);box-shadow:0 24px 50px rgba(0,0,0,.45)}
+.card:hover::before{opacity:1}.card:hover::after{opacity:.35}
+.ic{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,var(--c1),var(--c2));
+  box-shadow:0 10px 24px -6px var(--c1)}
+.ic svg{width:28px;height:28px;stroke:#fff}
+.card h4{font-size:1.15rem;font-weight:700}
+.card p{color:var(--muted);font-size:.88rem;line-height:1.5;margin-top:4px}
+.card .go{margin-top:auto;display:flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;color:#cfe0ff}
+.card .go svg{transition:.3s}.card:hover .go svg{transform:translateX(5px)}
+.card-actions{position:absolute;top:14px;right:14px;display:none;gap:6px;z-index:2}
+.editing .card-actions{display:flex}
+.editing .card{cursor:default;border-style:dashed}
+.mini{width:34px;height:34px;border-radius:10px;border:1px solid var(--glass-b);background:rgba(5,13,28,.7);color:#fff;cursor:pointer;display:grid;place-items:center}
+.mini:hover{background:var(--blue)}.mini.del:hover{background:#dc2626}
+.add-card{border:2px dashed rgba(255,255,255,.18);background:transparent;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font:600 .95rem inherit;font-family:inherit}
+.add-card:hover{color:#fff;border-color:var(--cyan)}
+.add-card .plus{width:56px;height:56px;border-radius:50%;border:2px solid currentColor;display:grid;place-items:center;font-size:1.8rem;font-weight:300}
+
+footer{margin-top:auto;padding-top:48px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--muted);font-size:.8rem}
+
+/* ---------- Modal ---------- */
+.modal{position:fixed;inset:0;z-index:10;display:none;place-items:center;background:rgba(2,6,16,.7);backdrop-filter:blur(8px);padding:16px}
+.modal.open{display:grid}
+.panel{width:min(520px,100%);background:#0a111c;border:1px solid var(--glass-b);border-radius:22px;padding:28px;box-shadow:0 30px 80px rgba(0,0,0,.6);animation:rise .3s}
+.panel h3{font-size:1.25rem;margin-bottom:20px}
+label{display:block;font-size:.78rem;color:var(--muted);font-weight:600;letter-spacing:.5px;margin:14px 0 6px;text-transform:uppercase}
+input,textarea{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--glass-b);border-radius:12px;padding:12px 14px;color:var(--text);font:inherit;font-size:.95rem;outline:none}
+input:focus,textarea:focus{border-color:var(--cyan)}
+textarea{resize:vertical;min-height:70px}
+.pick{display:flex;flex-wrap:wrap;gap:8px}
+.pick button{width:44px;height:44px;border-radius:12px;border:2px solid transparent;cursor:pointer;display:grid;place-items:center;background:rgba(255,255,255,.06)}
+.pick button svg{width:22px;height:22px;stroke:#fff}
+.pick button.sel{border-color:#fff}
+.row{display:flex;justify-content:flex-end;gap:10px;margin-top:24px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,100px);background:#0a1a22;border:1px solid var(--glass-b);padding:12px 20px;border-radius:12px;z-index:20;transition:.35s;font-size:.9rem}
+.toast.show{transform:translate(-50%,0)}
+.hidden{display:none!important}
+@media (max-width:640px){.clock{display:none}.tools .lbl{display:none}}
+</style>
+</head>
+<body>
+<div class="bg"><div class="grid-lines"></div><div class="scan"></div></div>
+
+<div class="app" id="app">
+  <header>
+    <div class="brand">
+      <div class="logo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+      <div><h1 id="portalName">Hub de acesso rápido</h1></div>
+    </div>
+    <div class="tools">
+      <div class="clock"><b id="time">--:--</b><span id="date"></span></div>
+      <button class="btn" id="editBtn" title="Editar links"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><span class="lbl">Editar</span></button>
+      <button class="btn icon" id="fsBtn" title="Tela cheia"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg></button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">HUB // ACESSO RÁPIDO</div>
+    <div class="greet"><i></i><span id="greet">Bem-vindo(a)</span></div>
+    <h2>Juntos, fazemos a <em>educação acontecer</em> todos os dias.</h2>
+    <p class="quote" id="quote"></p>
+  </section>
+
+  <section>
+    <div class="section-title">
+      <h3>Acessos rápidos</h3>
+      <div class="tools hidden" id="editTools">
+        <button class="btn" id="exportBtn">Exportar backup</button>
+        <button class="btn" id="importBtn">Importar</button>
+        <button class="btn" id="resetBtn">Restaurar padrão</button>
+        <input type="file" id="importFile" accept=".json" class="hidden">
+      </div>
+    </div>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <footer>
+    <span>Cada servidor faz a diferença. Obrigado por estar aqui. 💙</span>
+    <span id="year"></span>
+  </footer>
+</div>
+
+<!-- Modal de edição -->
+<div class="modal" id="modal">
+  <form class="panel" id="form">
+    <h3 id="modalTitle">Novo link</h3>
+    <label>Título</label><input id="fTitle" required maxlength="40" placeholder="Ex.: Monitor DOE">
+    <label>Descrição</label><textarea id="fDesc" maxlength="120" placeholder="Uma frase curta sobre o link"></textarea>
+    <label>Endereço (URL)</label><input id="fUrl" type="url" required placeholder="https://...">
+    <label>Ícone</label><div class="pick" id="iconPick"></div>
+    <label>Cor</label><div class="pick" id="colorPick"></div>
+    <div class="row">
+      <button type="button" class="btn" id="cancelBtn">Cancelar</button>
+      <button type="submit" class="btn primary">Salvar</button>
+    </div>
+  </form>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ======================================================
+   LINKS PADRÃO — edite aqui se preferir mexer no código.
+   (Pelo botão "Editar" na tela também dá para mudar tudo.)
+   ====================================================== */
+const DEFAULT_LINKS = [
+  { title:"Monitor DOE Servidores", desc:"Acompanhe as publicações do Diário Oficial relacionadas aos servidores.",
+    url:"https://edilson2107-cyber.github.io/material-escolar/Monitor_DOE_Servidores.html", icon:"chart", color:0 },
+  { title:"Documentação GOE", desc:"Pasta compartilhada com os documentos e arquivos da GOE.",
+    url:"https://seesp-my.sharepoint.com/:f:/g/personal/e004807a_educacao_sp_gov_br/IgBEzaoYaV5pQ4JJm_6Nc-NDAdn9_ykqZhj-p55B2J8RKjA?e=T0f3iC", icon:"folder", color:1 }
+];
+
+const MESSAGES = [
+  "Seu trabalho transforma vidas — mesmo quando ninguém está vendo.",
+  "Cada documento organizado, cada atendimento bem feito, constrói uma escola melhor.",
+  "Servir ao público é um ato de coragem e de cuidado. Obrigado pela sua dedicação.",
+  "Pequenos passos diários criam grandes resultados. Bom trabalho hoje!",
+  "A educação pública é feita por pessoas como você. Sinta orgulho do que faz.",
+  "Respire fundo, organize as prioridades e vá com calma: você dá conta.",
+  "Excelência não é um ato, é um hábito. E ele começa agora.",
+  "Por trás de cada aluno que aprende, há um servidor que fez a sua parte.",
+  "Hoje é um ótimo dia para fazer a diferença.",
+  "Colaboração é a nossa maior força. Conte com a equipe e seja apoio também."
+];
+
+const ICONS = {
+  chart:'<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/>',
+  folder:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/>',
+  doc:'<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9Z"/><path d="M14 3v6h6M8 13h8M8 17h5"/>',
+  link:'<path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>',
+  calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/>',
+  mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+  users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/>',
+  globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+  school:'<path d="m2 9 10-5 10 5-10 5Z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/>',
+  star:'<path d="m12 3 2.8 5.8 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.3l1-6.2L3 9.7l6.2-.9Z"/>'
+};
+const COLORS = [["#3b82f6","#06b6d4"],["#f59e0b","#ef4444"],["#8b5cf6","#ec4899"],["#10b981","#14b8a6"],["#6366f1","#3b82f6"],["#f43f5e","#fb923c"]];
+const KEY = "portal-servidores-links-v1";
+
+let links = load(), editing = false, editIndex = -1, selIcon = "link", selColor = 0;
+
+function load(){ try{ const s = localStorage.getItem(KEY); if(s) return JSON.parse(s); }catch(e){} return structuredClone(DEFAULT_LINKS); }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(links)); }catch(e){ toast("Não foi possível salvar neste navegador."); } }
+const svg = (name, extra='') => `<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ${extra}>${ICONS[name]||ICONS.link}</svg>`;
+const esc = s => String(s||"").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function render(){
+  const el = document.getElementById("cards");
+  el.innerHTML = links.map((l,i)=>{
+    const [c1,c2] = COLORS[l.color % COLORS.length];
+    return `<a class="card" href="${esc(l.url)}" target="_blank" rel="noopener" data-i="${i}" style="--c1:${c1};--c2:${c2};animation-delay:${i*.07}s">
+      <div class="card-actions">
+        <button class="mini" data-act="left" title="Mover para a esquerda">‹</button>
+        <button class="mini" data-act="right" title="Mover para a direita">›</button>
+        <button class="mini" data-act="edit" title="Editar">✎</button>
+        <button class="mini del" data-act="del" title="Excluir">✕</button>
+      </div>
+      <div class="ic">${svg(l.icon)}</div>
+      <div><h4>${esc(l.title)}</h4><p>${esc(l.desc)}</p></div>
+      <div class="go">Acessar <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    </a>`;
+  }).join("") + `<button class="card add-card" id="addCard" style="animation-delay:${links.length*.07}s"><span class="plus">+</span>Adicionar novo link</button>`;
+  document.getElementById("addCard").onclick = () => openModal(-1);
+}
+
+document.getElementById("cards").addEventListener("click", e=>{
+  const card = e.target.closest(".card[data-i]");
+  if(!card) return;
+  if(editing) e.preventDefault();
+  const act = e.target.closest("[data-act]")?.dataset.act; if(!act) return;
+  const i = +card.dataset.i;
+  if(act==="edit") openModal(i);
+  if(act==="del" && confirm(`Excluir "${links[i].title}"?`)){ links.splice(i,1); save(); render(); toast("Link excluído"); }
+  if(act==="left" && i>0){ [links[i-1],links[i]]=[links[i],links[i-1]]; save(); render(); }
+  if(act==="right" && i<links.length-1){ [links[i+1],links[i]]=[links[i],links[i+1]]; save(); render(); }
+});
+
+/* Modal */
+const modal = document.getElementById("modal");
+function buildPickers(){
+  document.getElementById("iconPick").innerHTML = Object.keys(ICONS).map(k=>`<button type="button" data-v="${k}" class="${k===selIcon?'sel':''}" title="${k}">${svg(k)}</button>`).join("");
+  document.getElementById("colorPick").innerHTML = COLORS.map((c,i)=>`<button type="button" data-v="${i}" class="${i===selColor?'sel':''}" style="background:linear-gradient(135deg,${c[0]},${c[1]})"></button>`).join("");
+}
+document.getElementById("iconPick").onclick = e=>{ const b=e.target.closest("button"); if(b){ selIcon=b.dataset.v; buildPickers(); } };
+document.getElementById("colorPick").onclick = e=>{ const b=e.target.closest("button"); if(b){ selColor=+b.dataset.v; buildPickers(); } };
+function openModal(i){
+  editIndex = i; const l = links[i] || {title:"",desc:"",url:"",icon:"link",color:links.length%COLORS.length};
+  document.getElementById("modalTitle").textContent = i<0 ? "Novo link" : "Editar link";
+  fTitle.value=l.title; fDesc.value=l.desc; fUrl.value=l.url; selIcon=l.icon; selColor=l.color;
+  buildPickers(); modal.classList.add("open"); fTitle.focus();
+}
+const closeModal = ()=> modal.classList.remove("open");
+document.getElementById("cancelBtn").onclick = closeModal;
+modal.onclick = e=>{ if(e.target===modal) closeModal(); };
+document.getElementById("form").onsubmit = e=>{
+  e.preventDefault();
+  const item = {title:fTitle.value.trim(),desc:fDesc.value.trim(),url:fUrl.value.trim(),icon:selIcon,color:selColor};
+  if(editIndex<0) links.push(item); else links[editIndex]=item;
+  save(); render(); closeModal(); toast(editIndex<0?"Link adicionado":"Link atualizado");
+};
+
+/* Modo edição */
+document.getElementById("editBtn").onclick = function(){
+  editing = !editing;
+  document.getElementById("app").classList.toggle("editing", editing);
+  document.getElementById("editTools").classList.toggle("hidden", !editing);
+  this.classList.toggle("active", editing);
+  this.querySelector(".lbl").textContent = editing ? "Concluir" : "Editar";
+};
+
+/* Backup */
+document.getElementById("exportBtn").onclick = ()=>{
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(links,null,2)],{type:"application/json"}));
+  a.download="portal-links-backup.json"; a.click(); toast("Backup exportado");
+};
+document.getElementById("importBtn").onclick = ()=> importFile.click();
+importFile.onchange = async ()=>{
+  try{ const data=JSON.parse(await importFile.files[0].text()); if(!Array.isArray(data)) throw 0; links=data; save(); render(); toast("Links importados"); }
+  catch(e){ toast("Arquivo inválido"); }
+  importFile.value="";
+};
+document.getElementById("resetBtn").onclick = ()=>{ if(confirm("Voltar aos links originais? Suas alterações serão perdidas.")){ links=structuredClone(DEFAULT_LINKS); save(); render(); toast("Links restaurados"); } };
+
+/* Tela cheia */
+document.getElementById("fsBtn").onclick = ()=>{
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen?.().catch(()=>{});
+  else document.exitFullscreen?.();
+};
+
+/* Relógio + saudação */
+function tick(){
+  const d=new Date(), h=d.getHours();
+  time.textContent=d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+  const ds=d.toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"}); date.textContent=ds.charAt(0).toUpperCase()+ds.slice(1);
+  greet.textContent=(h<12?"Bom dia":h<18?"Boa tarde":"Boa noite")+"! Que bom ter você aqui.";
+}
+tick(); setInterval(tick,1000);
+year.textContent="© "+new Date().getFullYear()+" · Edilson Gomes Vieira";
+
+/* Mensagens motivacionais rotativas */
+let qi = Math.floor(Math.random()*MESSAGES.length);
+function showQuote(){ quote.style.opacity=0; setTimeout(()=>{ quote.textContent=MESSAGES[qi]; quote.style.opacity=1; qi=(qi+1)%MESSAGES.length; },600); }
+showQuote(); setInterval(showQuote,12000);
+
+function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2200); }
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
+
+render();
+</script>
+</body>
+</html>
