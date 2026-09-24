@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monitor DOE Servidores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060a13;--tx:#e4ecf7;--mut:#8394ad;--cy:#22e4ff;--vi:#8b5cf6;--am:#ffc857;--line:rgba(34,228,255,.18)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.55 "Space Grotesk",system-ui,"Segoe UI",sans-serif}
+body{min-height:100vh;background:
+ radial-gradient(900px 500px at 85% -10%,rgba(139,92,246,.22),transparent 60%),
+ radial-gradient(700px 400px at -10% 10%,rgba(34,228,255,.14),transparent 60%),
+ linear-gradient(rgba(34,228,255,.04) 1px,transparent 1px) 0 0/100% 40px,
+ linear-gradient(90deg,rgba(34,228,255,.04) 1px,transparent 1px) 0 0/40px 100%,var(--bg)}
+.intro{max-width:1000px;margin:0 auto;padding:20px 16px 0}
+.box{display:none;border-radius:14px;padding:14px 18px;margin:10px 0;border:1px solid var(--line);background:rgba(13,20,36,.75);backdrop-filter:blur(8px)}
+.box.show{display:block}
+.box.ok{border-color:rgba(52,245,160,.35);color:#7dfcc4}
+.box.warn{border-color:rgba(255,200,87,.4);color:#ffe0a0}
+.box.test{color:var(--mut);font-family:"JetBrains Mono",monospace;font-size:13px}
+.box b{color:#fff}
+.bm{display:inline-block;margin:8px 0;padding:9px 16px;border-radius:10px;font-weight:600;text-decoration:none;color:#061018;
+ background:linear-gradient(90deg,var(--cy),var(--vi));box-shadow:0 0 18px rgba(34,228,255,.35);cursor:grab}
+ol{margin:6px 0 0;padding-left:20px}
+</style>
+</head>
+<body>
+<div class="intro">
+  <div id="st-test" class="box test show">&gt; testando conexão com doe.sp.gov.br…</div>
+  <div id="st-ok" class="box ok">● Conexão direta ativa. Pode buscar abaixo.</div>
+  <div id="st-bm" class="box warn">
+    <b>O navegador bloqueou a consulta direta ao Diário Oficial a partir desta página.</b>
+    Use o modo favorito. Você só precisa configurar uma vez:
+    <ol>
+      <li>Mostre a barra de favoritos: <b>Ctrl + Shift + B</b>.</li>
+      <li>Arraste este botão para a barra de favoritos:<br><a id="bmlink" class="bm" href="#">⚡ Monitor DOE</a></li>
+      <li>Abra <b>doe.sp.gov.br</b> e clique no favorito. O painel abre por cima do site.</li>
+    </ol>
+  </div>
+</div>
+<div id="app"></div>
+
+<script>
+function DOEApp(host, overlay){
+  var API='https://do-api-web-search.doe.sp.gov.br/v2', SITE='https://doe.sp.gov.br', KEY='doeMonitor_';
+  var PADRAO=`ADRIANA LUIZA SALES PEREIRA BLAU;21838221
+ADRIANA PEREIRA ARAUJO;36715346
+ADRIANA QUEIROZ AGOSTINELLI RIBEIRO;20657629
+ALESANDRA DE OLIVEIRA OTTONE RIBEIRO;38484828
+ALESSANDRA CORREA DE SOUZA;20936649
+ALEXANDRE DOMENEGHETTI NICOTELLI;36945011
+ALLAN DEYWS FRANCISCO DA SILVA;68482382
+AMERICO CARLOS SKLIAMIS;17798869
+ANA PAULA IZIDORO;09217724831
+ANA PAULA RAMOS DIAS;23165734
+ANDREA ELIAS BRUNO;28308517
+CARLOS FABRICIO DOMINGUES TEIXEIRA;46819321
+CECILIA VICENTINA DA SILVA;22737624
+CLAUDIA MONDIN ALABARSE;21838155
+CLAUDIA SIMONE DE FREITAS MUNHOZ;59275218
+CLAUDINEI VILAR MATHEUS;06410956860
+DANIEL DOMINGUES;27286972
+DANIELA APPONI;21241567
+DANIELLE APARECIDA ALVES;28565013
+DAVID DA SILVA GRACIANO;35566538
+DENILSON PINO;27313393
+EDILEIA ROSA GALDINO NUNES;17035041
+EDISON APARECIDO MODESTIA;01130103897
+EDUARDO ALEXANDRE RIZZI;17385928
+ELLEN LUCIANE ABONIZIO TARGA;15250798
+ESTELA MARIA PROENCA RIBEIRO;13272641
+EWERTON GONZAGA DA CRUZ;52472689
+FABIO VALIM DOS SANTOS;23935706
+FERNANDA ALVES DE OLIVEIRA COSTA;44373924
+GRACILENE APARECIDA LEMOS;6903003
+IRACILDA ALVES DA CRUZ E OLIVEIRA;13277614
+ISABEL FATIMA NATAL OLIVEIRA;12317454
+ISRAEL EMANUA DE MATOS;40963644
+IVAILDE NUNES CAMPOS;16996640
+JOAO VITOR SANTOS FREIRE;39929804
+JOSE WILLAMS GOMES DA SILVA;07154120436
+JULIANA BELLUZZO ARRUDA DE PAIVA;35089756
+JULIANA ROMAO CARDOSO;27156994
+JUSSARA MUCCILLO;16750005
+KAIQUE VIEIRA FERREIRA;42592552
+LUCIANA CARDOSO OBENAUF;16595949
+LUCIANA CAVALCANTE DE ALBUQUERQUE;19871011
+MARCELO CERQUEIRA DA SILVA;23129974
+MARCELO FAUSTO FABIANO MODESTO;15765638805
+MARCELO HUNGARO;28894952
+MARCOS VINICIUS FABIANO MODESTO;21565947
+MAYARA SILVA COSTA;37732537
+NAOMY NAKASHIMA SILVA;38759727
+OSMAR DA SILVA JUNIOR;26705507
+PAULO HENRIQUE SANTOS DOS ANJOS;24641661
+REINALDO DIONIZIO DA SILVA;17958888
+ROSANGELA PASTOR MENEZES;19200419828
+ROSEMARY TENREIRO DE MELO SILVA;22130752
+SELMA CRISTINA YUASO DA COSTA;26139337
+SERGIO HENRIQUE VALADAO;14010796
+SUELI DOS SANTOS RODRIGUES CHAVES;21420205
+VANESSA BURKHARDT;26120516
+VERA HELENA SANCHIS ALBERICH;7779612
+WILLIANS RODRIGO CALIXTO;33381672`;
+  function lsGet(k,d){try{var v=localStorage.getItem(KEY+k);return v==null?d:JSON.parse(v)}catch(e){return d}}
+  function lsSet(k,v){try{localStorage.setItem(KEY+k,JSON.stringify(v))}catch(e){}}
+  function norm(t){return ' '+String(t||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase().replace(/[^A-Z0-9]+/g,' ').trim()+' '}
+  function dig(t){return String(t||'').replace(/\D/g,'')}
+  function esc(t){return String(t==null?'':t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function rgOk(rg,txt){
+    var d=dig(rg).replace(/^0+/,'');if(d.length<6)return false;
+    var m,re=/(\d{2,4})\*{2,}(\d{1,3})/g;
+    while((m=re.exec(txt||''))){if(d.indexOf(m[1].replace(/^0+/,''))===0&&d.slice(-m[2].length)===m[2])return true}
+    var alvo=d.slice(0,7),ps=(txt||'').match(/[\d.\-\/ ]{6,}/g)||[];
+    return ps.some(function(p){return dig(p).replace(/^0+/,'').indexOf(alvo)>=0});
+  }
+  function trecho(txt,nome){
+    var t=String(txt||'').replace(/\s+/g,' ').trim(),w=t.split(' '),alvo=norm(nome).trim(),n=alvo.split(' ').length;
+    for(var i=0;i<w.length;i++){
+      if(norm(w.slice(i,i+n+3).join(' ')).trim().indexOf(alvo)===0){
+        var ini=w.slice(0,i).join(' ').length,a=Math.max(0,ini-260),b=Math.min(t.length,ini+nome.length+260);
+        return (a?'…':'')+t.slice(a,b)+(b<t.length?'…':'');
+      }
+    }
+    return t.slice(0,520)+(t.length>520?'…':'');
+  }
+  function fData(s){var p=String(s||'').slice(0,10).split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:s}
+  function iso(d){return d.toISOString().slice(0,10)}
+  function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
+  async function getJSON(url){
+    for(var i=0;i<3;i++){
+      try{var r=await fetch(url,{headers:{Accept:'application/json'}});if(r.status===404)return null;if(r.ok)return await r.json()}
+      catch(e){if(i===2)throw e}
+      await sleep(1500*(i+1));
+    }
+    throw new Error('falha ao consultar');
+  }
+  var cache={};
+  async function conteudo(slug){
+    if(!(slug in cache)){
+      var d=await getJSON(API+'/publications/'+slug)||{};
+      var div=document.createElement('div');div.innerHTML=String(d.content||'').replace(/<(script|style)[\s\S]*?<\/\1>/gi,'').replace(/<(br|\/p|\/div|\/li|\/tr)[^>]*>/gi,' $&');
+      cache[slug]=div.textContent||'';
+    }
+    return cache[slug];
+  }
+  async function buscar(nome,ini,fim){
+    var itens=[];
+    for(var pg=1;pg<=5;pg++){
+      var q=new URLSearchParams({periodStartingDate:'personalized',PageNumber:pg,'Terms[0]':nome,FromDate:ini,ToDate:fim,PageSize:50,SortField:'Relevance'});
+      var d=await getJSON(API+'/advanced-search/publications?'+q)||{},lote=d.items||[];
+      itens=itens.concat(lote);
+      if(!d.hasNextPage||lote.some(function(i){return !i.totalTermsFound}))break;
+    }
+    return itens;
+  }
+  function parseLista(txt){
+    return String(txt||'').split(/\r?\n/).map(function(l){
+      var c=l.split(/[;\t,]/);return{nome:(c[0]||'').replace(/\s+/g,' ').trim().toUpperCase(),rg:(c[1]||'').trim()};
+    }).filter(function(s){return s.nome&&norm(s.nome).trim()!=='NOME'});
+  }
+  function lista(){return parseLista(lsGet('lista',PADRAO))}
+
+  var root=host.attachShadow?host.attachShadow({mode:'open'}):host;
+  root.innerHTML='<style>'+
+  ':host{all:initial;display:block}*{box-sizing:border-box}'+
+  '.w{--tx:#e4ecf7;--mut:#8394ad;--cy:#22e4ff;--vi:#8b5cf6;--gr:#34f5a0;--am:#ffc857;--pk:#ff4d8d;--card:rgba(13,20,36,.72);--line:rgba(34,228,255,.16);'+
+  'color:var(--tx);font:15px/1.55 "Space Grotesk",system-ui,"Segoe UI",sans-serif;min-height:100%}'+
+  '.w.ov{background:radial-gradient(900px 500px at 85% -10%,rgba(139,92,246,.22),transparent 60%),radial-gradient(700px 400px at -10% 10%,rgba(34,228,255,.14),transparent 60%),#060a13;min-height:100vh}'+
+  '.in{max-width:1000px;margin:0 auto;padding:22px 16px 70px}'+
+  '.mono{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace}'+
+  '.eyebrow{font-size:12px;letter-spacing:.22em;color:var(--cy);text-transform:uppercase;display:flex;align-items:center;gap:8px}'+
+  '.dot{width:8px;height:8px;border-radius:50%;background:var(--cy);box-shadow:0 0 10px var(--cy);animation:p 2s infinite}@keyframes p{50%{opacity:.35}}'+
+  'h1{font-size:clamp(24px,4vw,34px);line-height:1.15;margin:8px 0 4px;font-weight:700;letter-spacing:-.01em;'+
+  'background:linear-gradient(90deg,#fff 0%,#bdf6ff 45%,#c4b0ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}'+
+  '.mut{color:var(--mut)}'+
+  '.panel{margin:20px 0;padding:16px;border-radius:16px;background:var(--card);border:1px solid var(--line);backdrop-filter:blur(10px);box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}'+
+  '.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:end}'+
+  '.bar label{display:flex;flex-direction:column;gap:4px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}'+
+  'input,textarea{font:inherit;color:var(--tx);background:rgba(3,7,15,.7);border:1px solid var(--line);border-radius:10px;padding:9px 12px;color-scheme:dark;outline:none;transition:border-color .2s,box-shadow .2s}'+
+  'input:focus,textarea:focus{border-color:var(--cy);box-shadow:0 0 0 3px rgba(34,228,255,.15)}'+
+  'button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:10px 18px;cursor:pointer;transition:transform .15s,box-shadow .2s,opacity .2s}'+
+  'button.pri{color:#051018;background:linear-gradient(90deg,var(--cy),var(--vi));box-shadow:0 0 22px rgba(34,228,255,.3)}'+
+  'button.pri:hover{transform:translateY(-1px);box-shadow:0 0 30px rgba(139,92,246,.5)}'+
+  'button.sec{color:var(--tx);background:rgba(255,255,255,.04);border:1px solid var(--line)}button.sec:hover{border-color:var(--cy)}'+
+  'button:disabled{opacity:.4;cursor:default;transform:none}'+
+  '.sp{flex:1}.x{position:fixed;top:12px;right:14px;z-index:2}'+
+  '.st{margin-top:14px;font-size:13px}.prog{height:4px;background:rgba(255,255,255,.06);border-radius:9px;overflow:hidden;margin-top:8px}'+
+  '.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--vi));box-shadow:0 0 12px var(--cy);transition:width .25s}'+
+  '.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:18px 0}'+
+  '.k{padding:14px 16px;border-radius:14px;background:var(--card);border:1px solid var(--line);position:relative;overflow:hidden}'+
+  '.k:before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,var(--c,var(--cy)),transparent)}'+
+  '.k b{display:block;font:600 30px/1.1 "JetBrains Mono",ui-monospace,monospace;color:var(--c,var(--cy));text-shadow:0 0 18px currentColor}'+
+  '.k span{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}'+
+  '.flt{width:100%;margin-bottom:14px}'+
+  'details{margin-bottom:12px;border-radius:14px;background:var(--card);border:1px solid var(--line);overflow:hidden}'+
+  'details[open]{border-color:rgba(34,228,255,.3)}'+
+  'summary{cursor:pointer;list-style:none;padding:14px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}summary::-webkit-details-marker{display:none}'+
+  'summary strong{font-weight:600;letter-spacing:.02em}.rg{font-size:12px;color:var(--mut)}'+
+  '.c{margin-left:auto;min-width:28px;text-align:center;font:600 13px "JetBrains Mono",monospace;color:#051018;background:var(--cy);border-radius:99px;padding:1px 9px;box-shadow:0 0 12px rgba(34,228,255,.5)}'+
+  '.p{padding:14px 16px;border-top:1px solid rgba(255,255,255,.06);position:relative}'+
+  '.p:before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:2px;background:linear-gradient(var(--vi),transparent)}'+
+  '.m{font-size:12px;color:var(--mut)}.m .d{color:var(--cy)}'+
+  '.p a{display:inline-block;margin:3px 0 6px;color:#fff;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(34,228,255,.4)}.p a:hover{color:var(--cy)}'+
+  '.p p{margin:8px 0 0;font-size:14px;color:#b4c2d6}'+
+  '.t{display:inline-block;font:600 10px/1 "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:4px 7px;margin-right:6px;border:1px solid}'+
+  '.ok{color:var(--gr);border-color:rgba(52,245,160,.4);background:rgba(52,245,160,.08)}'+
+  '.av{color:var(--am);border-color:rgba(255,200,87,.4);background:rgba(255,200,87,.08)}'+
+  '.nv{color:var(--pk);border-color:rgba(255,77,141,.45);background:rgba(255,77,141,.1)}'+
+  'mark{background:rgba(34,228,255,.18);color:#fff;border-radius:3px;padding:0 2px}'+
+  'textarea{width:100%;height:240px;font:13px/1.5 "JetBrains Mono",monospace}'+
+  '.empty{text-align:center;padding:40px 16px;color:var(--mut)}'+
+  '.foot{margin-top:26px;font-size:12px;color:var(--mut)}'+
+  '</style><div class="w'+(overlay?' ov':'')+'"><div class="in">'+
+  (overlay?'<button class="sec x" id="fechar">✕ Fechar</button>':'')+
+  '<div class="eyebrow mono"><span class="dot"></span>DOE·SP // monitor de publicações</div>'+
+  '<h1>Servidores no Diário Oficial</h1><div class="mut">Procura cada servidor da lista em doe.sp.gov.br no período escolhido.</div>'+
+  '<div class="panel"><div class="bar"><label>Data inicial<input type="date" id="ini"></label><label>Data final<input type="date" id="fim"></label>'+
+  '<button class="pri" id="go">Iniciar busca</button><span class="sp"></span><button class="sec" id="csv" disabled>⬇ Planilha</button><button class="sec" id="edt">Lista de servidores</button></div>'+
+  '<div id="ed" style="display:none;margin-top:14px"><div class="mut" style="font-size:13px;margin-bottom:6px">Um servidor por linha, no formato <span class="mono">NOME;RG</span>. Você também pode importar um arquivo .txt ou .csv.</div><textarea id="ta" spellcheck="false"></textarea>'+
+  '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="pri" id="salvar">Salvar lista</button><button class="sec" id="imp">Importar arquivo</button><input type="file" id="arq" accept=".txt,.csv" style="display:none"></div></div>'+
+  '<div class="st mono mut" id="stat"></div><div class="prog"><i id="pb"></i></div></div><div id="res"></div></div></div>';
+  var $=function(id){return root.getElementById?root.getElementById(id):root.querySelector('#'+id)};
+  if(overlay)$('fechar').onclick=function(){host.remove()};
+  $('ini').value=lsGet('ini',iso(new Date(Date.now()-30*864e5)));$('fim').value=iso(new Date());
+  function contar(){var n=lista().length;$('stat').textContent=n?'> '+n+' servidores na lista. pronto.':'> lista vazia: clique em "Lista de servidores" para colar ou importar os nomes.';$('go').disabled=!n}
+  $('edt').onclick=function(){var e=$('ed');e.style.display=e.style.display==='none'?'block':'none';$('ta').value=lista().map(function(s){return s.nome+';'+s.rg}).join('\n')};
+  $('salvar').onclick=function(){lsSet('lista',$('ta').value);$('ed').style.display='none';contar()};
+  $('imp').onclick=function(){$('arq').click()};
+  $('arq').onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){$('ta').value=parseLista(r.result).map(function(s){return s.nome+';'+s.rg}).join('\n')};r.readAsText(f,'utf-8')};
+  contar();
+  var ultimo=null;
+
+  $('go').onclick=async function(){
+    var ini=$('ini').value,fim=$('fim').value;if(!ini||!fim){alert('Informe as duas datas.');return}
+    lsSet('ini',ini);
+    var servs=lista(),hist=lsGet('hist',{}),res=[],erros=[],feitos=0;
+    $('go').disabled=true;$('csv').disabled=true;$('res').innerHTML='';$('pb').style.width='0';
+    async function um(s){
+      var alvo=norm(s.nome),achados=[];
+      try{
+        var its=await buscar(s.nome,ini,fim);
+        for(var it of its){
+          if(!it.totalTermsFound)continue;
+          var resumo=(it.title||'')+' '+(it.excerpt||''),txt=norm(resumo).indexOf(alvo)>=0?resumo:await conteudo(it.slug);
+          if(norm(txt).indexOf(alvo)<0)continue;
+          var full=await conteudo(it.slug),comp=norm(full).indexOf(alvo)>=0?full:txt,chave=s.nome+'|'+it.id;
+          achados.push({data:it.date||'',titulo:it.title||'(sem título)',hier:it.hierarchy||'',link:SITE+'/'+it.slug,
+            trecho:trecho(comp,s.nome),rg:rgOk(s.rg,resumo+' '+full),novo:!hist[chave],chave:chave});
+        }
+      }catch(e){erros.push(s.nome)}
+      if(achados.length)res.push({s:s,pubs:achados});
+      feitos++;$('pb').style.width=(100*feitos/servs.length)+'%';
+      $('stat').textContent='> varrendo '+feitos+'/'+servs.length+' · '+s.nome.toLowerCase();
+    }
+    var fila=servs.slice();
+    await Promise.all([0,1,2].map(async function(){while(fila.length)await um(fila.shift())}));
+    res.sort(function(a,b){return a.s.nome.localeCompare(b.s.nome)});
+    res.forEach(function(r){r.pubs.forEach(function(p){hist[p.chave]=1})});lsSet('hist',hist);
+    ultimo=res;render(res,ini,fim,erros);$('go').disabled=false;$('csv').disabled=!res.length;
+  };
+
+  function realca(txt,nome){
+    var e=esc(txt),parts=nome.split(' ').map(function(w){return w.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[.*+?^${}()|[\]\\]/g,'\\$&')});
+    try{return e.replace(new RegExp('('+parts.join('[\\s\\S]{0,3}')+')','i'),'<mark>$1</mark>')}catch(x){return e}
+  }
+  function render(res,ini,fim,erros){
+    var tot=0,nov=0,conf=0;res.forEach(function(r){tot+=r.pubs.length;r.pubs.forEach(function(p){if(p.novo)nov++;if(p.rg)conf++})});
+    $('stat').textContent='> concluído · '+fData(ini)+' → '+fData(fim)+' · '+new Date().toLocaleString('pt-BR')+(erros.length?' · falhou: '+erros.join(', '):'');
+    var h='<div class="kpis"><div class="k"><b>'+res.length+'</b><span>servidores citados</span></div>'+
+      '<div class="k" style="--c:#c4b0ff"><b>'+tot+'</b><span>publicações</span></div>'+
+      '<div class="k" style="--c:#34f5a0"><b>'+conf+'</b><span>com RG confirmado</span></div>'+
+      '<div class="k" style="--c:#ff4d8d"><b>'+nov+'</b><span>novas desde a última busca</span></div></div>';
+    if(!res.length){$('res').innerHTML=h+'<div class="panel empty">Nenhuma publicação encontrada para a lista no período.</div>';return}
+    h+='<input class="flt" id="flt" placeholder="Filtrar por nome ou palavra (ex.: licença, designação)…">';
+    h+='<div id="lst">'+res.map(function(r){
+      var ps=r.pubs.slice().sort(function(a,b){return a.data<b.data?1:-1});
+      return '<details open><summary><strong>'+esc(r.s.nome)+'</strong><span class="rg mono">RG '+esc(r.s.rg)+'</span><span class="c">'+ps.length+'</span></summary>'+
+      ps.map(function(p){return '<div class="p"><div class="m mono"><span class="d">'+fData(p.data)+'</span> · '+esc(p.hier)+'</div>'+
+        '<a href="'+esc(p.link)+'" target="_blank" rel="noopener">'+esc(p.titulo)+' ↗</a><div>'+
+        (p.novo?'<span class="t nv">novo</span>':'')+(p.rg?'<span class="t ok">RG confere</span>':'<span class="t av">conferir · possível homônimo</span>')+
+        '</div><p>'+realca(p.trecho,r.s.nome)+'</p></div>'}).join('')+'</details>'}).join('')+'</div>';
+    h+='<div class="foot mono">RG confere = o RG aparece no texto · conferir = só o nome bate · novo = não apareceu nas buscas anteriores deste navegador · fonte: doe.sp.gov.br</div>';
+    $('res').innerHTML=h;
+    $('flt').oninput=function(e){var q=norm(e.target.value).trim();root.querySelectorAll('#lst details').forEach(function(d){d.style.display=norm(d.textContent).indexOf(q)>=0?'':'none'})};
+  }
+
+  $('csv').onclick=function(){
+    if(!ultimo)return;
+    var q=function(v){return '"'+String(v==null?'':v).replace(/"/g,'""')+'"'};
+    var l=[['Servidor','RG','Data','Título','Seção','RG confere','Novo','Link','Trecho'].map(q).join(';')];
+    ultimo.forEach(function(r){r.pubs.forEach(function(p){l.push([r.s.nome,r.s.rg,fData(p.data),p.titulo,p.hier,p.rg?'SIM':'CONFERIR',p.novo?'SIM':'',p.link,p.trecho].map(q).join(';'))})});
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+l.join('\r\n')],{type:'text/csv;charset=utf-8'}));
+    a.download='publicacoes_DOE_'+iso(new Date())+'.csv';document.body.appendChild(a);a.click();a.remove();
+  };
+}
+
+(function(){
+  var bm='(function(){var o=document.getElementById("doeMonitorOverlay");if(o){o.remove()}o=document.createElement("div");o.id="doeMonitorOverlay";'+
+    'o.style.cssText="position:fixed;inset:0;z-index:2147483647;overflow:auto;background:#060a13";document.body.appendChild(o);('+DOEApp.toString()+')(o,true)})()';
+  var l=document.getElementById('bmlink');l.href='javascript:'+encodeURIComponent(bm);
+  l.onclick=function(e){e.preventDefault();alert('Arraste este botão para a barra de favoritos (não clique aqui).')};
+  function show(id){['st-test','st-ok','st-bm'].forEach(function(x){document.getElementById(x).classList.toggle('show',x===id)})}
+  fetch('https://do-api-web-search.doe.sp.gov.br/v2/advanced-search/publications?PageNumber=1&PageSize=1&Terms%5B0%5D=educacao',{headers:{Accept:'application/json'}})
+    .then(function(r){if(!r.ok)throw 0;return r.json()})
+    .then(function(){show('st-ok');DOEApp(document.getElementById('app'),false)})
+    .catch(function(){show('st-bm')});
+})();
+</script>
+</body>
+</html>
