@@ -64,7 +64,10 @@ header{display:flex;align-items:center;justify-content:space-between;gap:16px;fl
   background:rgba(8,20,22,.7);border:1px solid rgba(52,211,153,.35);color:var(--gold);font-weight:600;font-size:.85rem;margin-bottom:22px}
 .greet i{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold);animation:pulse 2s infinite}
 @keyframes pulse{50%{opacity:.35}}
-.hero h2{font-size:clamp(1.6rem,3.2vw,2.5rem);font-weight:700;line-height:1.15;letter-spacing:-.5px}
+.greet{cursor:pointer;transition:.2s}.greet:hover{border-color:rgba(52,211,153,.7)}
+.greet .pen{opacity:0;font-size:.8rem;transition:.2s}.greet:hover .pen{opacity:.8}
+.name-hint{font-size:.8rem;color:var(--muted);margin-top:6px}
+.hero h2{font-size:clamp(1.3rem,2.4vw,1.9rem);font-weight:700;line-height:1.15;letter-spacing:-.5px}
 .hero h2 em{font-style:normal;background:linear-gradient(90deg,#22d3ee,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
 .quote{margin-top:22px;font-size:clamp(1rem,1.6vw,1.25rem);color:#c7d4ee;font-weight:400;line-height:1.6;min-height:3.2em;
   border-left:3px solid var(--cyan);padding-left:18px;transition:opacity .6s}
@@ -95,6 +98,7 @@ header{display:flex;align-items:center;justify-content:space-between;gap:16px;fl
 .editing .card{cursor:default;border-style:dashed}
 .mini{width:34px;height:34px;border-radius:10px;border:1px solid var(--glass-b);background:rgba(5,13,28,.7);color:#fff;cursor:pointer;display:grid;place-items:center}
 .mini:hover{background:var(--blue)}.mini.del:hover{background:#dc2626}
+.add-card{display:none!important}.editing .add-card{display:flex!important}
 .add-card{border:2px dashed rgba(255,255,255,.18);background:transparent;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font:600 .95rem inherit;font-family:inherit}
 .add-card:hover{color:#fff;border-color:var(--cyan)}
 .add-card .plus{width:56px;height:56px;border-radius:50%;border:2px solid currentColor;display:grid;place-items:center;font-size:1.8rem;font-weight:300}
@@ -139,7 +143,7 @@ textarea{resize:vertical;min-height:70px}
 
   <section class="hero">
     <div class="kicker">HUB // ACESSO RÁPIDO</div>
-    <div class="greet"><i></i><span id="greet">Bem-vindo(a)</span></div>
+    <div class="greet" id="greetBox" title="Clique para alterar seu nome"><i></i><span id="greet">Bem-vindo(a)</span><span class="pen">✎</span></div>
     <h2>Juntos, fazemos a <em>educação acontecer</em> todos os dias.</h2>
     <p class="quote" id="quote"></p>
   </section>
@@ -178,6 +182,17 @@ textarea{resize:vertical;min-height:70px}
     </div>
   </form>
 </div>
+<div class="modal" id="nameModal">
+  <form class="panel" id="nameForm">
+    <h3>Como você gostaria de ser chamado(a)?</h3>
+    <label>Seu nome</label><input id="fName" maxlength="30" placeholder="Ex.: Edilson">
+    <p class="name-hint">Fica salvo neste computador. Para trocar depois, clique na saudação.</p>
+    <div class="row">
+      <button type="button" class="btn" id="nameCancel">Agora não</button>
+      <button type="submit" class="btn primary">Salvar</button>
+    </div>
+  </form>
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -186,10 +201,14 @@ textarea{resize:vertical;min-height:70px}
    (Pelo botão "Editar" na tela também dá para mudar tudo.)
    ====================================================== */
 const DEFAULT_LINKS = [
-  { title:"Monitor DOE Servidores", desc:"Acompanhe as publicações do Diário Oficial relacionadas aos servidores.",
-    url:"https://edilson2107-cyber.github.io/material-escolar/Monitor_DOE_Servidores.html", icon:"chart", color:0 },
-  { title:"Documentação GOE", desc:"Pasta compartilhada com os documentos e arquivos da GOE.",
-    url:"https://seesp-my.sharepoint.com/:f:/g/personal/e004807a_educacao_sp_gov_br/IgBEzaoYaV5pQ4JJm_6Nc-NDAdn9_ykqZhj-p55B2J8RKjA?e=T0f3iC", icon:"folder", color:1 }
+  { title:"Publicação", desc:"Acompanhe as publicações do Diário Oficial relacionadas aos servidores.",
+    url:"https://edilson2107-cyber.github.io/material-escolar/Monitor_DOE_Servidores.html", icon:"news", color:3 },
+  { title:"Documentação", desc:"Pasta compartilhada com os documentos e arquivos criados a partir de 24/08/2026.",
+    url:"https://seesp-my.sharepoint.com/:f:/g/personal/e004807a_educacao_sp_gov_br/IgBEzaoYaV5pQ4JJm_6Nc-NDAdn9_ykqZhj-p55B2J8RKjA?e=T0f3iC", icon:"folder", color:1 },
+  { title:"GestãoRM", desc:"Sistema de busca do RM do estudante.",
+    url:"https://seesp-my.sharepoint.com/:x:/g/personal/e004807a_educacao_sp_gov_br/IQAgnzm48RlpRK5O5MQdVzUAAd-Zl9xcnFCQxMIAFghnvWs?e=9HAL7E", icon:"idcard", color:0 },
+  { title:"Histórico Escolar", desc:"Pasta com os históricos escolares dos estudantes.",
+    url:"https://seesp-my.sharepoint.com/:f:/g/personal/e004807a_educacao_sp_gov_br/IgDBZ_RgGMBuTIK23GGlMSdvAYhZmqEXF9xZhzd4oebD4Wg?e=FxButy", icon:"history", color:2 }
 ];
 
 const MESSAGES = [
@@ -215,10 +234,16 @@ const ICONS = {
   users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/>',
   globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
   school:'<path d="m2 9 10-5 10 5-10 5Z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/>',
+  news:'<path d="M4 5h13v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2Z"/><path d="M17 9h3v9a2 2 0 0 1-2 2"/><path d="M8 9h5M8 13h5M8 17h3"/>',
+  idcard:'<rect x="2.5" y="5" width="19" height="14" rx="2"/><circle cx="8.5" cy="11" r="2.2"/><path d="M5.5 16a3 3 0 0 1 6 0"/><path d="M14 10h4.5M14 14h3"/>',
+  history:'<path d="M4 19V6a2 2 0 0 1 2-2h11v11"/><path d="M4 19a2 2 0 0 0 2 2h7"/><circle cx="18" cy="18" r="4"/><path d="M18 16.3V18l1.2 1"/><path d="M8 8h5M8 12h3"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
   star:'<path d="m12 3 2.8 5.8 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.3l1-6.2L3 9.7l6.2-.9Z"/>'
 };
 const COLORS = [["#3b82f6","#06b6d4"],["#f59e0b","#ef4444"],["#8b5cf6","#ec4899"],["#10b981","#14b8a6"],["#6366f1","#3b82f6"],["#f43f5e","#fb923c"]];
-const KEY = "portal-servidores-links-v1";
+const KEY = "portal-servidores-links-v2";
+const NAME_KEY = "portal-servidores-nome";
+let userName = (()=>{ try{ return localStorage.getItem(NAME_KEY)||""; }catch(e){ return ""; } })();
 
 let links = load(), editing = false, editIndex = -1, selIcon = "link", selColor = 0;
 
@@ -316,7 +341,7 @@ function tick(){
   const d=new Date(), h=d.getHours();
   time.textContent=d.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
   const ds=d.toLocaleDateString("pt-BR",{weekday:"long",day:"numeric",month:"long"}); date.textContent=ds.charAt(0).toUpperCase()+ds.slice(1);
-  greet.textContent=(h<12?"Bom dia":h<18?"Boa tarde":"Boa noite")+"! Que bom ter você aqui.";
+  greet.textContent=(h<12?"Bom dia":h<18?"Boa tarde":"Boa noite")+(userName?", "+userName:"")+"! Que bom ter você aqui.";
 }
 tick(); setInterval(tick,1000);
 year.textContent="© "+new Date().getFullYear()+" · Edilson Gomes Vieira";
@@ -327,7 +352,19 @@ function showQuote(){ quote.style.opacity=0; setTimeout(()=>{ quote.textContent=
 showQuote(); setInterval(showQuote,12000);
 
 function toast(msg){ const t=document.getElementById("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2200); }
-document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeModal(); nameModal.classList.remove("open"); } });
+
+/* Nome do usuário */
+const nameModal=document.getElementById("nameModal");
+function askName(){ fName.value=userName; nameModal.classList.add("open"); setTimeout(()=>fName.focus(),50); }
+document.getElementById("greetBox").onclick=askName;
+document.getElementById("nameCancel").onclick=()=>nameModal.classList.remove("open");
+document.getElementById("nameForm").onsubmit=e=>{
+  e.preventDefault(); userName=fName.value.trim();
+  try{ localStorage.setItem(NAME_KEY,userName); }catch(err){}
+  nameModal.classList.remove("open"); tick(); if(userName) toast("Olá, "+userName+"!");
+};
+if(!userName) setTimeout(askName,900);
 
 render();
 </script>
