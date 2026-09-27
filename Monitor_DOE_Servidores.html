@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Monitor DOE Servidores</title>
+<title>Pesquisar no Diário Oficial</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -47,7 +47,10 @@ ol{margin:6px 0 0;padding-left:20px}
 <script>
 function DOEApp(host, overlay){
   var API='https://do-api-web-search.doe.sp.gov.br/v2', SITE='https://doe.sp.gov.br', KEY='doeMonitor_';
-  var PADRAO=`ADRIANA LUIZA SALES PEREIRA BLAU;21838221
+  var PADRAO=`DOMINGOS QUIRINO FERREIRA CORONEL
+DOMINGOS QUIRINO FERREIRA
+EDILSON GOMES VIEIRA
+ADRIANA LUIZA SALES PEREIRA BLAU;21838221
 ADRIANA PEREIRA ARAUJO;36715346
 ADRIANA QUEIROZ AGOSTINELLI RIBEIRO;20657629
 ALESANDRA DE OLIVEIRA OTTONE RIBEIRO;38484828
@@ -163,7 +166,7 @@ WILLIANS RODRIGO CALIXTO;33381672`;
       var c=l.split(/[;\t,]/);return{nome:(c[0]||'').replace(/\s+/g,' ').trim().toUpperCase(),rg:(c[1]||'').trim()};
     }).filter(function(s){return s.nome&&norm(s.nome).trim()!=='NOME'});
   }
-  function lista(){return parseLista(lsGet('lista',PADRAO))}
+  function lista(){return parseLista(lsGet('lista_v3',PADRAO))}
 
   var root=host.attachShadow?host.attachShadow({mode:'open'}):host;
   root.innerHTML='<style>'+
@@ -210,26 +213,28 @@ WILLIANS RODRIGO CALIXTO;33381672`;
   '.t{display:inline-block;font:600 10px/1 "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:4px 7px;margin-right:6px;border:1px solid}'+
   '.ok{color:var(--gr);border-color:rgba(52,245,160,.4);background:rgba(52,245,160,.08)}'+
   '.av{color:var(--am);border-color:rgba(255,200,87,.4);background:rgba(255,200,87,.08)}'+
+  '.tm{color:var(--cy);border-color:rgba(34,228,255,.4);background:rgba(34,228,255,.08)}'+
   '.nv{color:var(--pk);border-color:rgba(255,77,141,.45);background:rgba(255,77,141,.1)}'+
   'mark{background:rgba(34,228,255,.18);color:#fff;border-radius:3px;padding:0 2px}'+
   'textarea{width:100%;height:240px;font:13px/1.5 "JetBrains Mono",monospace}'+
   '.empty{text-align:center;padding:40px 16px;color:var(--mut)}'+
   '.foot{margin-top:26px;font-size:12px;color:var(--mut)}'+
+  '.copy{text-align:center;font-size:13px;color:var(--mut);letter-spacing:.04em;padding:28px 0 6px;margin-top:36px;border-top:1px solid var(--line)}'+
   '</style><div class="w'+(overlay?' ov':'')+'"><div class="in">'+
   (overlay?'<button class="sec x" id="fechar">✕ Fechar</button>':'')+
-  '<div class="eyebrow mono"><span class="dot"></span>DOE·SP // monitor de publicações</div>'+
-  '<h1>Servidores no Diário Oficial</h1><div class="mut">Procura cada servidor da lista em doe.sp.gov.br no período escolhido.</div>'+
+  '<div class="eyebrow mono"><span class="dot"></span>Gerenciar Publicações</div>'+
+  '<h1>Pesquisar no Diário Oficial</h1><div class="mut">Procura por cada servidor da nossa unidade escolar em DOE</div>'+
   '<div class="panel"><div class="bar"><label>Data inicial<input type="date" id="ini"></label><label>Data final<input type="date" id="fim"></label>'+
   '<button class="pri" id="go">Iniciar busca</button><span class="sp"></span><button class="sec" id="csv" disabled>⬇ Planilha</button><button class="sec" id="edt">Lista de servidores</button></div>'+
-  '<div id="ed" style="display:none;margin-top:14px"><div class="mut" style="font-size:13px;margin-bottom:6px">Um servidor por linha, no formato <span class="mono">NOME;RG</span>. Você também pode importar um arquivo .txt ou .csv.</div><textarea id="ta" spellcheck="false"></textarea>'+
+  '<div id="ed" style="display:none;margin-top:14px"><div class="mut" style="font-size:13px;margin-bottom:6px">Um item por linha: <span class="mono">NOME;RG</span> para servidores, ou só o texto (ex.: <span class="mono">nome da escola</span>) para termos sem RG. Você também pode importar um arquivo .txt ou .csv.</div><textarea id="ta" spellcheck="false"></textarea>'+
   '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="pri" id="salvar">Salvar lista</button><button class="sec" id="imp">Importar arquivo</button><input type="file" id="arq" accept=".txt,.csv" style="display:none"></div></div>'+
-  '<div class="st mono mut" id="stat"></div><div class="prog"><i id="pb"></i></div></div><div id="res"></div></div></div>';
+  '<div class="st mono mut" id="stat"></div><div class="prog"><i id="pb"></i></div></div><div id="res"></div><div class="copy">© 2026 - Edilson Gomes Vieira</div></div></div>';
   var $=function(id){return root.getElementById?root.getElementById(id):root.querySelector('#'+id)};
   if(overlay)$('fechar').onclick=function(){host.remove()};
   $('ini').value=lsGet('ini',iso(new Date(Date.now()-30*864e5)));$('fim').value=iso(new Date());
-  function contar(){var n=lista().length;$('stat').textContent=n?'> '+n+' servidores na lista. pronto.':'> lista vazia: clique em "Lista de servidores" para colar ou importar os nomes.';$('go').disabled=!n}
+  function contar(){var n=lista().length;$('stat').textContent=n?'> '+n+' itens na lista. pronto.':'> lista vazia: clique em "Lista de servidores" para colar ou importar os nomes.';$('go').disabled=!n}
   $('edt').onclick=function(){var e=$('ed');e.style.display=e.style.display==='none'?'block':'none';$('ta').value=lista().map(function(s){return s.nome+';'+s.rg}).join('\n')};
-  $('salvar').onclick=function(){lsSet('lista',$('ta').value);$('ed').style.display='none';contar()};
+  $('salvar').onclick=function(){lsSet('lista_v3',$('ta').value);$('ed').style.display='none';contar()};
   $('imp').onclick=function(){$('arq').click()};
   $('arq').onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){$('ta').value=parseLista(r.result).map(function(s){return s.nome+';'+s.rg}).join('\n')};r.readAsText(f,'utf-8')};
   contar();
@@ -250,7 +255,7 @@ WILLIANS RODRIGO CALIXTO;33381672`;
           if(norm(txt).indexOf(alvo)<0)continue;
           var full=await conteudo(it.slug),comp=norm(full).indexOf(alvo)>=0?full:txt,chave=s.nome+'|'+it.id;
           achados.push({data:it.date||'',titulo:it.title||'(sem título)',hier:it.hierarchy||'',link:SITE+'/'+it.slug,
-            trecho:trecho(comp,s.nome),rg:rgOk(s.rg,resumo+' '+full),novo:!hist[chave],chave:chave});
+            trecho:trecho(comp,s.nome),rg:s.rg?rgOk(s.rg,resumo+' '+full):null,novo:!hist[chave],chave:chave});
         }
       }catch(e){erros.push(s.nome)}
       if(achados.length)res.push({s:s,pubs:achados});
@@ -271,7 +276,7 @@ WILLIANS RODRIGO CALIXTO;33381672`;
   function render(res,ini,fim,erros){
     var tot=0,nov=0,conf=0;res.forEach(function(r){tot+=r.pubs.length;r.pubs.forEach(function(p){if(p.novo)nov++;if(p.rg)conf++})});
     $('stat').textContent='> concluído · '+fData(ini)+' → '+fData(fim)+' · '+new Date().toLocaleString('pt-BR')+(erros.length?' · falhou: '+erros.join(', '):'');
-    var h='<div class="kpis"><div class="k"><b>'+res.length+'</b><span>servidores citados</span></div>'+
+    var h='<div class="kpis"><div class="k"><b>'+res.length+'</b><span>nomes e termos citados</span></div>'+
       '<div class="k" style="--c:#c4b0ff"><b>'+tot+'</b><span>publicações</span></div>'+
       '<div class="k" style="--c:#34f5a0"><b>'+conf+'</b><span>com RG confirmado</span></div>'+
       '<div class="k" style="--c:#ff4d8d"><b>'+nov+'</b><span>novas desde a última busca</span></div></div>';
@@ -279,10 +284,10 @@ WILLIANS RODRIGO CALIXTO;33381672`;
     h+='<input class="flt" id="flt" placeholder="Filtrar por nome ou palavra (ex.: licença, designação)…">';
     h+='<div id="lst">'+res.map(function(r){
       var ps=r.pubs.slice().sort(function(a,b){return a.data<b.data?1:-1});
-      return '<details open><summary><strong>'+esc(r.s.nome)+'</strong><span class="rg mono">RG '+esc(r.s.rg)+'</span><span class="c">'+ps.length+'</span></summary>'+
+      return '<details open><summary><strong>'+esc(r.s.nome)+'</strong>'+(r.s.rg?'<span class="rg mono">RG '+esc(r.s.rg)+'</span>':'<span class="rg mono">termo</span>')+'<span class="c">'+ps.length+'</span></summary>'+
       ps.map(function(p){return '<div class="p"><div class="m mono"><span class="d">'+fData(p.data)+'</span> · '+esc(p.hier)+'</div>'+
         '<a href="'+esc(p.link)+'" target="_blank" rel="noopener">'+esc(p.titulo)+' ↗</a><div>'+
-        (p.novo?'<span class="t nv">novo</span>':'')+(p.rg?'<span class="t ok">RG confere</span>':'<span class="t av">conferir · possível homônimo</span>')+
+        (p.novo?'<span class="t nv">novo</span>':'')+(p.rg===null?'<span class="t tm">termo pesquisado</span>':p.rg?'<span class="t ok">RG confere</span>':'<span class="t av">conferir · possível homônimo</span>')+
         '</div><p>'+realca(p.trecho,r.s.nome)+'</p></div>'}).join('')+'</details>'}).join('')+'</div>';
     h+='<div class="foot mono">RG confere = o RG aparece no texto · conferir = só o nome bate · novo = não apareceu nas buscas anteriores deste navegador · fonte: doe.sp.gov.br</div>';
     $('res').innerHTML=h;
@@ -293,7 +298,7 @@ WILLIANS RODRIGO CALIXTO;33381672`;
     if(!ultimo)return;
     var q=function(v){return '"'+String(v==null?'':v).replace(/"/g,'""')+'"'};
     var l=[['Servidor','RG','Data','Título','Seção','RG confere','Novo','Link','Trecho'].map(q).join(';')];
-    ultimo.forEach(function(r){r.pubs.forEach(function(p){l.push([r.s.nome,r.s.rg,fData(p.data),p.titulo,p.hier,p.rg?'SIM':'CONFERIR',p.novo?'SIM':'',p.link,p.trecho].map(q).join(';'))})});
+    ultimo.forEach(function(r){r.pubs.forEach(function(p){l.push([r.s.nome,r.s.rg,fData(p.data),p.titulo,p.hier,p.rg===null?'TERMO':p.rg?'SIM':'CONFERIR',p.novo?'SIM':'',p.link,p.trecho].map(q).join(';'))})});
     var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+l.join('\r\n')],{type:'text/csv;charset=utf-8'}));
     a.download='publicacoes_DOE_'+iso(new Date())+'.csv';document.body.appendChild(a);a.click();a.remove();
   };
@@ -308,7 +313,7 @@ WILLIANS RODRIGO CALIXTO;33381672`;
   fetch('https://do-api-web-search.doe.sp.gov.br/v2/advanced-search/publications?PageNumber=1&PageSize=1&Terms%5B0%5D=educacao',{headers:{Accept:'application/json'}})
     .then(function(r){if(!r.ok)throw 0;return r.json()})
     .then(function(){show('st-ok');DOEApp(document.getElementById('app'),false)})
-    .catch(function(){show('st-bm')});
+    .catch(function(){show('st-bm');var f=document.createElement('div');f.textContent='© 2026 - Edilson Gomes Vieira';f.style.cssText='text-align:center;color:#8394ad;font-size:13px;padding:40px 16px 24px';document.body.appendChild(f)});
 })();
 </script>
 </body>
