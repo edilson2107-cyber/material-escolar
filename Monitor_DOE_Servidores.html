@@ -3,41 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a6cff">
 <title>Pesquisar no Diário Oficial</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%230a6cff'/%3E%3Cstop offset='1' stop-color='%2300b4ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ccircle cx='29' cy='29' r='11' fill='none' stroke='white' stroke-width='5'/%3E%3Cpath d='m37 37 10 10' stroke='white' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#060a13;--tx:#e4ecf7;--mut:#8394ad;--cy:#22e4ff;--vi:#8b5cf6;--am:#ffc857;--line:rgba(34,228,255,.18)}
+:root{--blue:#0a6cff;--ink:#0b1b3a;--text:#3b4a63;--muted:#6c7a91;--line:#e5ebf4;--grad:linear-gradient(135deg,#0a6cff 0%,#00b4ff 100%)}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.55 "Space Grotesk",system-ui,"Segoe UI",sans-serif}
-body{min-height:100vh;background:
- radial-gradient(900px 500px at 85% -10%,rgba(139,92,246,.22),transparent 60%),
- radial-gradient(700px 400px at -10% 10%,rgba(34,228,255,.14),transparent 60%),
- linear-gradient(rgba(34,228,255,.04) 1px,transparent 1px) 0 0/100% 40px,
- linear-gradient(90deg,rgba(34,228,255,.04) 1px,transparent 1px) 0 0/40px 100%,var(--bg)}
-.intro{max-width:1000px;margin:0 auto;padding:20px 16px 0}
-.box{display:none;border-radius:14px;padding:14px 18px;margin:10px 0;border:1px solid var(--line);background:rgba(13,20,36,.75);backdrop-filter:blur(8px)}
+body{min-height:100vh;display:flex;flex-direction:column}html,body{margin:0;background:#fff;color:var(--text);font-family:'Inter',system-ui,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased}
+.intro{max-width:1240px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.box{display:none;border-radius:16px;padding:14px 18px;margin:16px 0 0;font-size:.92rem;border:1px solid var(--line);background:#fff;box-shadow:0 10px 30px -12px rgba(10,60,140,.18)}
 .box.show{display:block}
-.box.ok{border-color:rgba(52,245,160,.35);color:#7dfcc4}
-.box.warn{border-color:rgba(255,200,87,.4);color:#ffe0a0}
-.box.test{color:var(--mut);font-family:"JetBrains Mono",monospace;font-size:13px}
-.box b{color:#fff}
-.bm{display:inline-block;margin:8px 0;padding:9px 16px;border-radius:10px;font-weight:600;text-decoration:none;color:#061018;
- background:linear-gradient(90deg,var(--cy),var(--vi));box-shadow:0 0 18px rgba(34,228,255,.35);cursor:grab}
-ol{margin:6px 0 0;padding-left:20px}
+.box.test{color:var(--muted)}
+.box.ok{display:none!important}
+.box.warn{border-color:#fcd9a0;background:#fff8ec;color:#7a4b00}
+.box.warn b{color:#5c3900}
+.bm{display:inline-flex;align-items:center;gap:8px;margin:10px 0;height:42px;padding:0 20px;border-radius:999px;font:600 .9rem 'Poppins',sans-serif;text-decoration:none;color:#fff;background:var(--grad);box-shadow:0 10px 24px -8px rgba(10,108,255,.6);cursor:grab}
+ol{margin:8px 0 0;padding-left:20px;line-height:1.8}
 </style>
 </head>
 <body>
 <div class="intro">
-  <div id="st-test" class="box test show">&gt; testando conexão com doe.sp.gov.br…</div>
-  <div id="st-ok" class="box ok">● Conexão direta ativa. Pode buscar abaixo.</div>
+  <div id="st-test" class="box test show">Testando conexão com doe.sp.gov.br…</div>
+  <div id="st-ok" class="box ok">Conexão direta ativa.</div>
   <div id="st-bm" class="box warn">
     <b>O navegador bloqueou a consulta direta ao Diário Oficial a partir desta página.</b>
     Use o modo favorito. Você só precisa configurar uma vez:
     <ol>
       <li>Mostre a barra de favoritos: <b>Ctrl + Shift + B</b>.</li>
-      <li>Arraste este botão para a barra de favoritos:<br><a id="bmlink" class="bm" href="#">⚡ Monitor DOE</a></li>
+      <li>Arraste este botão para a barra de favoritos:<br><a id="bmlink" class="bm" href="#">🔎 Pesquisar no DOE</a></li>
       <li>Abra <b>doe.sp.gov.br</b> e clique no favorito. O painel abre por cima do site.</li>
     </ol>
   </div>
@@ -169,70 +165,12 @@ WILLIANS RODRIGO CALIXTO;33381672`;
   function lista(){return parseLista(lsGet('lista_v3',PADRAO))}
 
   var root=host.attachShadow?host.attachShadow({mode:'open'}):host;
-  root.innerHTML='<style>'+
-  ':host{all:initial;display:block}*{box-sizing:border-box}'+
-  '.w{--tx:#e4ecf7;--mut:#8394ad;--cy:#22e4ff;--vi:#8b5cf6;--gr:#34f5a0;--am:#ffc857;--pk:#ff4d8d;--card:rgba(13,20,36,.72);--line:rgba(34,228,255,.16);'+
-  'color:var(--tx);font:15px/1.55 "Space Grotesk",system-ui,"Segoe UI",sans-serif;min-height:100%}'+
-  '.w.ov{background:radial-gradient(900px 500px at 85% -10%,rgba(139,92,246,.22),transparent 60%),radial-gradient(700px 400px at -10% 10%,rgba(34,228,255,.14),transparent 60%),#060a13;min-height:100vh}'+
-  '.in{max-width:1000px;margin:0 auto;padding:22px 16px 70px}'+
-  '.mono{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace}'+
-  '.eyebrow{font-size:12px;letter-spacing:.22em;color:var(--cy);text-transform:uppercase;display:flex;align-items:center;gap:8px}'+
-  '.dot{width:8px;height:8px;border-radius:50%;background:var(--cy);box-shadow:0 0 10px var(--cy);animation:p 2s infinite}@keyframes p{50%{opacity:.35}}'+
-  'h1{font-size:clamp(24px,4vw,34px);line-height:1.15;margin:8px 0 4px;font-weight:700;letter-spacing:-.01em;'+
-  'background:linear-gradient(90deg,#fff 0%,#bdf6ff 45%,#c4b0ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}'+
-  '.mut{color:var(--mut)}'+
-  '.panel{margin:20px 0;padding:16px;border-radius:16px;background:var(--card);border:1px solid var(--line);backdrop-filter:blur(10px);box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}'+
-  '.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:end}'+
-  '.bar label{display:flex;flex-direction:column;gap:4px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}'+
-  'input,textarea{font:inherit;color:var(--tx);background:rgba(3,7,15,.7);border:1px solid var(--line);border-radius:10px;padding:9px 12px;color-scheme:dark;outline:none;transition:border-color .2s,box-shadow .2s}'+
-  'input:focus,textarea:focus{border-color:var(--cy);box-shadow:0 0 0 3px rgba(34,228,255,.15)}'+
-  'button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:10px 18px;cursor:pointer;transition:transform .15s,box-shadow .2s,opacity .2s}'+
-  'button.pri{color:#051018;background:linear-gradient(90deg,var(--cy),var(--vi));box-shadow:0 0 22px rgba(34,228,255,.3)}'+
-  'button.pri:hover{transform:translateY(-1px);box-shadow:0 0 30px rgba(139,92,246,.5)}'+
-  'button.sec{color:var(--tx);background:rgba(255,255,255,.04);border:1px solid var(--line)}button.sec:hover{border-color:var(--cy)}'+
-  'button:disabled{opacity:.4;cursor:default;transform:none}'+
-  '.sp{flex:1}.x{position:fixed;top:12px;right:14px;z-index:2}'+
-  '.st{margin-top:14px;font-size:13px}.prog{height:4px;background:rgba(255,255,255,.06);border-radius:9px;overflow:hidden;margin-top:8px}'+
-  '.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cy),var(--vi));box-shadow:0 0 12px var(--cy);transition:width .25s}'+
-  '.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:18px 0}'+
-  '.k{padding:14px 16px;border-radius:14px;background:var(--card);border:1px solid var(--line);position:relative;overflow:hidden}'+
-  '.k:before{content:"";position:absolute;inset:0 0 auto;height:2px;background:linear-gradient(90deg,var(--c,var(--cy)),transparent)}'+
-  '.k b{display:block;font:600 30px/1.1 "JetBrains Mono",ui-monospace,monospace;color:var(--c,var(--cy));text-shadow:0 0 18px currentColor}'+
-  '.k span{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}'+
-  '.flt{width:100%;margin-bottom:14px}'+
-  'details{margin-bottom:12px;border-radius:14px;background:var(--card);border:1px solid var(--line);overflow:hidden}'+
-  'details[open]{border-color:rgba(34,228,255,.3)}'+
-  'summary{cursor:pointer;list-style:none;padding:14px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}summary::-webkit-details-marker{display:none}'+
-  'summary strong{font-weight:600;letter-spacing:.02em}.rg{font-size:12px;color:var(--mut)}'+
-  '.c{margin-left:auto;min-width:28px;text-align:center;font:600 13px "JetBrains Mono",monospace;color:#051018;background:var(--cy);border-radius:99px;padding:1px 9px;box-shadow:0 0 12px rgba(34,228,255,.5)}'+
-  '.p{padding:14px 16px;border-top:1px solid rgba(255,255,255,.06);position:relative}'+
-  '.p:before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:2px;background:linear-gradient(var(--vi),transparent)}'+
-  '.m{font-size:12px;color:var(--mut)}.m .d{color:var(--cy)}'+
-  '.p a{display:inline-block;margin:3px 0 6px;color:#fff;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(34,228,255,.4)}.p a:hover{color:var(--cy)}'+
-  '.p p{margin:8px 0 0;font-size:14px;color:#b4c2d6}'+
-  '.t{display:inline-block;font:600 10px/1 "JetBrains Mono",monospace;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:4px 7px;margin-right:6px;border:1px solid}'+
-  '.ok{color:var(--gr);border-color:rgba(52,245,160,.4);background:rgba(52,245,160,.08)}'+
-  '.av{color:var(--am);border-color:rgba(255,200,87,.4);background:rgba(255,200,87,.08)}'+
-  '.tm{color:var(--cy);border-color:rgba(34,228,255,.4);background:rgba(34,228,255,.08)}'+
-  '.nv{color:var(--pk);border-color:rgba(255,77,141,.45);background:rgba(255,77,141,.1)}'+
-  'mark{background:rgba(34,228,255,.18);color:#fff;border-radius:3px;padding:0 2px}'+
-  'textarea{width:100%;height:240px;font:13px/1.5 "JetBrains Mono",monospace}'+
-  '.empty{text-align:center;padding:40px 16px;color:var(--mut)}'+
-  '.foot{margin-top:26px;font-size:12px;color:var(--mut)}'+
-  '.copy{text-align:center;font-size:13px;color:var(--mut);letter-spacing:.04em;padding:28px 0 6px;margin-top:36px;border-top:1px solid var(--line)}'+
-  '</style><div class="w'+(overlay?' ov':'')+'"><div class="in">'+
-  (overlay?'<button class="sec x" id="fechar">✕ Fechar</button>':'')+
-  '<div class="eyebrow mono"><span class="dot"></span>Gerenciar Publicações</div>'+
-  '<h1>Pesquisar no Diário Oficial</h1><div class="mut">Procura por cada servidor da nossa unidade escolar em DOE</div>'+
-  '<div class="panel"><div class="bar"><label>Data inicial<input type="date" id="ini"></label><label>Data final<input type="date" id="fim"></label>'+
-  '<button class="pri" id="go">Iniciar busca</button><span class="sp"></span><button class="sec" id="csv" disabled>⬇ Planilha</button><button class="sec" id="edt">Lista de servidores</button></div>'+
-  '<div id="ed" style="display:none;margin-top:14px"><div class="mut" style="font-size:13px;margin-bottom:6px">Um item por linha: <span class="mono">NOME;RG</span> para servidores, ou só o texto (ex.: <span class="mono">nome da escola</span>) para termos sem RG. Você também pode importar um arquivo .txt ou .csv.</div><textarea id="ta" spellcheck="false"></textarea>'+
-  '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="pri" id="salvar">Salvar lista</button><button class="sec" id="imp">Importar arquivo</button><input type="file" id="arq" accept=".txt,.csv" style="display:none"></div></div>'+
-  '<div class="st mono mut" id="stat"></div><div class="prog"><i id="pb"></i></div></div><div id="res"></div><div class="copy">© 2026 - Edilson Gomes Vieira</div></div></div>';
+  root.innerHTML='<style>:host{all:initial;display:block}*{box-sizing:border-box;margin:0;padding:0}.w{--blue:#0a6cff;--blue-soft:#eaf2ff;--ink:#0b1b3a;--text:#3b4a63;--muted:#6c7a91;--line:#e5ebf4;--bg2:#f5f8fd;--grad:linear-gradient(135deg,#0a6cff 0%,#00b4ff 100%);--shadow:0 10px 30px -12px rgba(10,60,140,.18);--shadow-lg:0 30px 60px -20px rgba(10,80,200,.35);font-family:"Inter",system-ui,"Segoe UI",sans-serif;color:var(--text);background:#fff;-webkit-font-smoothing:antialiased;min-height:100%}h1,h2,h3,button,.brand,.k b{font-family:"Poppins","Inter",sans-serif}.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}.nav{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px;gap:16px}.brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:1.12rem;color:var(--ink)}.brand b{color:var(--blue)}.logo{width:40px;height:40px;border-radius:11px;background:var(--grad);display:grid;place-items:center;box-shadow:0 8px 18px -6px rgba(10,108,255,.6)}.hero{position:relative;overflow:hidden;background:linear-gradient(180deg,#f3f8ff 0%,#fff 100%)}.hero:before{content:"";position:absolute;width:620px;height:620px;right:-160px;top:-200px;border-radius:50%;background:radial-gradient(circle,rgba(0,180,255,.18),transparent 65%)}.hero:after{content:"";position:absolute;width:420px;height:420px;left:-180px;bottom:-220px;border-radius:50%;background:radial-gradient(circle,rgba(10,108,255,.12),transparent 65%)}.hero .wrap{position:relative;z-index:1;padding-top:clamp(36px,6vh,60px);padding-bottom:clamp(36px,6vh,56px)}.badge{display:inline-flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);padding:7px 16px 7px 8px;border-radius:999px;font-size:.86rem;font-weight:500;color:var(--ink);margin-bottom:20px}.badge .dot{width:26px;height:26px;border-radius:50%;background:var(--grad);display:grid;place-items:center;color:#fff;font-size:.8rem}h1{font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.2;font-weight:700;color:var(--ink);letter-spacing:-.5px}.hl{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}.lead{margin-top:12px;font-size:1.04rem;line-height:1.7;color:var(--text)}.panel{margin-top:28px;padding:22px;border-radius:20px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}.bar{display:flex;flex-wrap:wrap;gap:12px;align-items:end}.bar label{display:flex;flex-direction:column;gap:6px;font-size:.78rem;font-weight:600;color:var(--muted)}input,textarea{font:400 .94rem "Inter",sans-serif;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:10px 14px;outline:none;transition:.2s}input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(10,108,255,.1)}button{height:44px;padding:0 22px;border-radius:999px;border:0;cursor:pointer;font-weight:500;font-size:.9rem;display:inline-flex;align-items:center;gap:8px;transition:.25s;white-space:nowrap}button.pri{background:var(--grad);color:#fff;box-shadow:0 10px 24px -8px rgba(10,108,255,.6)}button.pri:hover{transform:translateY(-2px);box-shadow:0 14px 30px -8px rgba(10,108,255,.7)}button.sec{background:#fff;color:var(--ink);border:1.5px solid var(--line)}button.sec:hover{border-color:var(--blue);color:var(--blue)}button:disabled{opacity:.45;cursor:default;transform:none!important}.sp{flex:1}.st{margin-top:16px;font-size:.86rem;color:var(--muted)}.prog{height:6px;background:var(--bg2);border-radius:9px;overflow:hidden;margin-top:8px}.prog i{display:block;height:100%;width:0;background:var(--grad);border-radius:9px;transition:width .25s}.res{background:var(--bg2);padding:clamp(32px,6vh,56px) 0;min-height:80px}.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-bottom:26px}.k{padding:20px 22px;border-radius:18px;background:#fff;border:1px solid var(--line);box-shadow:0 4px 14px -8px rgba(10,60,140,.12);display:flex;align-items:center;gap:14px}.k .ki{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--t);color:var(--c);flex:none;font-size:1.2rem}.k b{display:block;font-size:1.6rem;font-weight:700;color:var(--ink);line-height:1.1}.k span{font-size:.8rem;color:var(--muted)}.flt{width:100%;margin-bottom:18px}details{margin-bottom:16px;border-radius:20px;background:#fff;border:1px solid var(--line);box-shadow:0 4px 14px -8px rgba(10,60,140,.12);overflow:hidden;animation:rise .45s both}@keyframes rise{from{opacity:0;transform:translateY(12px)}}summary{cursor:pointer;list-style:none;padding:18px 22px;display:flex;gap:14px;align-items:center}.nm{flex:1;min-width:0;display:flex;flex-wrap:wrap;column-gap:12px;align-items:baseline}summary::-webkit-details-marker{display:none}.av0{width:42px;height:42px;border-radius:12px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;font:600 .9rem "Poppins",sans-serif;flex:none}summary strong{font:600 1rem "Poppins",sans-serif;color:var(--ink)}.rg{font-size:.8rem;color:var(--muted)}.c{flex:none;min-width:32px;height:28px;display:grid;place-items:center;font:600 .82rem "Poppins",sans-serif;color:#fff;background:var(--grad);border-radius:99px;padding:0 10px}.p{padding:16px 22px 18px;border-top:1px solid var(--line)}.m{font-size:.78rem;color:var(--muted)}.m .d{color:var(--blue);font-weight:600}.p a{display:inline-flex;align-items:center;gap:6px;margin:4px 0 8px;color:var(--ink);font:600 .98rem "Poppins",sans-serif;text-decoration:none;transition:.2s}.p a:hover{color:var(--blue)}.p p{margin-top:10px;font-size:.9rem;line-height:1.6;color:var(--text);background:var(--bg2);border-radius:12px;padding:10px 14px}.t{display:inline-block;font:600 .7rem "Poppins",sans-serif;letter-spacing:.3px;text-transform:uppercase;border-radius:999px;padding:4px 10px;margin-right:6px}.ok{color:#047857;background:#e5f7f0}.av{color:#b45309;background:#fff1e6}.tm{color:#0a6cff;background:#eaf2ff}.nv{color:#be123c;background:#fdebef}mark{background:#dbe9ff;color:var(--ink);border-radius:4px;padding:0 3px;font-weight:600}textarea{width:100%;height:240px;font:13px/1.5 ui-monospace,Consolas,monospace;resize:vertical}.empty{text-align:center;padding:36px 16px;color:var(--muted);background:#fff;border-radius:20px;border:1px solid var(--line)}.foot{margin-top:22px;font-size:.8rem;color:var(--muted);text-align:center}footer{background:var(--ink);color:#a9b6cc;font-size:.85rem;text-align:center;padding:26px 16px}footer b{color:#fff;font-weight:600}.x{margin-left:auto}@media(max-width:640px){.nav .lbl{display:none}.brand{font-size:1rem}}</style>'+
+  '<div class="w">'+'<nav class="nav"><div class="wrap"><div class="brand"><div class="logo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></div><span>Diário <b>Oficial</b></span></div>'+(overlay?'<button class="sec" id="fechar">✕ <span class="lbl">Fechar</span></button>':'<a href="portal-servidores.html" style="text-decoration:none"><button class="sec">← <span class="lbl">Voltar ao portal</span></button></a>')+'</div></nav>'+'<header class="hero"><div class="wrap">'+'<div class="badge"><span class="dot">✦</span>Gerenciar Publicações</div>'+'<h1>Pesquisar no <span class="hl">Diário Oficial</span></h1><p class="lead">Procura por cada servidor da nossa unidade escolar em DOE</p>'+'<div class="panel"><div class="bar"><label>Data inicial<input type="date" id="ini"></label><label>Data final<input type="date" id="fim"></label>'+'<button class="pri" id="go">Iniciar busca <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><span class="sp"></span>'+'<button class="sec" id="csv" disabled>⬇ Planilha</button><button class="sec" id="edt">Lista de servidores</button></div>'+'<div id="ed" style="display:none;margin-top:16px"><div style="font-size:.85rem;color:var(--muted);margin-bottom:8px">Um item por linha: <b>NOME;RG</b> para servidores, ou só o texto (ex.: <b>nome da escola</b>) para termos sem RG. Você também pode importar um arquivo .txt ou .csv.</div><textarea id="ta" spellcheck="false"></textarea>'+'<div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap"><button class="pri" id="salvar">Salvar lista</button><button class="sec" id="imp">Importar arquivo</button><input type="file" id="arq" accept=".txt,.csv" style="display:none"></div></div>'+'<div class="st" id="stat"></div><div class="prog"><i id="pb"></i></div></div>'+'</div></header>'+'<section class="res"><div class="wrap" id="res"></div></section>'+'<footer>© 2026 - <b>Edilson Gomes Vieira</b></footer></div>';
   var $=function(id){return root.getElementById?root.getElementById(id):root.querySelector('#'+id)};
   if(overlay)$('fechar').onclick=function(){host.remove()};
   $('ini').value=lsGet('ini',iso(new Date(Date.now()-30*864e5)));$('fim').value=iso(new Date());
-  function contar(){var n=lista().length;$('stat').textContent=n?'> '+n+' itens na lista. pronto.':'> lista vazia: clique em "Lista de servidores" para colar ou importar os nomes.';$('go').disabled=!n}
+  function contar(){var n=lista().length;$('stat').textContent=n?n+' itens na lista. Escolha o período e clique em Iniciar busca.':'Lista vazia: clique em "Lista de servidores" para colar ou importar os nomes.';$('go').disabled=!n}
   $('edt').onclick=function(){var e=$('ed');e.style.display=e.style.display==='none'?'block':'none';$('ta').value=lista().map(function(s){return s.nome+';'+s.rg}).join('\n')};
   $('salvar').onclick=function(){lsSet('lista_v3',$('ta').value);$('ed').style.display='none';contar()};
   $('imp').onclick=function(){$('arq').click()};
@@ -260,7 +198,7 @@ WILLIANS RODRIGO CALIXTO;33381672`;
       }catch(e){erros.push(s.nome)}
       if(achados.length)res.push({s:s,pubs:achados});
       feitos++;$('pb').style.width=(100*feitos/servs.length)+'%';
-      $('stat').textContent='> varrendo '+feitos+'/'+servs.length+' · '+s.nome.toLowerCase();
+      $('stat').textContent='Pesquisando '+feitos+' de '+servs.length+' · '+s.nome;
     }
     var fila=servs.slice();
     await Promise.all([0,1,2].map(async function(){while(fila.length)await um(fila.shift())}));
@@ -275,21 +213,21 @@ WILLIANS RODRIGO CALIXTO;33381672`;
   }
   function render(res,ini,fim,erros){
     var tot=0,nov=0,conf=0;res.forEach(function(r){tot+=r.pubs.length;r.pubs.forEach(function(p){if(p.novo)nov++;if(p.rg)conf++})});
-    $('stat').textContent='> concluído · '+fData(ini)+' → '+fData(fim)+' · '+new Date().toLocaleString('pt-BR')+(erros.length?' · falhou: '+erros.join(', '):'');
-    var h='<div class="kpis"><div class="k"><b>'+res.length+'</b><span>nomes e termos citados</span></div>'+
-      '<div class="k" style="--c:#c4b0ff"><b>'+tot+'</b><span>publicações</span></div>'+
-      '<div class="k" style="--c:#34f5a0"><b>'+conf+'</b><span>com RG confirmado</span></div>'+
-      '<div class="k" style="--c:#ff4d8d"><b>'+nov+'</b><span>novas desde a última busca</span></div></div>';
+    $('stat').textContent='Busca concluída · período '+fData(ini)+' a '+fData(fim)+' · '+new Date().toLocaleString('pt-BR')+(erros.length?' · falhou: '+erros.join(', '):'');
+    var h='<div class="kpis"><div class="k" style="--c:#0a6cff;--t:#eaf2ff"><div class="ki">👤</div><div><b>'+res.length+'</b><span>nomes e termos citados</span></div></div>'+
+      '<div class="k" style="--c:#7c3aed;--t:#f1eafe"><div class="ki">📰</div><div><b>'+tot+'</b><span>publicações</span></div></div>'+
+      '<div class="k" style="--c:#10b981;--t:#e5f7f0"><div class="ki">✔</div><div><b>'+conf+'</b><span>com RG confirmado</span></div></div>'+
+      '<div class="k" style="--c:#e11d48;--t:#fdebef"><div class="ki">★</div><div><b>'+nov+'</b><span>novas desde a última busca</span></div></div></div>';
     if(!res.length){$('res').innerHTML=h+'<div class="panel empty">Nenhuma publicação encontrada para a lista no período.</div>';return}
     h+='<input class="flt" id="flt" placeholder="Filtrar por nome ou palavra (ex.: licença, designação)…">';
     h+='<div id="lst">'+res.map(function(r){
       var ps=r.pubs.slice().sort(function(a,b){return a.data<b.data?1:-1});
-      return '<details open><summary><strong>'+esc(r.s.nome)+'</strong>'+(r.s.rg?'<span class="rg mono">RG '+esc(r.s.rg)+'</span>':'<span class="rg mono">termo</span>')+'<span class="c">'+ps.length+'</span></summary>'+
-      ps.map(function(p){return '<div class="p"><div class="m mono"><span class="d">'+fData(p.data)+'</span> · '+esc(p.hier)+'</div>'+
-        '<a href="'+esc(p.link)+'" target="_blank" rel="noopener">'+esc(p.titulo)+' ↗</a><div>'+
+      return '<details open><summary><span class="av0">'+esc(r.s.nome.split(' ').filter(Boolean).slice(0,2).map(function(x){return x[0]}).join(''))+'</span><span class="nm"><strong>'+esc(r.s.nome)+'</strong>'+(r.s.rg?'<span class="rg">RG '+esc(r.s.rg)+'</span>':'<span class="rg">termo</span>')+'</span><span class="c">'+ps.length+'</span></summary>'+
+      ps.map(function(p){return '<div class="p"><div class="m"><span class="d">'+fData(p.data)+'</span> · '+esc(p.hier)+'</div>'+
+        '<a href="'+esc(p.link)+'" target="_blank" rel="noopener">'+esc(p.titulo)+' <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M8 7h9v9"/></svg></a><div>'+
         (p.novo?'<span class="t nv">novo</span>':'')+(p.rg===null?'<span class="t tm">termo pesquisado</span>':p.rg?'<span class="t ok">RG confere</span>':'<span class="t av">conferir · possível homônimo</span>')+
         '</div><p>'+realca(p.trecho,r.s.nome)+'</p></div>'}).join('')+'</details>'}).join('')+'</div>';
-    h+='<div class="foot mono">RG confere = o RG aparece no texto · conferir = só o nome bate · novo = não apareceu nas buscas anteriores deste navegador · fonte: doe.sp.gov.br</div>';
+    h+='<div class="foot">RG confere = o RG aparece no texto · conferir = só o nome bate · novo = não apareceu nas buscas anteriores deste navegador · fonte: doe.sp.gov.br</div>';
     $('res').innerHTML=h;
     $('flt').oninput=function(e){var q=norm(e.target.value).trim();root.querySelectorAll('#lst details').forEach(function(d){d.style.display=norm(d.textContent).indexOf(q)>=0?'':'none'})};
   }
@@ -306,14 +244,14 @@ WILLIANS RODRIGO CALIXTO;33381672`;
 
 (function(){
   var bm='(function(){var o=document.getElementById("doeMonitorOverlay");if(o){o.remove()}o=document.createElement("div");o.id="doeMonitorOverlay";'+
-    'o.style.cssText="position:fixed;inset:0;z-index:2147483647;overflow:auto;background:#060a13";document.body.appendChild(o);('+DOEApp.toString()+')(o,true)})()';
+    'o.style.cssText="position:fixed;inset:0;z-index:2147483647;overflow:auto;background:#fff";document.body.appendChild(o);('+DOEApp.toString()+')(o,true)})()';
   var l=document.getElementById('bmlink');l.href='javascript:'+encodeURIComponent(bm);
   l.onclick=function(e){e.preventDefault();alert('Arraste este botão para a barra de favoritos (não clique aqui).')};
   function show(id){['st-test','st-ok','st-bm'].forEach(function(x){document.getElementById(x).classList.toggle('show',x===id)})}
   fetch('https://do-api-web-search.doe.sp.gov.br/v2/advanced-search/publications?PageNumber=1&PageSize=1&Terms%5B0%5D=educacao',{headers:{Accept:'application/json'}})
     .then(function(r){if(!r.ok)throw 0;return r.json()})
     .then(function(){show('st-ok');DOEApp(document.getElementById('app'),false)})
-    .catch(function(){show('st-bm');var f=document.createElement('div');f.textContent='© 2026 - Edilson Gomes Vieira';f.style.cssText='text-align:center;color:#8394ad;font-size:13px;padding:40px 16px 24px';document.body.appendChild(f)});
+    .catch(function(){show('st-bm');var f=document.createElement('div');f.textContent='© 2026 - Edilson Gomes Vieira';f.style.cssText='text-align:center;background:#0b1b3a;color:#a9b6cc;font-size:.85rem;padding:26px 16px;margin-top:auto';document.body.appendChild(f)});
 })();
 </script>
 </body>
