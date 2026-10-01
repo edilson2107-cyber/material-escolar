@@ -3,129 +3,145 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel de Frequência Escolar</title>
+<title>Painel de frequência</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --navy:#222B35;
-    --navy-soft:#3A4655;
-    --paper:#F4F5F6;
-    --paper-line:#E4E7E9;
+    --bg:#F7F9F6;
+    --paper-dot:rgba(34,43,53,0.06);
     --card:#FFFFFF;
-    --ink:#20272E;
-    --muted:#6B747C;
-    --gold:#FFE529;
-    --gold-ink:#5C5000;
-    --green:#2E7D52;
-    --green-bg:#E4F1E9;
-    --amber:#B9791F;
-    --amber-bg:#FBEEDA;
-    --red:#B23A3A;
-    --red-bg:#FBE7E5;
-    --line:#DCE0E3;
+    --navy:#222B35;
+    --navy-soft:#4A5768;
+    --muted:#73808E;
+    --line:#E7ECE6;
+    --yellow:#FFE529;
+    --yellow-ink:#6B5900;
+    --yellow-bg:#FFF8D6;
+    --coral:#FF6B6B;
+    --coral-bg:#FFE9E9;
+    --coral-ink:#C23A3A;
+    --teal:#2BBE9E;
+    --teal-bg:#E1F7F1;
+    --teal-ink:#1A8F75;
+    --sky:#4EA1E8;
+    --sky-bg:#E7F3FD;
+    --sky-ink:#2C74B3;
+    --amber:#FFA94D;
+    --amber-bg:#FFF0DD;
+    --amber-ink:#B36A17;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:var(--paper);
-    background-image:
-      linear-gradient(var(--paper-line) 1px, transparent 1px);
-    background-size: 100% 42px;
-    color:var(--ink);
-    font-family:'Inter',sans-serif;
+    background:
+      radial-gradient(900px 420px at 100% -8%, rgba(78,161,232,0.10), transparent 60%),
+      radial-gradient(800px 420px at -5% 15%, rgba(255,229,41,0.14), transparent 60%),
+      radial-gradient(700px 500px at 50% 115%, rgba(43,190,158,0.08), transparent 60%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--navy);
+    font-family:'Nunito',sans-serif;
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
+    position:relative;
   }
-  .wrap{max-width:1100px;margin:0 auto;padding:28px 20px 80px;}
+  body::before{
+    content:'';
+    position:fixed;inset:0;
+    background-image:radial-gradient(var(--paper-dot) 1.4px, transparent 1.4px);
+    background-size:26px 26px;
+    pointer-events:none;
+    mask-image:radial-gradient(circle at 15% 0%, black, transparent 72%);
+    z-index:0;
+  }
+  .display{font-family:'Baloo 2',sans-serif;}
+  .wrap{max-width:1180px;margin:0 auto;padding:36px 20px 90px;position:relative;z-index:1;}
 
   /* header */
-  header{margin-bottom:22px;}
-  .eyebrow{
-    display:inline-block;
-    font-family:'Inter',sans-serif;
-    font-size:12.5px;
-    color:var(--navy);
-    background:var(--gold);
-    font-weight:700;
-    letter-spacing:.02em;
-    padding:5px 12px;
-    border-radius:999px;
-    margin:0 0 12px;
-  }
+  header{margin-bottom:28px;}
   h1{
-    font-family:'Fraunces',serif;
-    font-weight:600;
-    font-size:clamp(28px,4.5vw,40px);
-    margin:0 0 6px;
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    font-size:clamp(32px,5vw,46px);
+    margin:0 0 10px;
     color:var(--navy);
     letter-spacing:-0.01em;
   }
-  .sub{color:var(--muted);font-size:15px;margin:0;max-width:60ch;}
+  .title-rule{
+    width:min(220px,55%);
+    height:8px;
+    margin:0 0 20px;
+    border-radius:8px;
+    background:linear-gradient(90deg, var(--yellow) 0%, var(--coral) 50%, var(--teal) 100%);
+    transform-origin:left;
+    animation:draw-rule 1s cubic-bezier(.65,0,.35,1) both;
+  }
+  @keyframes draw-rule{ from{transform:scaleX(0);} to{transform:scaleX(1);} }
+  @media (prefers-reduced-motion: reduce){ .title-rule{animation:none;} }
+  .sub{
+    color:var(--navy-soft);
+    font-size:16.5px;
+    margin:0;
+    max-width:62ch;
+    line-height:1.55;
+    font-weight:600;
+    background:var(--yellow-bg);
+    border:1.5px solid rgba(255,229,41,0.6);
+    border-radius:14px;
+    padding:13px 18px;
+    display:inline-block;
+  }
 
   /* controls */
-  .controls{
-    margin-top:22px;
+  .console{
+    margin-top:26px;
+    background:var(--card);
+    border:1px solid var(--line);
+    box-shadow:0 10px 30px rgba(34,43,53,0.06);
+    border-radius:20px;
+    padding:18px 20px;
     display:flex;
-    flex-direction:column;
-    gap:14px;
+    gap:18px;
+    flex-wrap:wrap;
+    align-items:flex-end;
   }
-  .turma-mes-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .field{display:flex;flex-direction:column;gap:7px;}
+  .field label{font-size:12.5px;color:var(--muted);font-weight:700;}
   select{
-    appearance:none;
-    -webkit-appearance:none;
-    background:var(--card) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' stroke='%231F3049' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right 14px center;
-    border:1.5px solid var(--line);
-    border-radius:10px;
-    padding:10px 38px 10px 14px;
-    font-family:'Inter',sans-serif;
-    font-weight:600;
-    font-size:15px;
+    appearance:none;-webkit-appearance:none;
+    background:#FAFBF9 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' stroke='%23222B35' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") no-repeat right 14px center;
+    border:2px solid var(--line);
+    border-radius:12px;
+    padding:11px 38px 11px 14px;
+    font-family:'Nunito',sans-serif;
+    font-weight:700;
+    font-size:14.5px;
     color:var(--navy);
     cursor:pointer;
+    min-width:170px;
   }
-  .search-box{
-    margin-left:auto;
-    position:relative;
-    min-width:220px;
-    flex:1 1 220px;
-  }
+  select:focus,input:focus{outline:3px solid var(--yellow);outline-offset:1px;}
+  .field-search{flex:1 1 240px;}
+  .search-box{position:relative;}
+  .search-box svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.55;}
   .search-box input{
     width:100%;
-    padding:10px 14px 10px 36px;
-    border-radius:10px;
-    border:1.5px solid var(--line);
-    background:var(--card);
-    font-family:'Inter',sans-serif;
-    font-size:15px;
-    color:var(--ink);
+    padding:11px 14px 11px 38px;
+    border-radius:12px;
+    border:2px solid var(--line);
+    background:#FAFBF9;
+    font-family:'Nunito',sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    color:var(--navy);
   }
-  .search-box input:focus{outline:2px solid var(--navy-soft);outline-offset:1px;}
-  .search-box svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.45;}
-
-  .search-result{
-    margin-top:16px;
-    background:var(--navy);
-    color:#fff;
-    border-radius:14px;
-    padding:20px 22px;
-  }
-  .search-result .sr-name{
-    font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin-bottom:2px;
-  }
-  .search-result .sr-turma{font-size:13px;color:#C7CFD6;margin-bottom:16px;}
-  .search-result .sr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-  @media (max-width:640px){ .search-result .sr-grid{grid-template-columns:1fr;} }
-  .search-result .sr-box{background:rgba(255,255,255,.07);border-radius:10px;padding:14px 16px;}
-  .search-result .sr-box .sr-label{font-size:12px;color:#B9C2CA;font-weight:600;margin-bottom:6px;}
-  .search-result .sr-box .sr-pct{font-family:'Fraunces',serif;font-size:28px;font-weight:600;color:var(--gold);}
-  .search-result .sr-box .sr-num{font-size:12.5px;color:#C7CFD6;margin-top:2px;}
-  .search-result .sr-multi{font-size:12px;color:#B9C2CA;margin-top:14px;}
-  .search-result .sr-multi b{color:#fff;}
+  .search-box input::placeholder{color:#A8B0B8;}
 
   /* KPI cards */
   .kpis{
-    margin-top:26px;
+    margin-top:18px;
     display:grid;
     grid-template-columns:repeat(4,1fr);
     gap:12px;
@@ -134,149 +150,198 @@
   .kpi{
     background:var(--card);
     border:1px solid var(--line);
-    border-radius:14px;
+    border-radius:16px;
     padding:18px 18px 16px;
+    box-shadow:0 8px 20px rgba(34,43,53,0.05);
+    position:relative;
+    overflow:hidden;
   }
+  .kpi::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:5px;
+    background:var(--sky);
+  }
+  .kpi.kpi-pct::before{background:var(--teal);}
+  .kpi.kpi-faltas::before{background:var(--amber);}
+  .kpi.kpi-risco::before{background:var(--coral);}
   .kpi .num{
-    font-family:'Fraunces',serif;
+    font-family:'Baloo 2',sans-serif;
     font-size:32px;
-    font-weight:600;
+    font-weight:700;
     color:var(--navy);
     line-height:1;
+    margin-top:4px;
   }
-  .kpi .num.warn{color:var(--red);}
+  .kpi .num.warn{color:var(--coral-ink);}
   .kpi .label{
-    margin-top:6px;
-    font-size:13.5px;
+    margin-top:8px;
+    font-size:13px;
     color:var(--muted);
-    font-weight:500;
+    font-weight:700;
   }
 
   /* highlight cards */
   .highlights{
-    margin-top:16px;
+    margin-top:12px;
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:12px;
   }
   @media (max-width:640px){ .highlights{grid-template-columns:1fr;} }
   .hl-card{
-    border-radius:14px;
+    border-radius:16px;
     padding:18px 20px;
     border:1px solid var(--line);
     background:var(--card);
+    box-shadow:0 8px 20px rgba(34,43,53,0.05);
     display:flex;
     align-items:center;
     gap:14px;
     cursor:pointer;
+    transition:transform .15s, box-shadow .15s;
   }
-  .hl-card .icon{
-    width:44px;height:44px;border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-    font-size:20px;flex:0 0 auto;
-  }
-  .hl-card.faltoso .icon{background:var(--red-bg);color:var(--red);}
-  .hl-card.presente .icon{background:var(--green-bg);color:var(--green);}
-  .hl-card .tag{font-size:12.5px;color:var(--muted);font-weight:600;margin-bottom:2px;}
-  .hl-card .name{font-weight:700;font-size:15.5px;color:var(--ink);}
-  .hl-card .detail{font-size:13.5px;color:var(--muted);margin-top:2px;}
-  .hl-empty{color:var(--muted);font-size:14px;padding:6px 0;}
+  .hl-card:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(34,43,53,0.09);}
+  .hl-card .ring-mini{flex:0 0 auto;}
+  .hl-card .tag{font-size:12.5px;color:var(--muted);font-weight:700;margin-bottom:3px;}
+  .hl-card .name{font-weight:800;font-size:15.5px;color:var(--navy);}
+  .hl-card .detail{font-size:13px;color:var(--navy-soft);margin-top:2px;font-weight:600;}
 
   /* table */
-  .table-section{margin-top:28px;}
+  .table-section{margin-top:26px;}
   .table-head-row{
     display:flex;justify-content:space-between;align-items:baseline;
-    margin-bottom:10px;flex-wrap:wrap;gap:8px;
+    margin-bottom:12px;flex-wrap:wrap;gap:8px;
   }
   h2{
-    font-family:'Fraunces',serif;
-    font-size:21px;font-weight:600;color:var(--navy);margin:0;
+    font-family:'Baloo 2',sans-serif;
+    font-size:21px;font-weight:700;color:var(--navy);margin:0;
   }
-  .sort-hint{font-size:13px;color:var(--muted);}
+  .sort-hint{font-size:12.5px;color:var(--muted);font-weight:600;}
   .table-scroll{
     background:var(--card);
     border:1px solid var(--line);
-    border-radius:14px;
+    border-radius:18px;
     overflow:hidden;
+    box-shadow:0 8px 20px rgba(34,43,53,0.05);
   }
-  table{width:100%;border-collapse:collapse;font-size:14.5px;}
+  table{width:100%;border-collapse:collapse;font-size:14px;}
   thead th{
     text-align:left;
-    font-weight:700;
-    color:var(--navy);
+    font-weight:800;
+    color:var(--navy-soft);
     padding:13px 14px;
     border-bottom:2px solid var(--line);
-    background:#F7F9F8;
+    background:#FBFCFA;
     cursor:pointer;
     user-select:none;
     white-space:nowrap;
+    font-size:12.5px;
   }
-  thead th span.arrow{opacity:.4;font-size:11px;margin-left:3px;}
-  thead th.active-sort span.arrow{opacity:1;color:var(--gold);}
-  tbody tr{border-bottom:1px solid var(--paper-line);cursor:pointer;}
-  tbody tr:hover{background:#F7FAF8;}
+  thead th span.arrow{opacity:.4;font-size:10px;margin-left:3px;}
+  thead th.active-sort{color:var(--sky-ink);}
+  thead th.active-sort span.arrow{opacity:1;}
+  tbody tr{border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s;}
+  tbody tr:hover{background:#FBFBF4;}
   tbody tr:last-child{border-bottom:none;}
-  td{padding:11px 14px;vertical-align:middle;}
-  td.pos{color:var(--muted);font-variant-numeric:tabular-nums;width:34px;}
-  td.name{font-weight:600;color:var(--ink);}
-  td.turma-col{color:var(--muted);font-size:13.5px;}
-  td.pct{font-weight:700;font-variant-numeric:tabular-nums;}
+  td{padding:12px 14px;vertical-align:middle;}
+  td.pos{color:#B7BEC4;font-weight:700;font-size:12.5px;width:30px;}
+  td.name{font-weight:700;color:var(--navy);}
+  td.turma-col{color:var(--muted);font-size:13px;font-weight:600;}
+  td.pct{font-weight:800;font-family:'Baloo 2',sans-serif;}
   .status-pill{
-    display:inline-block;padding:4px 11px;border-radius:999px;
-    font-size:12.5px;font-weight:700;
+    display:inline-flex;align-items:center;gap:6px;
+    padding:4px 11px 4px 9px;border-radius:999px;
+    font-size:12px;font-weight:800;
   }
-  .status-REGULAR{background:var(--green-bg);color:var(--green);}
-  .status-ATENÇÃO{background:var(--amber-bg);color:var(--amber);}
-  .status-RISCO{background:var(--red-bg);color:var(--red);}
-  td.obs{color:var(--muted);font-size:13.5px;max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .empty-state{padding:40px 20px;text-align:center;color:var(--muted);}
+  .status-pill .sdot{width:6px;height:6px;border-radius:50%;}
+  .status-REGULAR{background:var(--teal-bg);color:var(--teal-ink);}
+  .status-REGULAR .sdot{background:var(--teal);}
+  .status-ATENÇÃO{background:var(--amber-bg);color:var(--amber-ink);}
+  .status-ATENÇÃO .sdot{background:var(--amber);}
+  .status-RISCO{background:var(--coral-bg);color:var(--coral-ink);}
+  .status-RISCO .sdot{background:var(--coral);}
+  td.obs{color:var(--navy-soft);font-size:13px;font-weight:600;max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .empty-state{padding:44px 20px;text-align:center;color:var(--muted);font-size:14px;font-weight:600;}
+
+  /* global search result */
+  .search-result{
+    margin-top:18px;
+    background:linear-gradient(135deg, var(--yellow-bg), var(--teal-bg));
+    border:1.5px solid rgba(255,229,41,0.5);
+    border-radius:18px;
+    padding:22px 24px;
+  }
+  .search-result .sr-top{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:18px;}
+  .search-result .sr-name{font-family:'Baloo 2',sans-serif;font-size:21px;font-weight:700;color:var(--navy);}
+  .search-result .sr-turma{font-size:13px;color:var(--navy-soft);margin-top:2px;font-weight:600;}
+  .search-result .sr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  @media (max-width:640px){ .search-result .sr-grid{grid-template-columns:1fr;} }
+  .search-result .sr-box{background:rgba(255,255,255,0.75);border:1px solid rgba(34,43,53,0.08);border-radius:14px;padding:14px 16px;}
+  .search-result .sr-box .sr-label{font-size:11.5px;color:var(--navy-soft);font-weight:800;margin-bottom:8px;}
+  .search-result .sr-box .sr-pct{font-family:'Baloo 2',sans-serif;font-size:27px;font-weight:700;color:var(--navy);}
+  .search-result .sr-box .sr-num{font-size:12.5px;color:var(--navy-soft);margin-top:3px;font-weight:600;}
+  .search-result .sr-multi{font-size:12.5px;color:var(--navy-soft);margin-top:14px;font-weight:600;}
+  .search-result .sr-multi b{color:var(--navy);}
+
+  /* ring */
+  .ring{position:relative;display:inline-flex;align-items:center;justify-content:center;}
+  .ring svg{transform:rotate(-90deg);}
+  .ring .ring-val{position:absolute;font-family:'Baloo 2',sans-serif;font-weight:700;}
 
   /* modal */
   .overlay{
-    position:fixed;inset:0;background:rgba(20,26,22,.45);
+    position:fixed;inset:0;background:rgba(34,43,53,.45);
     display:none;align-items:center;justify-content:center;padding:20px;z-index:50;
   }
   .overlay.open{display:flex;}
   .modal{
-    background:var(--card);border-radius:18px;max-width:420px;width:100%;
-    padding:28px 26px 24px;position:relative;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:22px;max-width:440px;width:100%;
+    padding:30px 28px 26px;position:relative;
+    box-shadow:0 24px 60px rgba(34,43,53,.22);
   }
   .modal .close{
-    position:absolute;top:14px;right:16px;border:none;background:none;
-    font-size:22px;color:var(--muted);cursor:pointer;line-height:1;
+    position:absolute;top:16px;right:18px;border:none;background:#F2F4F0;
+    width:30px;height:30px;border-radius:50%;
+    font-size:18px;color:var(--navy-soft);cursor:pointer;line-height:1;
   }
-  .modal .m-turma{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:4px;}
-  .modal .m-name{font-family:'Fraunces',serif;font-size:22px;font-weight:600;color:var(--navy);margin-bottom:2px;}
-  .modal .m-mes{font-size:14px;color:var(--muted);margin-bottom:18px;}
-  .modal .m-pct{font-family:'Fraunces',serif;font-size:52px;font-weight:600;color:var(--navy);line-height:1;}
-  .modal .m-pct-label{font-size:13px;color:var(--muted);margin-top:2px;margin-bottom:18px;}
-  .modal .m-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
-  .modal .m-box{background:#F7F9F8;border-radius:10px;padding:11px 13px;}
-  .modal .m-box .n{font-size:19px;font-weight:700;color:var(--ink);}
-  .modal .m-box .l{font-size:12px;color:var(--muted);margin-top:1px;}
-  .modal .m-obs-title{font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:4px;}
-  .modal .m-obs{font-size:13.5px;color:var(--ink);line-height:1.5;background:#F7F9F8;border-radius:10px;padding:11px 13px;}
+  .modal .m-turma{font-size:12.5px;color:var(--muted);font-weight:700;margin-bottom:4px;}
+  .modal .m-name{font-family:'Baloo 2',sans-serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:2px;}
+  .modal .m-mes{font-size:13.5px;color:var(--navy-soft);margin-bottom:22px;font-weight:600;}
+  .modal .m-ring-wrap{display:flex;justify-content:center;margin-bottom:22px;}
+  .modal .m-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;}
+  .modal .m-box{background:#FAFBF9;border:1px solid var(--line);border-radius:14px;padding:12px 14px;}
+  .modal .m-box .n{font-family:'Baloo 2',sans-serif;font-size:20px;font-weight:700;color:var(--navy);}
+  .modal .m-box .l{font-size:11.5px;color:var(--muted);margin-top:3px;font-weight:700;}
+  .modal .m-obs-title{font-size:12px;font-weight:800;color:var(--navy-soft);margin-bottom:6px;}
+  .modal .m-obs{font-size:13.5px;color:var(--navy);line-height:1.55;background:#FAFBF9;border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-weight:600;}
 
-  footer{margin-top:34px;text-align:center;color:var(--muted);font-size:12.5px;}
+  footer{margin-top:40px;text-align:center;color:var(--muted);font-size:12.5px;font-weight:700;position:relative;z-index:1;}
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <header>
-    <p class="eyebrow">Busca ativa &amp; frequência escolar</p>
     <h1>Painel de frequência</h1>
-    <p class="sub">Mais do que registrar ausências, é preciso transformar informação em ação e presença em permanência.</p>
+    <div class="title-rule"></div>
+    <p class="sub" id="fraseDoDia">Mais do que registrar ausências, é preciso transformar informação em ação e presença em permanência.</p>
   </header>
 
-  <div class="controls">
-    <div class="turma-mes-row">
+  <div class="console">
+    <div class="field">
+      <label for="turmaSelect">Turma</label>
       <select id="turmaSelect"></select>
+    </div>
+    <div class="field">
+      <label for="mesSelect">Mês de referência</label>
       <select id="mesSelect"></select>
-      <span style="color:var(--muted);font-size:14px;">2026</span>
+    </div>
+    <div class="field field-search">
+      <label for="searchInput">Buscar aluno (todas as turmas)</label>
       <div class="search-box">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#20281F" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="#20281F" stroke-width="2" stroke-linecap="round"/></svg>
-        <input type="text" id="searchInput" placeholder="Buscar aluno...">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#73808E" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="#73808E" stroke-width="2" stroke-linecap="round"/></svg>
+        <input type="text" id="searchInput" placeholder="Nome do aluno...">
       </div>
     </div>
   </div>
@@ -285,22 +350,22 @@
 
   <div class="kpis">
     <div class="kpi"><div class="num" id="kpiTotal">–</div><div class="label">Alunos na turma</div></div>
-    <div class="kpi"><div class="num" id="kpiPct">–</div><div class="label">Presença média da turma</div></div>
-    <div class="kpi"><div class="num" id="kpiFaltas">–</div><div class="label">Faltas no mês (turma)</div></div>
-    <div class="kpi"><div class="num warn" id="kpiRisco">–</div><div class="label">Em risco ou atenção</div></div>
+    <div class="kpi kpi-pct"><div class="num" id="kpiPct">–</div><div class="label">Presença média da turma</div></div>
+    <div class="kpi kpi-faltas"><div class="num" id="kpiFaltas">–</div><div class="label">Faltas no mês (turma)</div></div>
+    <div class="kpi kpi-risco"><div class="num warn" id="kpiRisco">–</div><div class="label">Em risco ou atenção</div></div>
   </div>
 
   <div class="highlights">
-    <div class="hl-card faltoso" id="hlFaltoso">
-      <div class="icon">⚠</div>
+    <div class="hl-card" id="hlFaltoso">
+      <div class="ring-mini" id="ringFaltoso"></div>
       <div>
         <div class="tag">Mais faltas no mês</div>
         <div class="name">–</div>
         <div class="detail">–</div>
       </div>
     </div>
-    <div class="hl-card presente" id="hlPresente">
-      <div class="icon">✓</div>
+    <div class="hl-card" id="hlPresente">
+      <div class="ring-mini" id="ringPresente"></div>
       <div>
         <div class="tag">Melhor presença no mês</div>
         <div class="name">–</div>
@@ -318,9 +383,9 @@
       <table>
         <thead>
           <tr>
-            <th data-sort="pos" style="width:34px;">#</th>
+            <th data-sort="pos" style="width:30px;">#</th>
             <th data-sort="nome">Aluno</th>
-            <th data-sort="turma">Turma</th>
+            <th data-sort="turma" style="display:none;">Turma</th>
             <th data-sort="pct">% Presença <span class="arrow">▾</span></th>
             <th data-sort="faltas">Faltas</th>
             <th data-sort="faltas_consec">Consec.</th>
@@ -343,8 +408,7 @@
     <div class="m-turma" id="mTurma">Turma</div>
     <div class="m-name" id="mName">Nome</div>
     <div class="m-mes" id="mMes">Mês</div>
-    <div class="m-pct" id="mPct">0%</div>
-    <div class="m-pct-label">de presença no mês</div>
+    <div class="m-ring-wrap" id="mRingWrap"></div>
     <div class="m-grid">
       <div class="m-box"><div class="n" id="mFaltas">0</div><div class="l">Faltas no mês</div></div>
       <div class="m-box"><div class="n" id="mConsec">0</div><div class="l">Faltas consecutivas</div></div>
@@ -362,7 +426,6 @@ const DAILY = {"Turma 1A": {"Fevereiro": {"ALEXANDRE RAMOS BARRETO": "........01
 
 const MESES_ORDEM = ['Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
 const MES_NOME_JS = { 0:null, 1:'Fevereiro', 2:'Março', 3:'Abril', 4:'Maio', 5:'Junho', 6:'Julho', 7:'Agosto', 8:'Setembro', 9:'Outubro', 10:'Novembro', 11:'Dezembro' };
-// index: getMonth() de JS (0=Janeiro). Janeiro não existe na planilha (ano letivo começa em fevereiro), cai no fallback.
 
 const turmas = [...new Set(DATA.map(d => d.turma))].sort((a,b)=>{
   const na = a.match(/\d+/)[0], la = a.slice(-1);
@@ -376,7 +439,6 @@ function mesAtualPadrao(){
   const hoje = new Date();
   const nome = MES_NOME_JS[hoje.getMonth()];
   if (nome && mesesDisponiveis.includes(nome)) return nome;
-  // fallback: mês com dados mais recente
   const comDados = mesesDisponiveis.filter(m => mesesComDados.has(m));
   return comDados.length ? comDados[comDados.length-1] : mesesDisponiveis[0];
 }
@@ -388,6 +450,64 @@ let state = {
   sortDir: 'asc',
   search: ''
 };
+
+// ---- frase do dia ----
+const FRASES = [
+  'Mais do que registrar ausências, é preciso transformar informação em ação e presença em permanência.',
+  'Cada dia de presença é um tijolo a mais na construção do futuro de um aluno.',
+  'Acompanhar de perto é a forma mais simples de cuidar de quem está longe da sala de aula.',
+  'Um telefonema a tempo pode ser o que falta para um aluno voltar a sonhar com a escola.',
+  'Frequência não é número: é a história de alguém que escolheu continuar aprendendo.',
+  'Quem falta à escola também precisa ser lembrado — e procurado com carinho.',
+  'A sala de aula é mais completa com cada criança que consegue chegar até ela.',
+  'Toda ausência tem um motivo. Encontrá-lo é o primeiro passo para trazer o aluno de volta.',
+  'Presença constante é o alicerce silencioso de toda grande trajetória escolar.',
+  'Olhar para os números é também olhar para as famílias por trás deles.',
+  'Nenhuma criança deveria desaparecer da escola sem que alguém notasse e agisse.',
+  'A busca ativa é um gesto de cuidado antes de ser uma obrigação.',
+  'Educar é também sustentar o vínculo quando ele começa a enfraquecer.',
+  'Cada aluno que retorna à escola é uma vitória coletiva da comunidade escolar.',
+  'A frequência escolar se constrói com atenção diária, não apenas com cobrança no fim do mês.',
+  'Estar presente é o primeiro passo para aprender; estar atento é o primeiro passo para ensinar.',
+  'Pequenos sinais de afastamento, quando notados cedo, evitam grandes perdas de aprendizagem.',
+  'A escola que cuida da frequência cuida, também, do futuro de cada criança.',
+  'Trazer um aluno de volta à sala de aula é também devolver-lhe um lugar de pertencimento.',
+  'Informação sem ação é só um número; ação sem informação é apenas intuição.',
+  'A permanência escolar começa num detalhe: alguém perceber que faz falta.',
+  'Cada linha desta planilha representa uma criança que espera ser vista.',
+  'Garantir presença é também garantir oportunidade.',
+  'Uma escola atenta à frequência é uma escola que não deixa ninguém para trás.',
+  'O cuidado com os dados de hoje evita a evasão de amanhã.',
+  'Toda criança que aprende começa, antes de tudo, chegando até a escola.',
+  'Entre uma falta e outra, existe sempre uma história que merece ser ouvida.',
+  'Dados bem observados viram decisões; decisões bem tomadas viram presença.',
+  'A escola é feita de rotina — e a rotina começa com quem está lá, todos os dias.',
+  'Zelar pela frequência é zelar pelo direito de aprender.'
+];
+function diaDoAno(d){
+  const inicio = new Date(d.getFullYear(), 0, 0);
+  return Math.floor((d - inicio) / 86400000);
+}
+document.getElementById('fraseDoDia').textContent = FRASES[diaDoAno(new Date()) % FRASES.length];
+
+// ---- ring helper ----
+function ringSVG(pct, size, stroke, color, showLabel){
+  const r = (size - stroke) / 2;
+  const c = 2 * Math.PI * r;
+  const offset = c * (1 - Math.max(0, Math.min(100, pct)) / 100);
+  const label = showLabel ? `<div class="ring-val" style="font-size:${size*0.26}px;color:${color}">${Math.round(pct)}%</div>` : '';
+  return `<div class="ring" style="width:${size}px;height:${size}px;">
+    <svg width="${size}" height="${size}">
+      <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="rgba(34,43,53,0.08)" stroke-width="${stroke}"/>
+      <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}"
+        stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${offset}"/>
+    </svg>
+    ${label}
+  </div>`;
+}
+function corStatus(status){
+  return status === 'RISCO' ? 'var(--coral-ink)' : status === 'ATENÇÃO' ? 'var(--amber-ink)' : 'var(--teal-ink)';
+}
 
 // build turma dropdown
 const turmaSelect = document.getElementById('turmaSelect');
@@ -404,7 +524,7 @@ const mesSelect = document.getElementById('mesSelect');
 mesesDisponiveis.forEach(m => {
   const opt = document.createElement('option');
   opt.value = m;
-  opt.textContent = mesesComDados.has(m) ? m : m + ' (sem dados)';
+  opt.textContent = m;
   if (m === state.mes) opt.selected = true;
   mesSelect.appendChild(opt);
 });
@@ -437,8 +557,8 @@ function openModal(row){
   document.getElementById('mTurma').textContent = row.turma;
   document.getElementById('mName').textContent = row.nome;
   document.getElementById('mMes').textContent = row.mes + ' de 2026';
-  document.getElementById('mPct').textContent = row.pct + '%';
-  document.getElementById('mPct').style.color = row.status === 'RISCO' ? 'var(--red)' : row.status === 'ATENÇÃO' ? 'var(--amber)' : 'var(--navy)';
+  const cor = corStatus(row.status);
+  document.getElementById('mRingWrap').innerHTML = ringSVG(row.pct, 128, 10, cor, true);
   document.getElementById('mFaltas').textContent = row.faltas;
   document.getElementById('mConsec').textContent = row.faltas_consec;
   const obsWrap = document.getElementById('mObsWrap');
@@ -456,7 +576,6 @@ function openModal(row){
 function calcularSemanal(turma, mes, nome){
   const codigo = DAILY[turma] && DAILY[turma][mes] && DAILY[turma][mes][nome];
   if (!codigo) return null;
-  // pega os últimos dias letivos registrados no mês (últimos 5 dias que não são '.')
   const dias = [];
   for (let i = codigo.length - 1; i >= 0 && dias.length < 5; i--) {
     if (codigo[i] !== '.') dias.unshift(codigo[i]);
@@ -470,11 +589,9 @@ function calcularAnual(turma, nome){
   const registros = DATA.filter(d => d.turma === turma && d.nome === nome);
   if (!registros.length) return null;
   let presencasTotal = 0, diasTotal = 0;
-  // pct = presencas/total_dias*100  =>  total_dias = faltas / (1 - pct/100), exceto quando pct=100 (faltas=0)
   registros.forEach(r => {
     let totalDias;
     if (r.pct >= 100) {
-      // sem faltas registradas: usamos os dias letivos contados na matriz diária, se existir
       const codigo = DAILY[turma] && DAILY[turma][r.mes] && DAILY[turma][r.mes][nome];
       totalDias = codigo ? codigo.split('').filter(c => c !== '.').length : r.faltas;
     } else {
@@ -496,25 +613,30 @@ function renderBusca(){
   if (!encontrados.length) { box.style.display = 'none'; return; }
 
   const aluno = encontrados[0];
-  const semanal = calcularSemanal(state.turma, state.mes, aluno.nome);
-  const anual = calcularAnual(state.turma, aluno.nome);
+  const semanal = calcularSemanal(aluno.turma, state.mes, aluno.nome);
+  const anual = calcularAnual(aluno.turma, aluno.nome);
 
   box.style.display = 'block';
   box.innerHTML = `
-    <div class="sr-name">${aluno.nome}</div>
-    <div class="sr-turma">${aluno.turma} · referência: ${state.mes} de 2026</div>
+    <div class="sr-top">
+      ${ringSVG(aluno.pct, 64, 6, corStatus(aluno.status), true)}
+      <div>
+        <div class="sr-name">${aluno.nome}</div>
+        <div class="sr-turma">${aluno.turma} · referência: ${state.mes} de 2026</div>
+      </div>
+    </div>
     <div class="sr-grid">
       <div class="sr-box">
-        <div class="sr-label">FREQUÊNCIA SEMANAL</div>
+        <div class="sr-label">Frequência semanal</div>
         ${semanal ? `<div class="sr-pct">${semanal.pct}%</div><div class="sr-num">${semanal.presentes} de ${semanal.total} dias letivos</div>` : '<div class="sr-num">Sem dias letivos registrados</div>'}
       </div>
       <div class="sr-box">
-        <div class="sr-label">FREQUÊNCIA MENSAL</div>
+        <div class="sr-label">Frequência mensal</div>
         <div class="sr-pct">${aluno.pct}%</div>
         <div class="sr-num">${aluno.faltas} falta(s) no mês</div>
       </div>
       <div class="sr-box">
-        <div class="sr-label">FREQUÊNCIA ANUAL</div>
+        <div class="sr-label">Frequência anual</div>
         ${anual ? `<div class="sr-pct">${anual.pct}%</div><div class="sr-num">${anual.presentes} de ${anual.total} dias · ${anual.meses} meses letivos</div>` : '<div class="sr-num">Sem dados suficientes</div>'}
       </div>
     </div>
@@ -555,11 +677,14 @@ function render(){
   if (fullRows.length){
     const piorPresenca = [...fullRows].sort((a,b)=>a.pct-b.pct)[0];
     const melhorPresenca = [...fullRows].sort((a,b)=>b.pct-a.pct)[0];
+
+    document.getElementById('ringFaltoso').innerHTML = ringSVG(piorPresenca.pct, 46, 5, corStatus(piorPresenca.status), false);
     hlFaltoso.querySelector('.name').textContent = piorPresenca.nome;
     hlFaltoso.querySelector('.detail').textContent = piorPresenca.pct + '% de presença · ' + piorPresenca.faltas + ' falta(s) no mês';
     hlFaltoso.onclick = () => openModal(piorPresenca);
     hlFaltoso.style.display = 'flex';
 
+    document.getElementById('ringPresente').innerHTML = ringSVG(melhorPresenca.pct, 46, 5, corStatus(melhorPresenca.status), false);
     hlPresente.querySelector('.name').textContent = melhorPresenca.nome;
     hlPresente.querySelector('.detail').textContent = melhorPresenca.pct + '% de presença';
     hlPresente.onclick = () => openModal(melhorPresenca);
@@ -611,10 +736,10 @@ function render(){
       <td class="pos">${i+1}</td>
       <td class="name">${r.nome}</td>
       <td class="turma-col" style="display:${buscaGlobal ? '' : 'none'}">${r.turma}</td>
-      <td class="pct" style="color:${r.status==='RISCO'?'var(--red)':r.status==='ATENÇÃO'?'var(--amber)':'var(--green)'}">${r.pct}%</td>
+      <td class="pct" style="color:${corStatus(r.status)}">${r.pct}%</td>
       <td>${r.faltas}</td>
       <td>${r.faltas_consec}</td>
-      <td><span class="status-pill status-${r.status}">${r.status}</span></td>
+      <td><span class="status-pill status-${r.status}"><span class="sdot"></span>${r.status}</span></td>
       <td class="obs">${(r.obs || r.justificativa || '—')}</td>
     `;
     tr.addEventListener('click', () => openModal(r));
