@@ -81,9 +81,9 @@ h2,h3,h4,.btn,.nav-brand{font-family:'Poppins','Inter',sans-serif}
 .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:26px}
 .sec-head h3{font-size:1.25rem;font-weight:700;color:var(--ink)}
 .sec-head span{font:600 .74rem 'Poppins',sans-serif;color:var(--blue);background:var(--blue-soft);padding:5px 12px;border-radius:999px;letter-spacing:.5px;text-transform:uppercase}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
 .card{position:relative;z-index:0;display:flex;flex-direction:column;padding:28px 24px 24px;border-radius:20px;background:#fff;text-decoration:none;color:var(--text);
-  border:1px solid var(--line);box-shadow:0 4px 14px -8px rgba(70,10,30,.12);overflow:hidden;transition:.35s cubic-bezier(.2,.8,.2,1);animation:rise .5s both;min-height:230px}
+  border:1px solid var(--line);box-shadow:0 4px 14px -8px rgba(70,10,30,.12);overflow:hidden;transition:.35s cubic-bezier(.2,.8,.2,1);animation:rise .5s both;min-height:200px}
 @keyframes rise{from{opacity:0;transform:translateY(16px)}}
 .card::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--grad);opacity:0;transition:.35s}
 .card::after{content:"";position:absolute;z-index:-1;width:170px;height:170px;right:-60px;bottom:-60px;border-radius:50%;border:26px solid rgba(255,255,255,.12);opacity:0;transition:.35s}
@@ -198,7 +198,9 @@ const LINKS = [
   { title:"Histórico Escolar", desc:"Pasta com os históricos escolares dos estudantes.",
     url:"https://seesp-my.sharepoint.com/:f:/g/personal/e004807a_educacao_sp_gov_br/IgDBZ_RgGMBuTIK23GGlMSdvAYhZmqEXF9xZhzd4oebD4Wg?e=FxButy", icon:"history", color:2 },
   { title:"Vida Escolar", desc:"Assistente de apoio à vida escolar do estudante.",
-    url:"https://edilson2107-cyber.github.io/material-escolar/assistente-vida-escolar.html", icon:"school", color:4 }
+    url:"https://edilson2107-cyber.github.io/material-escolar/assistente-vida-escolar.html", icon:"school", color:4 },
+  { title:"Busca Ativa Escolar", desc:"Acompanhamento da frequência e busca ativa dos estudantes.",
+    url:"https://claude.ai/artifact/RYwJvBMWiA7qZiTU2sZ8dn", icon:"search", color:5 }
 ];
 
 /* Frases de pensadores da educação — trocam sozinhas */
