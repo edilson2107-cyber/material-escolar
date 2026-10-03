@@ -264,6 +264,24 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
 .card .guide{font-size:14.5px;color:var(--ink-2);margin:6px 0 8px}
 .card .guide.closing{margin-top:16px;padding:10px 13px;background:var(--surface-2);border-radius:10px}
 
+/* ---------- Modo redação ---------- */
+.card .prose{margin-top:10px}
+.card .prose p{font-size:16.5px;line-height:1.75;margin:0 0 12px;color:var(--ink)}
+.card .prose p.lead{color:var(--accent-ink);font-weight:600;margin:16px 0 8px}
+.card .prose .conn{font-weight:600;color:var(--accent-ink)}
+.card .prose table{border-collapse:collapse;width:100%;font-size:14.5px;margin:6px 0 14px}
+.card .prose td,.card .prose th{border:1px solid var(--line-2);padding:6px 8px;text-align:left;vertical-align:top}
+sup.fn{line-height:0}
+sup.fn button{border:0;background:none;color:var(--accent);font-size:12px;font-weight:700;cursor:pointer;padding:0 1px}
+sup.fn button:hover{text-decoration:underline}
+.refs{margin-top:20px;border-top:1px solid var(--line);padding-top:12px;font-size:13.8px;color:var(--ink-2)}
+.refs .st{font-weight:700;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.refs ol{list-style:none;margin:0;padding:0}
+.refs li{display:flex;gap:8px;padding:4px 6px;border-radius:8px;transition:background .3s}
+.refs li .rn{color:var(--accent);font-weight:700;flex:none}
+.refs li.flash{background:var(--accent-soft)}
+.card .guide.siglas{font-size:14.5px;background:var(--surface-2);border-radius:10px;padding:10px 13px}
+
 </style>
 </head>
 <body>
@@ -904,6 +922,49 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
     if (nxt && nxt.k === 'p' && !nxt.legal && nxt.h === last.h && (CONT_RX.test(nxt.n) || (/^(no|na|nos|nas|para) /.test(nxt.n) && nxt.tag.exc && last.k === 'p'))) return blocks.concat([nxt]);
     return blocks;
   }
+  /* ---- Modo redação: texto corrido com referências numeradas ao final ---- */
+  let PROSE = null;   // quando ativo: lista de referências da resposta em construção
+  let ANS_SEQ = 0, ANS_ID = '';
+  function joinItems(items) {
+    const c = items.map(t => t.replace(/\s*[;.,]\s*$/, ''));
+    if (c.length === 1) return linkify(esc(c[0])) + '.';
+    return c.slice(0, -1).map(x => linkify(esc(x))).join('; ') + '; e ' + linkify(esc(c[c.length - 1])) + '.';
+  }
+  function lowerFirst(t) { return /^[A-ZÁÉÍÓÚÂÊÔÃÕÇ][a-záéíóúâêôãõç]/.test(t) && !/^(Diretor|Supervis|Secretaria|Sala|Conselho|Unidade|Portal|Módulo|Ficha|Histórico|Diário|Professor|Dirigente|Plataforma|Prontuário)/.test(t) ? t.charAt(0).toLowerCase() + t.slice(1) : t; }
+  function proseBlocks(blocks) {
+    const out = []; let i = 0;
+    while (i < blocks.length) {
+      const b = blocks[i];
+      if (b.k === 'h') { i++; continue; }
+      if (b.k === 'p' && /:$/.test(b.t) && blocks[i + 1] && blocks[i + 1].k === 'li') {
+        const items = []; let j = i + 1; while (blocks[j] && blocks[j].k === 'li') { items.push(blocks[j].t); j++; }
+        out.push('<p>' + linkify(esc(b.t)) + ' ' + joinItems(items) + '</p>'); i = j; continue;
+      }
+      if (b.k === 'li') {
+        const items = []; let j = i; while (blocks[j] && blocks[j].k === 'li') { items.push(blocks[j].t); j++; }
+        out.push('<p>' + joinItems(items) + '</p>'); i = j; continue;
+      }
+      if (b.k === 'step') out.push('<p>' + linkify(esc(b.t.replace(/^(?:Passo \d+[A-Z]?|Encerramento)\s*—\s*/, ''))) + '</p>');
+      else if (b.k === 'table') out.push(tableHTML(b));
+      else if (b.k === 'link') out.push('<p>Material indicado no Manual: ' + resourceHTML(b) + '</p>');
+      else if (b.k === 'model') out.push('<p>O Manual apresenta o ' + esc(b.t) + (pageImages()[b.pg[0]] ? ' (<button type="button" class="linkbtn" data-pageimg="' + b.pg[0] + '">ver o modelo</button>)' : '') + '.</p>');
+      else out.push('<p>' + linkify(esc(b.t)) + '</p>');
+      i++;
+    }
+    return out;
+  }
+  function fnMark(n) { return '<sup class="fn"><button type="button" data-fn="' + ANS_ID + '-' + n + '" aria-label="Ver referência ' + n + '">[' + n + ']</button></sup>'; }
+  function addRefProse(secId, from, to, terms, pg) {
+    const id = makeRef(secId, from, to, terms);
+    PROSE.push({ id, s: secId, pg, h: (SECTIONS[secId].blocks[from] || {}).h || '' });
+    return PROSE.length;
+  }
+  function withMark(paras, n) {
+    if (!paras.length) return fnMark(n);
+    const last = paras[paras.length - 1];
+    paras[paras.length - 1] = /<\/p>$/.test(last) ? last.replace(/<\/p>$/, ' ' + fnMark(n) + '</p>') : last + '<p>' + fnMark(n) + '</p>';
+    return paras.join('');
+  }
   // Um "item" de resposta = um trecho (chunk) citado literalmente
   function quoteItem(chunkOrBlocks, terms, opts = {}) {
     const c = chunkOrBlocks.blocks ? chunkOrBlocks : null;
@@ -919,12 +980,61 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
     const all = lead.concat(blocks);
     const id = makeRef(sec.id, all[0].i, to, terms);
     const pg = Array.from(new Set(all.flatMap(b => b.pg)));
+    if (PROSE) {
+      const pgS = Array.from(new Set(all.flatMap(b => b.pg))).sort((x, y) => x - y);
+      const n = addRefProse(sec.id, all[0].i, to, terms, pgS);
+      const lead = opts.showSec ? '<p class="lead">Na parte do Manual sobre “' + esc(sec.titleNice) + '”:</p>' : '';
+      return { html: '<div class="prose-q">' + lead + withMark(proseBlocks(all), n) + '</div>', pg: pgS, s: sec.id, gids: all.map(b => b.gid) };
+    }
     const sub = opts.showSub && all[0].h && all[0].h !== 'Fundamento Legal' ? '<span class="sub">' + esc(titleCase(all[0].h)) + '</span>' : '';
     const secLbl = opts.showSec ? '<span class="sub">' + esc(sec.titleNice) + (all[0].h && all[0].h !== 'Fundamento Legal' && !/^FLUXO/.test(all[0].h) ? ' · ' + esc(titleCase(all[0].h)) : '') + '</span>' : '';
     return { html: '<div class="quote">' + (secLbl || sub) + renderBlocksHTML(all, terms) + '<div class="ref">' + fmtPages(pg) + ' · <button type="button" data-ref="' + id + '">Ver trecho do Manual</button></div></div>', pg, s: sec.id, gids: all.map(b => b.gid) };
   }
 
+  function stepsProse(sec, terms) {
+    const flowBlocks = sec.flowAll;
+    let respLine = null; const groups = []; let cur = null;
+    flowBlocks.forEach(b => {
+      if (b.k === 'p' && /^Responsáveis:/.test(b.t)) { respLine = b; return; }
+      if (!cur || cur.h !== b.h) { cur = { h: b.h, items: [] }; groups.push(cur); }
+      cur.items.push(b);
+    });
+    const CONN = ['Primeiro,', 'Em seguida,', 'Depois,', 'Na sequência,', 'Em seguida,', 'Depois disso,', 'Na sequência,', 'Em seguida,', 'Depois,', 'Na sequência,', 'Em seguida,', 'Depois disso,', 'Em seguida,', 'Depois,', 'Na sequência,', 'Em seguida,', 'Depois,'];
+    let h = '';
+    if (respLine) h += '<p>' + linkify(esc(respLine.t)) + '</p>';
+    groups.forEach(g => {
+      if (groups.length > 1 && g.h && !/^FLUXO OPERACIONAL$/.test(g.h)) h += '<p class="lead">No caso do fluxo “' + esc(titleCase(g.h.replace(/^FLUXO\s*[—–-]?\s*/, ''))) + '”:</p>';
+      let k = 0; let para = null;
+      const flush = () => { if (para) { h += '<p class="step-p">' + para + '</p>'; para = null; } };
+      g.items.forEach(b => {
+        if (b.k === 'step') {
+          flush();
+          const end = /^Encerramento/.test(b.t);
+          const body = b.t.replace(/^(?:Passo \d+[A-Z]?|Encerramento)\s*—\s*/, '');
+          const alt = (b.t.match(/^Passo \d+([A-Z])/) || [])[1];
+          let conn;
+          if (end) conn = 'Por fim,';
+          else if (alt && alt !== 'A') conn = 'Ou, no outro caso,';
+          else { conn = CONN[Math.min(k, CONN.length - 1)]; k++; }
+          para = '<span class="conn">' + conn + '</span> ' + linkify(esc(lowerFirst(body)));
+        } else if (b.k === 'li') {
+          para = (para ? para + ' ' : '') + linkify(esc(b.t));
+        } else if (b.k === 'p') {
+          para = (para ? para + ' ' : '') + linkify(esc(b.t));
+        } else if (b.k === 'link') {
+          para = (para ? para + ' ' : '') + resourceHTML(b);
+        }
+      });
+      flush();
+    });
+    const pg = Array.from(new Set(flowBlocks.flatMap(b => b.pg))).sort((x, y) => x - y);
+    const first = respLine || flowBlocks[0];
+    const n = addRefProse(sec.id, Math.min(first.i, flowBlocks[0].i), flowBlocks[flowBlocks.length - 1].i, terms, pg);
+    h = h.replace(/<\/p>$/, ' ' + fnMark(n) + '</p>');
+    return { html: h, pg, gids: flowBlocks.map(b => b.gid) };
+  }
   function stepsHTML(sec, terms, limit) {
+    if (PROSE) return stepsProse(sec, terms);
     const flowBlocks = sec.flowAll;
     if (!flowBlocks.length) return null;
     let h = ''; let respLine = ''; let groups = []; let cur = null;
@@ -968,6 +1078,7 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
     if (!sec.legalItems.length) return '';
     const items = sec.legalItems.map(b => '<li>' + esc(b.t) + (b.u && b.u[0] ? ' <a href="' + esc(b.u[0]) + '" target="_blank" rel="noopener" title="Link indicado no Manual">↗</a>' : '') + '</li>').join('');
     const pg = Array.from(new Set(sec.legalItems.flatMap(b => b.pg)));
+    if (PROSE) { const n = addRefProse(sec.id, Math.max(0, sec.legalItems[0].i - 1), sec.legalItems[sec.legalItems.length - 1].i, [], pg); return '<ul class="legal-list">' + items + '</ul><p class="ref" style="margin-top:4px">Conforme citado no Manual ' + fnMark(n) + '</p>'; }
     const id = makeRef(sec.id, Math.max(0, sec.legalItems[0].i - 1), sec.legalItems[sec.legalItems.length - 1].i, []);
     return '<ul class="legal-list">' + items + '</ul><div class="ref">Conforme citado no Manual — ' + fmtPages(pg) + ' · <button type="button" data-ref="' + id + '">Ver trecho do Manual</button></div>';
   }
@@ -1059,6 +1170,7 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
     }
 
     LAST_TOPIC = sec.id;
+    PROSE = []; ANS_ID = 'a' + (++ANS_SEQ);
     const terms = a.content.concat(a.syn);
     const qt = R.qt;
     const pureSet = new Set(toks(sec.title));
@@ -1068,7 +1180,15 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
     const specificIntent = intents.prazo || intents.resp || intents.docs || intents.where || intents.legal || intents.exc || intents.qtd;
 
     const parts = [];
-    const add = (key, html, extraCls) => parts.push('<div class="sec' + (extraCls ? ' ' + extraCls : '') + '"><h3>' + esc(SEC_HEAD[key] || key) + '</h3>' + html + '</div>');
+    const LEAD = {
+      resposta: '', como: 'Na prática, o Manual organiza esse procedimento em etapas, nesta ordem:', resp: 'Sobre quem faz cada parte, o Manual orienta:',
+      'Atribuições e responsabilidades': 'Entre as atribuições previstas no Manual, estão as seguintes:', prazo: 'Quanto aos prazos, o Manual estabelece:',
+      docs: 'Em relação aos documentos, o Manual indica:', exc: 'É importante ficar atento a alguns cuidados que o próprio Manual destaca:',
+      where: 'O assunto aparece nas seguintes partes do Manual:', legal: 'A base legal citada pelo próprio Manual para este tema é a seguinte:',
+      'Também vale conferir (outras partes do Manual)': 'Outra parte do Manual complementa essa orientação:', 'Principais orientações': 'O Manual traz ainda estas orientações:'
+    };
+    const add = (key, html, extraCls) => parts.push('<div class="prose' + (extraCls ? ' ' + extraCls : '') + '">' + (LEAD[key] ? '<p class="lead">' + LEAD[key] + '</p>' : '') + html + '</div>');
+    const tail = [];
     const pushQuote = q => { q.gids.forEach(g => used.add(g)); usedRefs.push({ s: q.s, pg: q.pg }); return q.html; };
 
     // ---- Onde o Manual trata do assunto
@@ -1169,7 +1289,7 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
       const st = stepsHTML(sec, terms);
       if (st) {
         st.gids.forEach(g => used.add(g)); usedRefs.push({ s: sec.id, pg: st.pg });
-        if (intents.def && !intents.proc) parts.push('<details class="more"><summary>Como funciona — etapas do fluxo operacional</summary><div style="margin-top:10px">' + st.html + '</div></details>');
+        if (intents.def && !intents.proc) parts.push('<details class="more"><summary>Ver como funciona, etapa por etapa</summary><div class="prose" style="margin-top:10px">' + st.html + '</div></details>');
         else add('como', st.html);
       }
     } else if (!specificIntent && !sec.flowAll.length && general) {
@@ -1198,7 +1318,7 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
         add('legal', legalListHTML(sec) + manualVigenciaNotes(sec, terms));
         legalHTML = externalForSection(sec, a);
       } else {
-        parts.push('<details class="more"><summary>Fundamento legal citado no Manual</summary>' + legalListHTML(sec) + '</details>');
+        tail.push('<details class="more"><summary>Fundamento legal citado no Manual</summary>' + legalListHTML(sec) + '</details>');
       }
     } else if (intents.legal) {
       add('legal', '<p class="notice neutral">Esta seção do Manual não apresenta lista própria de fundamento legal.</p>');
@@ -1211,7 +1331,7 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
       let h = '';
       if (res.length) h += '<ul class="legal-list">' + res.map(b => '<li>' + resourceHTML(b) + '</li>').join('') + '</ul>';
       if (models.length) h += '<ul class="legal-list">' + models.map(b => '<li>' + esc(b.t) + ' <span class="ref">(' + fmtPages(b.pg) + ')</span>' + (pageImages()[b.pg[0]] ? ' · <button type="button" class="linkbtn" data-pageimg="' + b.pg[0] + '">Ver modelo</button>' : '') + '</li>').join('') + '</ul>';
-      parts.push('<details class="more"><summary>Modelos e materiais indicados no Manual (' + (res.length + models.length) + ')</summary>' + h + '</details>');
+      tail.push('<details class="more"><summary>Modelos e materiais indicados no Manual (' + (res.length + models.length) + ')</summary>' + h + '</details>');
     }
 
     // ---- Veja também
@@ -1220,13 +1340,16 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
     // ---- Fontes
     const pagesBySec = new Map();
     usedRefs.forEach(r => { const arr = pagesBySec.get(r.s) || []; r.pg.forEach(p => arr.push(p)); pagesBySec.set(r.s, arr); });
-    let src = '<div class="sources"><div class="st">Fontes consultadas</div><ul>';
-    pagesBySec.forEach((pg, s) => {
-      const S = SECTIONS[s];
-      src += '<li><span><b>Manual de Procedimentos de Vida Escolar 2026</b> — ' + fmtPages(pg) + '</span><span class="ref">' + (S.part ? esc(titleCase(S.part)) + ' · ' : '') + 'Seção: ' + esc(S.titleNice) + '</span></li>';
+    const refsList = PROSE || [];
+    let src = '<div class="refs"><div class="st">Referências</div><ol>';
+    refsList.forEach((r, i) => {
+      const S = SECTIONS[r.s];
+      const sub = r.h && r.h !== 'Fundamento Legal' && !/^FLUXO/.test(r.h) && r.h !== 'Modelos' ? ', subseção “' + esc(titleCase(r.h)) + '”' : (/^FLUXO/.test(r.h) ? ', fluxo operacional' : (r.h === 'Fundamento Legal' ? ', fundamento legal' : ''));
+      src += '<li id="' + ANS_ID + '-' + (i + 1) + '"><span class="rn">[' + (i + 1) + ']</span> <span><i>Manual de Procedimentos de Vida Escolar 2026</i>. ' + (S.part ? esc(titleCase(S.part)) + '. ' : '') + 'Seção “' + esc(S.titleNice) + '”' + sub + ', ' + fmtPages(r.pg) + '. <button type="button" class="linkbtn" data-ref="' + r.id + '">Ver trecho do Manual</button></span></li>';
     });
-    if (legalHTML) src += '<li class="src-ext"><span>Legislação externa: ver quadro “Verificação em fonte oficial” acima (identificada separadamente).</span></li>';
-    src += '</ul></div>';
+    src += '</ol>';
+    if (legalHTML) src += '<p class="ref src-ext" style="margin:6px 0 0">Legislação externa: as fontes oficiais consultadas estão no quadro “Fonte externa”, identificado separadamente.</p>';
+    src += '<p class="ref" style="margin:8px 0 0">Os trechos marcados com número entre colchetes reproduzem o texto do Manual; as frases de ligação foram escritas pelo assistente para facilitar a leitura.</p></div>';
 
     // ---- Voz do assistente: abertura acolhedora e próximos passos (sem acrescentar conteúdo ao Manual)
     const tn = '<b>' + esc(sec.titleNice) + '</b>';
@@ -1249,7 +1372,7 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
     if (!intents.legal && sec.legalItems.length) ask('Qual a legislação citada?');
     const followHTML = follow.length ? '<div class="sec next"><h3>Para continuar</h3><p class="guide">Se quiser, posso detalhar outro ponto deste procedimento:</p><div class="chips">' + follow.slice(0, 4).join('') + '</div></div>' : '';
     const closing = (sec.flowAll.length || intents.proc || intents.resp || intents.docs || intents.prazo) && !intents.where
-      ? '<p class="guide closing">Lembre-se: cada caso tem suas particularidades. Use “Ver trecho do Manual” para conferir o texto completo e, se a situação da sua escola não se encaixar exatamente, vale alinhar com a Supervisão de Ensino ou o SEVESC da sua Unidade Regional.</p>' : '';
+      ? '<p class="guide closing">Lembre-se: cada caso tem suas particularidades. Nas referências logo abaixo, use “Ver trecho do Manual” para conferir o texto completo e, se a situação da sua escola não se encaixar exatamente, vale alinhar com a Supervisão de Ensino ou o SEVESC da sua Unidade Regional.</p>' : '';
 
     let html = '<span class="badge manual">Orientação do Manual</span>' +
       '<div class="topic">' + esc(sec.titleNice) + '</div>' +
@@ -1257,12 +1380,27 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
       (ctxNote ? '<p class="ctxnote">' + ctxNote + ' <button type="button" class="linkbtn" data-clear-topic>Escolher outro assunto</button></p>' : '') +
       (missNote ? '<p class="ctxnote">' + missNote + '</p>' : '') +
       '<p class="intro">' + intro + '</p>' +
-      parts.join('') + legalHTML + followHTML + closing +
+      parts.join('') + closing + siglasHTML(parts.join('')) + legalHTML + followHTML +
       (also.length ? '<div class="sec"><h3>O assunto também aparece em</h3><div class="chips">' + also.map(x => '<button type="button" class="chip" data-open-sec="' + x.sec.id + '">' + esc(x.sec.titleNice) + ' · ' + fmtPages([x.sec.start]) + '</button>').join('') + '</div></div>' : '') +
-      src;
+      src + tail.join('');
+    PROSE = null;
     return { type: 'manual', html, section: sec.id, pages: Array.from(pagesBySec.values()).flat(), intents };
   }
 
+  // Siglas explicadas conforme aparecem por extenso no próprio Manual
+  const SIGLAS = { SED: 'Secretaria Escolar Digital', PDE: 'Prontuário Digital do Estudante', URE: 'Unidade Regional de Ensino', GOE: 'Gerente de Organização Escolar',
+    AOE: 'Agente de Organização Escolar', SEVESC: 'Seção de Vida Escolar', COVESC: 'Coordenadoria de Vida Escolar', NCOM: 'Não Comparecimento',
+    CVVE: 'Comissão de Verificação de Vida Escolar', EJA: 'Educação de Jovens e Adultos', BNCC: 'Base Nacional Comum Curricular',
+    LDB: 'Lei de Diretrizes e Bases da Educação Nacional', LGPD: 'Lei Geral de Proteção de Dados Pessoais', ECA: 'Estatuto da Criança e do Adolescente',
+    CEE: 'Conselho Estadual de Educação', SEI: 'Sistema Eletrônico de Informações', DOE: 'Diário Oficial do Estado', SFP: 'Sala do Futuro Professor',
+    RNM: 'Registro Nacional Migratório', CIN: 'Carteira de Identidade Nacional', SEMAT: 'Seção de Matrícula', SEGRE: 'Serviço de Gestão da Rede Escolar',
+    SEDUC: 'Secretaria da Educação', PAI: 'Plano de Atendimento Individual', EMA: 'Esporte-Música-Arte', QAE: 'Quadro de Apoio Escolar' };
+  function siglasHTML(html) {
+    const txt = html.replace(/<[^>]+>/g, ' ');
+    const found = Object.keys(SIGLAS).filter(k => new RegExp('\\b' + k + '\\b').test(txt));
+    if (!found.length) return '';
+    return '<p class="guide siglas"><b>Para facilitar a leitura:</b> ' + found.map(k => '<b>' + k + '</b> significa ' + SIGLAS[k]).join('; ') + '.</p>';
+  }
   function manualVigenciaNotes(sec, terms) {
     const notes = sec.blocks.filter(b => !b.legal && b.k !== 'h' && /\b(revogad\w*|enquanto vigente|vigente|alterad[ao] pela)\b/.test(b.n) && /(resolucao|deliberacao|lei|decreto)/.test(b.n)).slice(0, 2);
     if (!notes.length) return '';
@@ -1550,6 +1688,8 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
 
   // Delegação de eventos (botões dentro das respostas e painéis)
   document.addEventListener('click', e => {
+    const fn = e.target.closest('[data-fn]');
+    if (fn) { const li = document.getElementById(fn.getAttribute('data-fn')); if (li) { li.scrollIntoView({ behavior: 'smooth', block: 'center' }); li.classList.add('flash'); setTimeout(() => li.classList.remove('flash'), 1400); } return; }
     const t = e.target.closest('[data-ask],[data-ask-legis],[data-ref],[data-open-sec],[data-pageimg],[data-live],[data-clear-topic],[data-close]');
     if (!t) return;
     if (t.hasAttribute('data-ask')) { closeAll(); ask(t.getAttribute('data-ask'), 'manual'); }
