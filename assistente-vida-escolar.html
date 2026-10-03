@@ -260,6 +260,10 @@ footer.foot{font-size:12.5px;color:var(--muted);text-align:center;padding:6px 16
 .home{position:relative}
 body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227,232,0) 60%),var(--bg)}
 
+.card .intro{font-size:16.5px;color:var(--ink);margin:6px 0 4px;line-height:1.55}
+.card .guide{font-size:14.5px;color:var(--ink-2);margin:6px 0 8px}
+.card .guide.closing{margin-top:16px;padding:10px 13px;background:var(--surface-2);border-radius:10px}
+
 </style>
 </head>
 <body>
@@ -988,7 +992,7 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
   }
 
   const SEC_HEAD = {
-    resposta: 'Resposta', como: 'Como funciona', resp: 'Responsável', prazo: 'Prazo', docs: 'Documentos', exc: 'Atenção: condições e exceções', where: 'Onde o Manual trata do assunto', legal: 'Fundamento legal citado no Manual'
+    resposta: 'O que o Manual diz', como: 'Passo a passo', resp: 'Quem faz o quê', prazo: 'Prazos', docs: 'Documentos necessários', exc: 'Fique atento: condições e exceções', where: 'Onde o Manual trata do assunto', legal: 'Fundamento legal citado no Manual'
   };
 
   function answerManual(a, opts = {}) {
@@ -1156,7 +1160,7 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
       const others = R.scored.filter(x => x.c.s !== sec.id && !x.c.legal && x.c.blocks.some(tagF) && !x.c.blocks.every(b => used.has(b.gid)) &&
         residual.every(t => termFound(t, x.c.tf)) && titleCov.some(t => termFound(t, x.c.tf)) && x.s >= primBest * (intents.resp ? 0.7 : 0.5) &&
         (!intents.resp || ACTOR.test(norm(x.c.text)))).slice(0, 2);
-      if (others.length) add('Também no Manual (outras seções)', others.map(x => pushQuote(quoteItem(x.c, terms, { showSec: true }))).join(''));
+      if (others.length) add('Também vale conferir (outras partes do Manual)', others.map(x => pushQuote(quoteItem(x.c, terms, { showSec: true }))).join(''));
     }
 
     // ---- Como funciona (fluxo operacional)
@@ -1224,13 +1228,37 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
     if (legalHTML) src += '<li class="src-ext"><span>Legislação externa: ver quadro “Verificação em fonte oficial” acima (identificada separadamente).</span></li>';
     src += '</ul></div>';
 
+    // ---- Voz do assistente: abertura acolhedora e próximos passos (sem acrescentar conteúdo ao Manual)
+    const tn = '<b>' + esc(sec.titleNice) + '</b>';
+    let intro;
+    if (intents.where) intro = 'Claro! Mostro abaixo em que partes do Manual o assunto ' + tn + ' é tratado, para você ir direto ao ponto.';
+    else if (intents.prazo) intro = 'Entendo — prazos fazem toda a diferença no dia a dia da secretaria. Sobre ' + tn + ', veja o que o Manual estabelece:';
+    else if (intents.resp && /atribuic|papel|funcao|funcoes/.test(a.n)) intro = 'Ótima pergunta para organizar o trabalho da equipe. Estas são as atribuições indicadas no Manual para ' + tn + ':';
+    else if (intents.resp) intro = 'Saber quem faz cada etapa evita retrabalho. Em ' + tn + ', o Manual indica o seguinte:';
+    else if (intents.docs) intro = 'Vamos conferir juntos o que é preciso reunir. Para ' + tn + ', o Manual orienta:';
+    else if (intents.legal) intro = 'Certo! Abaixo está a base legal que o próprio Manual cita para ' + tn + '. A verificação em fonte externa, quando houver, aparece em quadro separado.';
+    else if (intents.def && !intents.proc) intro = 'Vamos lá! Explico com as palavras do próprio Manual o que é ' + tn + ':';
+    else if (sec.flowAll.length) intro = 'Vou te ajudar com isso. Separei abaixo o essencial sobre ' + tn + ': primeiro o que o Manual diz e, depois, o passo a passo para colocar em prática.';
+    else intro = 'Vou te ajudar com isso. Reuni abaixo as orientações do Manual sobre ' + tn + ':';
+    const follow = [];
+    const ask = q => follow.push('<button type="button" class="chip" data-ask="' + esc(q + ' — ' + sec.titleNice) + '">' + esc(q) + '</button>');
+    if (!intents.proc && !showFlow && sec.flowAll.length) ask('Como funciona o passo a passo?');
+    if (!intents.prazo && sec.blocks.some(b => b.tag.prazoStrong)) ask('Qual é o prazo?');
+    if (!intents.resp && sec.blocks.some(b => b.tag.resp)) ask('Quem é responsável?');
+    if (!intents.docs && sec.blocks.some(b => b.tag.docStrong)) ask('Quais documentos são necessários?');
+    if (!intents.legal && sec.legalItems.length) ask('Qual a legislação citada?');
+    const followHTML = follow.length ? '<div class="sec next"><h3>Para continuar</h3><p class="guide">Se quiser, posso detalhar outro ponto deste procedimento:</p><div class="chips">' + follow.slice(0, 4).join('') + '</div></div>' : '';
+    const closing = (sec.flowAll.length || intents.proc || intents.resp || intents.docs || intents.prazo) && !intents.where
+      ? '<p class="guide closing">Lembre-se: cada caso tem suas particularidades. Use “Ver trecho do Manual” para conferir o texto completo e, se a situação da sua escola não se encaixar exatamente, vale alinhar com a Supervisão de Ensino ou o SEVESC da sua Unidade Regional.</p>' : '';
+
     let html = '<span class="badge manual">Orientação do Manual</span>' +
       '<div class="topic">' + esc(sec.titleNice) + '</div>' +
       '<div class="topic-meta">' + (sec.part ? esc(titleCase(sec.part)) + ' · ' : '') + fmtPages(sec.pages.filter(p => p >= sec.start)) + '</div>' +
       (ctxNote ? '<p class="ctxnote">' + ctxNote + ' <button type="button" class="linkbtn" data-clear-topic>Escolher outro assunto</button></p>' : '') +
       (missNote ? '<p class="ctxnote">' + missNote + '</p>' : '') +
-      parts.join('') + legalHTML +
-      (also.length ? '<div class="sec"><h3>Também tratado em</h3><div class="chips">' + also.map(x => '<button type="button" class="chip" data-open-sec="' + x.sec.id + '">' + esc(x.sec.titleNice) + ' · ' + fmtPages([x.sec.start]) + '</button>').join('') + '</div></div>' : '') +
+      '<p class="intro">' + intro + '</p>' +
+      parts.join('') + legalHTML + followHTML + closing +
+      (also.length ? '<div class="sec"><h3>O assunto também aparece em</h3><div class="chips">' + also.map(x => '<button type="button" class="chip" data-open-sec="' + x.sec.id + '">' + esc(x.sec.titleNice) + ' · ' + fmtPages([x.sec.start]) + '</button>').join('') + '</div></div>' : '') +
       src;
     return { type: 'manual', html, section: sec.id, pages: Array.from(pagesBySec.values()).flat(), intents };
   }
@@ -1256,28 +1284,28 @@ body{background:radial-gradient(1200px 500px at 85% -10%,#f3e3e8 0%,rgba(243,227
       list.sort((x, y) => x.start - y.start);
     } else list = list.filter(s => ['MATRÍCULA', 'CLASSIFICAÇÃO', 'RECLASSIFICAÇÃO', 'TRANSFERÊNCIA PELA SALA DO FUTURO', 'COMPENSAÇÃO DE AUSÊNCIAS', 'HISTÓRICO ESCOLAR', 'PUBLICAÇÃO DE CONCLUINTE', 'REGULARIZAÇÃO DE VIDA ESCOLAR', 'EQUIVALÊNCIA DE ESTUDOS', 'FREQUÊNCIA IRREGULAR', 'LICENÇA GESTANTE', 'PROGRESSÃO PARCIAL'].includes(s.title));
     const verb = it.prazo ? 'Qual é o prazo?' : it.resp ? 'Quem é responsável?' : it.docs ? 'Quais documentos são necessários?' : it.where ? 'Onde o Manual trata do assunto?' : it.legal ? 'Qual a legislação citada?' : 'Como funciona?';
-    const html = '<span class="badge info">Preciso de um esclarecimento</span><p style="margin-top:10px">' + esc(msg) + '</p><div class="chips">' +
+    const html = '<span class="badge info">Vamos especificar?</span><p class="intro" style="margin-top:10px">Quero te orientar com precisão. ' + esc(msg) + '</p><p class="guide">Toque em um dos assuntos abaixo ou escreva o nome do procedimento:</p><div class="chips">' +
       list.map(s => '<button type="button" class="chip" data-ask="' + esc(verb + ' — ' + s.titleNice) + '">' + esc(s.titleNice) + '</button>').join('') + '</div>';
     return { type: 'clarify', html };
   }
 
   function outOfScope(a) {
-    return { type: 'oos', html: '<span class="badge info">Fora do escopo</span><p style="margin-top:10px">Posso auxiliar com informações relacionadas ao Manual de Procedimento de Vida Escolar 2026 e com a legislação pertinente aos assuntos nele tratados.</p>' };
+    return { type: 'oos', html: '<span class="badge info">Fora do escopo</span><p style="margin-top:10px">Posso auxiliar com informações relacionadas ao Manual de Procedimento de Vida Escolar 2026 e com a legislação pertinente aos assuntos nele tratados.</p><p class="guide">Se a sua dúvida for sobre a vida escolar dos estudantes — matrícula, frequência, histórico, transferência, documentos —, é só perguntar que eu procuro no Manual com você.</p>' };
   }
 
   function insufficient(a, missWords, R) {
-    let h = '<span class="badge info">Informação não localizada</span><p style="margin-top:10px">Não localizei no Manual informações suficientes para responder a essa pergunta' +
-      (missWords && missWords.length ? ' — o Manual não menciona <b>' + missWords.map(esc).join('</b>, <b>') + '</b>.' : '.') + '</p>';
+    let h = '<span class="badge info">Informação não localizada</span><p class="intro" style="margin-top:10px">Procurei com cuidado, mas não localizei no Manual informações suficientes para responder a essa pergunta' +
+      (missWords && missWords.length ? ' — o Manual não menciona <b>' + missWords.map(esc).join('</b>, <b>') + '</b>.' : '.') + '</p><p class="guide">Prefiro ser transparente a te dar uma informação incerta. Você pode reformular a pergunta com outras palavras ou conferir os assuntos próximos abaixo.</p>';
     const rel = (R ? R.secs : []).slice(0, 4);
     if (rel.length) {
-      h += '<p style="font-size:14.5px;color:var(--ink-2)">Assuntos próximos que o Manual trata (podem ou não responder à sua dúvida):</p><div class="chips">' +
+      h += '<p style="font-size:14.5px;color:var(--ink-2)">Assuntos próximos que o Manual trata (talvez ajudem):</p><div class="chips">' +
         rel.map(x => '<button type="button" class="chip" data-open-sec="' + x.sec.id + '">' + esc(x.sec.titleNice) + ' · ' + fmtPages([x.sec.start]) + '</button>').join('') + '</div>';
     }
     return { type: 'insufficient', html: h };
   }
 
   function panoramaPrazos(a) {
-    let h = '<span class="badge manual">Orientação do Manual</span><div class="topic">Prazos previstos no Manual</div><div class="topic-meta">Trechos literais com prazos, agrupados por assunto. Para uma resposta detalhada, pergunte sobre um procedimento específico.</div><div class="panorama">';
+    let h = '<span class="badge manual">Orientação do Manual</span><div class="topic">Prazos previstos no Manual</div><p class="intro">Boa ideia ter os prazos à mão! Reuni abaixo, por assunto, os trechos do Manual que trazem prazos. Abra o tema que te interessa — e, se quiser uma orientação completa, é só perguntar sobre o procedimento.</p><div class="panorama">';
     const pagesAll = [];
     SECTIONS.forEach(sec => {
       const cs = CHUNKS.filter(c => c.s === sec.id && !c.legal && c.blocks.some(b => b.tag.prazoStrong));
