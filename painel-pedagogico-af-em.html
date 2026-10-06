@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Atendimento à Educação Especial — EE CEL. Domingos Quirino Ferrira.</title>
+<title>Atendimento à Educação Especial — EE CEL. Domingos Quirino Ferreira.</title>
 <style>
   :root{
     --wine-1:#5C1A33;
@@ -260,6 +260,44 @@
   .cid-result strong{ color:var(--wine-1); }
   .cid-result a{ color:var(--wine-1); }
 
+  .leg-ask-card{ background:linear-gradient(135deg, var(--wine-soft), #fff 60%); border:1.5px solid #EBC3CF; }
+  .leg-ask-row{ display:flex; gap:10px; flex-wrap:wrap; }
+  .leg-ask-row input{ flex:1; min-width:240px; }
+  #leg-busca{ width:100%; font-size:15.5px; padding:13px 18px; }
+  .leg-answer{ margin-top:16px; background:#fff; border:1.5px solid var(--card-border); border-radius:18px; padding:18px 20px; animation: fadein .25s ease; }
+  .leg-answer .leg-answer-label{ font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--wine-2); margin:0 0 8px; }
+  .leg-answer .leg-answer-text{ font-size:14.5px; color:var(--ink); line-height:1.65; margin:0 0 8px; }
+  .leg-answer .leg-fonte{ font-size:12px; color:var(--wine-2); font-weight:600; }
+  .leg-answer .leg-related{ margin-top:12px; padding-top:12px; border-top:1px dashed var(--card-border); display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+  .leg-chip{ font-size:12px; font-weight:600; color:var(--wine-1); background:var(--wine-soft); border-radius:999px; padding:5px 12px; }
+  .leg-answer-miss{ font-size:14.5px; color:var(--ink); line-height:1.6; }
+  .leg-external-links{ margin-top:12px; display:flex; flex-wrap:wrap; gap:8px; }
+  .leg-external-links a{
+    font-size:13px; font-weight:600; color:var(--wine-1); background:#fff;
+    border:1.5px solid #EBC3CF; border-radius:999px; padding:7px 14px; text-decoration:none;
+  }
+  .leg-external-links a:hover{ background:var(--wine-soft); }
+  .leg-glossario-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:12px; }
+  .leg-card{ background:var(--bg); border:1.5px solid var(--card-border); border-radius:16px; padding:14px 16px; }
+  .leg-card strong{ display:block; color:var(--wine-1); font-size:15px; margin-bottom:2px; }
+  .leg-card span{ display:block; font-size:12.5px; font-weight:600; color:var(--ink-soft); margin-bottom:6px; }
+  .leg-card p{ font-size:13px; color:var(--ink); margin:0; line-height:1.5; }
+
+  .leg-faq-item{ border:1.5px solid var(--card-border); border-radius:16px; padding:14px 18px; margin-bottom:10px; background:#fff; }
+  .leg-faq-item summary{ cursor:pointer; font-weight:700; font-size:14.5px; color:var(--ink); list-style:none; }
+  .leg-faq-item summary::-webkit-details-marker{ display:none; }
+  .leg-faq-item summary::before{ content:'+ '; color:var(--wine-2); font-weight:900; }
+  .leg-faq-item[open] summary::before{ content:'– '; }
+  .leg-faq-item p{ margin:10px 0 0; font-size:14px; color:var(--ink-soft); line-height:1.6; }
+  .leg-fonte{ font-size:12px; color:var(--wine-2); font-weight:600; margin-top:6px !important; }
+
+  .leg-lei{ display:flex; gap:12px; padding:12px 0; border-bottom:1px solid var(--card-border); }
+  .leg-lei:last-child{ border-bottom:none; }
+  .leg-badge{ flex-shrink:0; font-size:11px; font-weight:700; text-transform:uppercase; color:var(--wine-1); background:var(--wine-soft); border-radius:999px; padding:4px 10px; height:fit-content; white-space:nowrap; }
+  .leg-lei strong{ display:block; font-size:14px; margin-bottom:3px; }
+  .leg-lei p{ font-size:13px; color:var(--ink-soft); margin:0; line-height:1.5; }
+  .leg-section-note{ margin:-6px 0 14px; font-size:13px; color:var(--ink-soft); }
+
   @media (max-width: 760px){
     .topbar{ padding:18px 20px; border-radius:0 0 24px 24px; }
     .brand h1{ font-size:16px; }
@@ -281,7 +319,7 @@
       <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#5C1A33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.178 8c5.096 0 5.096 8 0 8-5.097 0-7.097-8-12.193-8-5.096 0-5.096 8 0 8 5.096 0 7.096-8 12.193-8z"/></svg></span>
       <div>
         <p class="kicker">Atendimento à Educação Especial</p>
-        <h1>EE CEL. Domingos Quirino Ferrira.</h1>
+        <h1>EE CEL. Domingos Quirino Ferreira.</h1>
       </div>
     </div>
     <nav class="tabs">
@@ -292,6 +330,10 @@
       <button class="tab" data-tab="estudo" type="button">
         <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span>
         Estudo de Caso
+      </button>
+      <button class="tab" data-tab="legislacao" type="button">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span>
+        Legislação
       </button>
     </nav>
   </header>
@@ -562,6 +604,42 @@
         <div class="doc-preview"><textarea id="e-texto"></textarea></div>
         <div class="disclaimer"><strong>Nada do que você digitou aqui fica salvo.</strong> Este texto foi gerado por um assistente a partir das suas respostas — é um rascunho para a equipe revisar, completar e assinar, nunca um laudo ou parecer clínico.</div>
       </div>
+    </section>
+
+    <!-- Legislação -->
+    <section class="panel" data-panel="legislacao">
+      <div class="eyebrow-line"><span class="accent-chip"></span><h2>Legislação e Orientações</h2></div>
+      <p class="lede">Consulte, em linguagem direta, as leis e normas que fundamentam o atendimento educacional especializado — e tire dúvidas práticas sobre quem faz o quê, prazos e documentos.</p>
+
+      <div class="card leg-ask-card">
+        <h3 class="card-title">Pergunte sobre a legislação</h3>
+        <p class="leg-section-note">Escreva sua dúvida com suas próprias palavras. A resposta vem só do que está cadastrado aqui (a Resolução SEDUC nº 129/2025 e as normas que ela cita) — nunca é inventada. Quando não encontrar nada, este espaço indica onde pesquisar a norma na internet, em vez de arriscar um palpite.</p>
+        <div class="leg-ask-row">
+          <input type="text" id="leg-busca" placeholder="Ex.: Quanto tempo a escola tem para fazer o PAEE? O que é hipótese diagnóstica?">
+          <button class="btn btn-primary" id="leg-perguntar" type="button">Perguntar</button>
+        </div>
+        <div id="leg-resposta"></div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Glossário rápido</h3>
+        <p class="leg-section-note">Siglas e termos usados no dia a dia da Educação Especial, conforme o Artigo 2º da Resolução SEDUC nº 129/2025.</p>
+        <div class="leg-glossario-grid" id="leg-glossario"></div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Perguntas frequentes</h3>
+        <p class="leg-section-note">Dúvidas práticas do dia a dia escolar, com a referência do artigo que fundamenta cada resposta.</p>
+        <div id="leg-faq"></div>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Base legal</h3>
+        <p class="leg-section-note">As normas federais, estaduais e internacionais que fundamentam a Resolução SEDUC nº 129, de 30 de setembro de 2025 — a norma que esta Resolução regulamenta na rede estadual.</p>
+        <div id="leg-base"></div>
+      </div>
+
+      <div class="disclaimer"><strong>Este espaço é informativo.</strong> Foi elaborado com base na Resolução SEDUC nº 129/2025 (SP) e nas normas que ela cita. Não substitui a leitura da norma na íntegra nem orientação jurídica formal — em caso de dúvida sobre um caso concreto, procure a Equipe de Educação Especial da sua Diretoria de Ensino.</div>
     </section>
 
   </main>
@@ -962,6 +1040,183 @@ function downloadAsWord(text, filename){
   URL.revokeObjectURL(url);
 }
 function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ---- Legislação ----
+const LEGISLACAO = {
+  glossario: [
+    { sigla:'AEE', nome:'Atendimento Educacional Especializado', texto:'Serviço complementar ou suplementar à escolarização, destinado a eliminar barreiras e promover a aprendizagem de estudantes elegíveis aos serviços da Educação Especial.' },
+    { sigla:'API', nome:'Avaliação Pedagógica Inicial', texto:'Instrumento de levantamento inicial das especificidades e potencialidades do estudante, equivalente ao Estudo de Caso.' },
+    { sigla:'PAEE', nome:'Plano de Atendimento Educacional Especializado', texto:'Documento que identifica barreiras, elenca as atividades necessárias ao desenvolvimento de habilidades e potencialidades dos estudantes, e orienta as ações da comunidade escolar.' },
+    { sigla:'PEI', nome:'Plano Educacional Individualizado', texto:'Documento que estabelece a acessibilização curricular, adaptações e estratégias para o acesso ao currículo comum.' },
+    { sigla:'TEA', nome:'Transtorno do Espectro Autista', texto:'Condição caracterizada por dificuldades persistentes na comunicação, interação social e padrões restritivos e repetitivos de comportamento.' },
+    { sigla:'TGD', nome:'Transtorno Global do Desenvolvimento', texto:'Terminologia anteriormente utilizada para se referir a condições hoje abarcadas pelo espectro do TEA.' },
+    { sigla:'LIBRAS', nome:'Língua Brasileira de Sinais', texto:'Meio legal de comunicação e expressão da comunidade surda no Brasil.' },
+    { sigla:'Prof. de Apoio Escolar', nome:'Profissional de Apoio Escolar', texto:'Profissional que presta suporte direto aos estudantes com deficiência ou TEA nas atividades de vida diária e/ou escolares, visando garantir acesso, permanência e participação.' },
+    { sigla:'PDDE Paulista', nome:'Programa Dinheiro Direto na Escola Paulista', texto:'Programa de repasse de recursos financeiros às unidades executoras para custeio e investimento em melhorias e recursos educacionais.' },
+    { sigla:'Mod. Itinerante', nome:'Modalidade Itinerante', texto:'Forma de oferta do AEE em que o atendimento é realizado por professor especializado em espaço multiuso ou escola próxima, quando não há Sala de Recursos disponível.' },
+    { sigla:'Sala de Recursos', nome:'Salas de Recursos Multifuncionais', texto:'Ambientes equipados para o Atendimento Educacional Especializado – AEE, com recursos pedagógicos e de acessibilidade, para atendimento individualizado ou em pequenos grupos.' },
+    { sigla:'Currículo Paulista', nome:'Currículo Paulista', texto:'Documento que orienta a organização curricular da rede estadual de ensino, com competências, habilidades e conteúdos a serem desenvolvidos.' },
+    { sigla:'DUA', nome:'Desenho Universal da Aprendizagem', texto:'Abordagem pedagógica que visa garantir múltiplas formas de representação, engajamento e expressão do conhecimento.' },
+    { sigla:'PEIPTEA', nome:'Plano Estadual Integrado para Pessoas com TEA', texto:'Política pública do Estado de São Paulo para atendimento intersetorial da população com Transtorno do Espectro Autista.' }
+  ],
+  faq: [
+    { pergunta:'Quem tem direito aos serviços da Educação Especial?', resposta:'Três grupos: (I) estudante com deficiência — impedimento de longo prazo de natureza física, mental, intelectual ou sensorial que, em interação com barreiras, pode obstruir sua participação plena na sociedade; (II) estudante com Transtorno do Espectro Autista – TEA; e (III) estudante com Altas Habilidades/Superdotação. Estudantes com Transtorno Global do Desenvolvimento – TGD também são considerados TEA.', artigo:'Art. 2º, parágrafo único, e incisos I a III' },
+    { pergunta:'Quais documentos toda escola deve ter para cada estudante elegível?', resposta:'O Estudo de Caso (equivalente à Avaliação Pedagógica Inicial) e o Plano de Atendimento Educacional Especializado – PAEE são obrigatórios para todos os estudantes elegíveis. Além deles, deve ser elaborado o Plano Educacional Individualizado – PEI, com o plano de acessibilização curricular e as medidas individualizadas de acesso ao currículo.', artigo:'Art. 14, §§ 2º e 3º' },
+    { pergunta:'Qual o prazo para elaborar o Estudo de Caso e o PAEE?', resposta:'O processo deve ser concluído em até 30 dias letivos após o início da frequência do estudante elegível aos serviços de Educação Especial, podendo ser prorrogado mediante justificativa fundamentada apresentada ao Chefe de Departamento/Coordenador/Coordenador Geral - Dirigente Regional de Ensino.', artigo:'Art. 5º, § 2º' },
+    { pergunta:'Quem elabora o Estudo de Caso e o PAEE, e quem participa?', resposta:'São de responsabilidade do Professor Especializado, elaborados de forma colaborativa com: professores regentes de classes e turmas, professores de componentes curriculares, equipe gestora, professor especializado do Projeto Ensino Colaborativo, responsáveis e/ou familiares, e demais profissionais que apoiam o estudante, quando houver.', artigo:'Art. 5º, § 1º, e Art. 13' },
+    { pergunta:'Com que frequência a documentação deve ser atualizada e apresentada à família?', resposta:'A documentação (PAEE e apoio ao PEI) deve ser atualizada bimestralmente e apresentada aos pais ou responsáveis de cada estudante. A escola também deve realizar reuniões periódicas para apresentar as atualizações do PAEE e informar sobre o acompanhamento pedagógico.', artigo:'Art. 14, § 5º, e Art. 5º, IV, "i"' },
+    { pergunta:'O que é o Relatório de Acolhimento, Orientação e Retorno (Anexo V)?', resposta:'É um instrumento pedagógico, orientativo e comunicativo, elaborado bimestralmente pelo professor do AEE com a participação do coordenador de gestão pedagógica e do professor regente, para registrar o acolhimento inicial às famílias, explicitar os objetivos do PAEE e acompanhar bimestralmente os avanços e desafios do estudante.', artigo:'Art. 4º e § 1º' },
+    { pergunta:'O estudante pode receber AEE mesmo sem laudo médico conclusivo?', resposta:'Sim. Em hipótese diagnóstica ou processo de investigação, o estudante é atendido por Professor Especializado em Educação Especial durante o ano letivo, sem direcionamento à especificidade. Após apresentação do laudo conclusivo, passa a ser atendido por professor com habilitação específica na área. Completado um ano nessa situação, a escola deve convocar os responsáveis para apresentar documentos que comprovem a continuidade do acompanhamento médico.', artigo:'Art. 18' },
+    { pergunta:'Quais as principais funções do Professor Especializado?', resposta:'Entre outras: realizar o Estudo de Caso e elaborar/monitorar o PAEE; orientar e acompanhar o processo de ensino-aprendizagem do estudante; apoiar tecnicamente os docentes da classe comum; participar de reuniões de Conselho de Classe e das ATPC; orientar famílias e comunidade escolar; e elaborar o Relatório de Acolhimento, Orientação e Retorno.', artigo:'Art. 13' },
+    { pergunta:'Como funciona o AEE nas escolas do Programa de Ensino Integral (PEI)?', resposta:'É um direito assegurado aos estudantes elegíveis, ofertado de forma complementar ou suplementar à escolarização, sem substituí-la, podendo ocorrer durante a jornada escolar (desde que não comprometa a participação nas atividades curriculares) ou em turno extra. O currículo da escola de tempo integral deve ser único e acessível a todos, sendo vedada a criação de currículos paralelos.', artigo:'Art. 17' },
+    { pergunta:'Quem são os profissionais de apoio para estudantes com deficiência auditiva, surdez ou surdocegueira?', resposta:'Professor de Libras ou Professor Interlocutor de Libras (anos iniciais e finais do Ensino Fundamental); Professor Tradutor e Intérprete ou Professor de Libras (Ensino Médio e EJA); e Professor Instrutor-mediador ou Guia-intérprete para estudantes surdocegos. Todos devem ter fluência comprovada em Libras.', artigo:'Art. 21' },
+    { pergunta:'O que faz o Profissional de Apoio Escolar e quando ele é oferecido?', resposta:'Presta suporte direto ao estudante com deficiência e/ou TEA, podendo atuar em Atividades de Vida Diária (higiene, locomoção, alimentação) e/ou em Atividades Escolares (interação e comunicação social), de forma individualizada ou compartilhada, sempre conforme o que for identificado no Estudo de Caso e no PAEE.', artigo:'Art. 22 e § 1º a § 5º' },
+    { pergunta:'Quem supervisiona e fiscaliza a aplicação da Política de Educação Especial na escola?', resposta:'A responsabilidade é compartilhada: o Chefe de Departamento/Dirigente Regional de Ensino compõe a Equipe de Educação Especial e emite despacho conclusivo; os Supervisores de Ensino assessoram e acompanham a implementação; o Professor Especialista em Currículo – PEC orienta as escolas; e o Diretor Escolar organiza a documentação e zela pela sua conformidade na Secretaria Escolar Digital – SED.', artigo:'Art. 23' },
+    { pergunta:'Para abrir uma nova Sala de Recursos Multifuncionais, o que a escola precisa apresentar?', resposta:'Entre outros documentos: ofício do Diretor com justificativa e mapeamento da demanda; planilha com nome, RA, ano/série e horários dos estudantes; ficha do estudante extraída da SED; indicação do espaço físico disponível; rol de recursos a adquirir via PDDE-Paulista; o Estudo de Caso; e, quando necessário, laudo médico ou relatório de profissional habilitado.', artigo:'Art. 9º, I' }
+  ],
+  legislacaoBase: [
+    { esfera:'Federal', norma:'Constituição Federal de 1988', resumo:'Consagra, nos artigos 1º a 6º, princípios, direitos e garantias fundamentais; assegura no art. 206, I, a igualdade de condições para acesso e permanência na escola; e garante no art. 208, III, o atendimento educacional especializado às pessoas com deficiência.' },
+    { esfera:'Internacional', norma:'Convenção sobre os Direitos das Pessoas com Deficiência (ONU)', resumo:'Assinada em Nova York em 2007, ratificada pelo Decreto Legislativo nº 186/2008 e promulgada pelo Decreto nº 6.949/2009, com força de emenda constitucional.' },
+    { esfera:'Estadual', norma:'Constituição do Estado de São Paulo', resumo:'Nos artigos 237 e 239, estabelece princípios sobre dignidade da pessoa humana, desenvolvimento integral da personalidade, igualdade de oportunidades, a modalidade de Educação Especial e a promoção da acessibilidade nas escolas.' },
+    { esfera:'Federal', norma:'Lei nº 8.069/1990 – Estatuto da Criança e do Adolescente (ECA)', resumo:'Assegura, nos artigos 3º, 53 e 54, III, o direito fundamental à educação e ao atendimento educacional especializado.' },
+    { esfera:'Federal', norma:'Lei nº 9.394/1996 – LDB (Lei de Diretrizes e Bases)', resumo:'Estabelece princípios e garantias para a educação nacional; dispõe, nos Capítulos V e V-A, sobre a Educação Especial e a Educação Bilíngue.' },
+    { esfera:'Federal', norma:'Lei nº 10.436/2002', resumo:'Reconhece e regulamenta a Língua Brasileira de Sinais – LIBRAS.' },
+    { esfera:'Federal', norma:'Lei nº 12.764/2012 – Lei Berenice Piana', resumo:'Institui a Política Nacional de Proteção dos Direitos da Pessoa com Transtorno do Espectro Autista – TEA, regulamentada pelo Decreto nº 8.368/2014.' },
+    { esfera:'Federal', norma:'Lei nº 13.146/2015 – Lei Brasileira de Inclusão (LBI)', resumo:'Também chamada de Estatuto da Pessoa com Deficiência. É a referência central de terminologia e direitos usada por toda a Resolução SEDUC nº 129/2025.' },
+    { esfera:'Federal', norma:'Resolução CNE/CEB nº 4/2009', resumo:'Define as Diretrizes Operacionais para o Atendimento Educacional Especializado na Educação Básica – AEE.' },
+    { esfera:'Federal', norma:'PNEEPEI (2008)', resumo:'Política Nacional de Educação Especial na Perspectiva da Educação Inclusiva, que garante acesso, permanência, participação e aprendizagem de alunos com deficiência, transtornos globais do desenvolvimento e altas habilidades/superdotação em escolas regulares.' },
+    { esfera:'Federal', norma:'Nota Técnica MEC nº 04/2010 (SECADI/SEESP)', resumo:'Trata dos documentos comprobatórios para o Censo Escolar do público-alvo da Educação Especial.' },
+    { esfera:'Federal', norma:'Parecer CNE/CP nº 50/2023', resumo:'Reanalisado em 5 de novembro de 2024, orienta o atendimento a estudantes com Transtorno do Espectro Autista – TEA.' },
+    { esfera:'Estadual', norma:'Lei nº 16.279/2016', resumo:'Aprova o Plano Estadual de Educação de São Paulo, com sua Meta 4 voltada à inclusão educacional.' },
+    { esfera:'Estadual', norma:'Política de Educação Especial do Estado de São Paulo (2021)', resumo:'Publicada em 28 de setembro de 2021, orienta a organização dos serviços de Educação Especial na rede estadual.' },
+    { esfera:'Estadual', norma:'Lei nº 17.669/2023', resumo:'Estabelece o prazo de validade do laudo médico pericial que atesta o Transtorno do Espectro Autista – TEA.' },
+    { esfera:'Estadual', norma:'Decreto nº 67.634/2023', resumo:'Institui o Plano Estadual Integrado para Pessoas com Transtorno do Espectro do Autismo – PEIPTEA.' },
+    { esfera:'Estadual', norma:'Deliberação CEE nº 149/2016', resumo:'Estabelece normas para a Educação Especial no Sistema Estadual de Ensino de São Paulo.' },
+    { esfera:'Estadual', norma:'Lei nº 17.798/2023', resumo:'Altera a Política Estadual de Proteção dos Direitos da Pessoa com Transtorno do Espectro do Autismo – TEA.' },
+    { esfera:'Estadual', norma:'Decreto nº 67.635/2023', resumo:'Dispõe sobre a Educação Especial na rede estadual de ensino — é o decreto-base que a Resolução SEDUC nº 129/2025 regulamenta no dia a dia escolar.' },
+    { esfera:'Estadual', norma:'Ofício nº 1379/2024 (DPDI/SEB/SEB-MEC)', resumo:'Apresenta orientações sobre o Atendimento Educacional Especializado no Programa Escola em Tempo Integral – ETI.' },
+    { esfera:'Estadual', norma:'Resolução SEDUC nº 129, de 30 de setembro de 2025', resumo:'A norma-base deste espaço: regulamenta a Política de Educação Especial do Estado de São Paulo e o Plano Integrado para Pessoas com TEA, detalhando documentos, prazos, papéis e procedimentos do AEE na rede estadual.' }
+  ]
+};
+
+function renderLegislacao(){
+  const raw = document.getElementById('leg-busca').value.trim();
+  const q = raw.toLowerCase();
+  // For short keyword-style input, filter the lists by simple substring (quick browse).
+  // For a full question (more than 4 words), leave the lists showing everything —
+  // the synthesized answer above (via "Perguntar") is what handles that case.
+  const isQuestionLike = raw.split(/\s+/).filter(Boolean).length > 4;
+  const match = (txt) => !q || isQuestionLike || txt.toLowerCase().includes(q);
+
+  const gEl = document.getElementById('leg-glossario');
+  const gItems = LEGISLACAO.glossario.filter(g => match(g.sigla+' '+g.nome+' '+g.texto));
+  gEl.innerHTML = gItems.length ? gItems.map(g =>
+    '<div class="leg-card"><strong>'+escapeHtml(g.sigla)+'</strong><span>'+escapeHtml(g.nome)+'</span><p>'+escapeHtml(g.texto)+'</p></div>'
+  ).join('') : '<p class="empty-note">Nenhum termo encontrado para essa busca.</p>';
+
+  const fEl = document.getElementById('leg-faq');
+  const fItems = LEGISLACAO.faq.filter(f => match(f.pergunta+' '+f.resposta));
+  fEl.innerHTML = fItems.length ? fItems.map(f =>
+    '<details class="leg-faq-item"><summary>'+escapeHtml(f.pergunta)+'</summary><p>'+escapeHtml(f.resposta)+'</p><p class="leg-fonte">'+escapeHtml(f.artigo)+' — Resolução SEDUC nº 129/2025</p></details>'
+  ).join('') : '<p class="empty-note">Nenhuma pergunta encontrada para essa busca.</p>';
+
+  const bEl = document.getElementById('leg-base');
+  const bItems = LEGISLACAO.legislacaoBase.filter(b => match(b.esfera+' '+b.norma+' '+b.resumo));
+  bEl.innerHTML = bItems.length ? bItems.map(b =>
+    '<div class="leg-lei"><span class="leg-badge">'+escapeHtml(b.esfera)+'</span><div><strong>'+escapeHtml(b.norma)+'</strong><p>'+escapeHtml(b.resumo)+'</p></div></div>'
+  ).join('') : '<p class="empty-note">Nenhuma norma encontrada para essa busca.</p>';
+}
+document.getElementById('leg-busca').addEventListener('input', renderLegislacao);
+renderLegislacao();
+
+const LEG_STOPWORDS = new Set(['a','o','as','os','de','da','do','das','dos','e','ou','que','para','com','em','no','na','nos','nas','um','uma','é','são','ao','aos','à','às','por','como','se','sua','seu','suas','seus','tem','ter','qual','quais','quem','onde','isso','esse','essa','pode','preciso','gostaria','favor','sobre']);
+const LEG_SYNONYMS = {
+  tempo:'prazo', dias:'prazo', demora:'prazo', demorar:'prazo', quando:'prazo', prazos:'prazo',
+  aluno:'estudante', alunos:'estudante', crianca:'estudante', criancas:'estudante',
+  faz:'elabora', fazer:'elabora', monta:'elabora', montar:'elabora', preenche:'elabora',
+  preencher:'elabora', cria:'elabora', criar:'elabora', elaborar:'elabora', elaboracao:'elabora',
+  comeca:'inicio', comecar:'inicio', iniciar:'inicio', iniciou:'inicio', entrada:'inicio',
+  obrigatorio:'obrigatorio', obrigatorios:'obrigatorio', necessario:'obrigatorio', necessarios:'obrigatorio',
+  responsavel:'responsavel', responsaveis:'responsavel', encarregado:'responsavel',
+  significa:'significado', quer:'significado', sigla:'significado'
+};
+function legTokenize(s){
+  const words = (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .replace(/[^a-z0-9\s]/gi,' ').split(/\s+/).filter(Boolean);
+  return words.map(w => LEG_SYNONYMS[w] || w).filter(w => !LEG_STOPWORDS.has(w) && w.length>2);
+}
+function legStemSet(tokens){
+  return new Set(tokens.map(t => t.length>5 ? t.slice(0,5) : t));
+}
+function legScore(queryStems, text){
+  const textStems = legStemSet(legTokenize(text));
+  let matched = 0;
+  queryStems.forEach(s => { if(textStems.has(s)) matched++; });
+  return matched;
+}
+
+function legResponder(){
+  const pergunta = document.getElementById('leg-busca').value.trim();
+  const respEl = document.getElementById('leg-resposta');
+  if(!pergunta){ respEl.innerHTML=''; return; }
+  const qTokens = legTokenize(pergunta);
+  if(!qTokens.length){ respEl.innerHTML=''; return; }
+  const qStems = [...legStemSet(qTokens)];
+  const minHits = Math.min(2, qStems.length);
+  const minRatio = 0.34;
+
+  const faqScored = LEGISLACAO.faq.map(f=>({item:f, score:legScore(qStems, f.pergunta+' '+f.resposta)})).sort((a,b)=>b.score-a.score);
+  const glossScored = LEGISLACAO.glossario.map(g=>({item:g, score:legScore(qStems, g.sigla+' '+g.nome+' '+g.texto)})).sort((a,b)=>b.score-a.score);
+  const baseScored = LEGISLACAO.legislacaoBase.map(b=>({item:b, score:legScore(qStems, b.norma+' '+b.resumo)})).sort((a,b)=>b.score-a.score);
+
+  const legNormWord = w => w.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]/g,'');
+  const qWordsRaw = pergunta.split(/\s+/).map(legNormWord).filter(Boolean);
+  const directGloss = LEGISLACAO.glossario.find(g => qWordsRaw.includes(legNormWord(g.sigla)));
+
+  const relevant = (x) => x && x.score >= minHits && (x.score/qStems.length) >= minRatio;
+  const bestFaq = relevant(faqScored[0]) ? faqScored[0] : null;
+  const bestGloss = directGloss ? {item:directGloss, score:99} : (relevant(glossScored[0]) ? glossScored[0] : null);
+  const topRelatedGloss = glossScored.filter(x=>relevant(x) && x!==bestFaq).slice(0,4);
+  const topRelatedBase = baseScored.filter(x=>relevant(x)).slice(0,3);
+
+  let html = '';
+  if(bestFaq){
+    html += '<div class="leg-answer">'+
+      '<p class="leg-answer-label">Resposta encontrada na Resolução SEDUC nº 129/2025</p>'+
+      '<p class="leg-answer-text">'+escapeHtml(bestFaq.item.resposta)+'</p>'+
+      '<p class="leg-fonte">'+escapeHtml(bestFaq.item.artigo)+'</p>';
+    if(topRelatedGloss.length || topRelatedBase.length){
+      html += '<div class="leg-related">';
+      topRelatedGloss.forEach(g=> html += '<span class="leg-chip">'+escapeHtml(g.item.sigla)+'</span>');
+      topRelatedBase.forEach(b=> html += '<span class="leg-chip">'+escapeHtml(b.item.norma)+'</span>');
+      html += '</div>';
+    }
+    html += '</div>';
+  } else if(bestGloss){
+    html += '<div class="leg-answer">'+
+      '<p class="leg-answer-label">Termo encontrado no glossário</p>'+
+      '<p class="leg-answer-text"><strong>'+escapeHtml(bestGloss.item.sigla)+'</strong> — '+escapeHtml(bestGloss.item.nome)+'. '+escapeHtml(bestGloss.item.texto)+'</p>'+
+      '<p class="leg-fonte">Art. 2º, Resolução SEDUC nº 129/2025</p>'+
+    '</div>';
+  } else {
+    const searchQuery = encodeURIComponent(pergunta+' legislação educação especial São Paulo');
+    html += '<div class="leg-answer">'+
+      '<p class="leg-answer-label">Não encontrei isso no que tenho cadastrado</p>'+
+      '<p class="leg-answer-miss">A Resolução SEDUC nº 129/2025 e as normas que ela cita não parecem cobrir diretamente essa pergunta — ou ela foi escrita de um jeito que eu não reconheci. Em vez de arriscar uma resposta, aqui estão fontes oficiais para pesquisar diretamente:</p>'+
+      '<div class="leg-external-links">'+
+        '<a href="https://www.google.com/search?q='+searchQuery+'" target="_blank" rel="noopener">Pesquisar no Google ↗</a>'+
+        '<a href="https://www.planalto.gov.br/ccivil_03/leis/l_principal.htm" target="_blank" rel="noopener">Legislação Federal (Planalto) ↗</a>'+
+        '<a href="https://www.al.sp.gov.br/repositorio/legislacao/" target="_blank" rel="noopener">Legislação Estadual SP (ALESP) ↗</a>'+
+        '<a href="https://www.doe.sp.gov.br/" target="_blank" rel="noopener">Diário Oficial do Estado de SP ↗</a>'+
+      '</div>'+
+    '</div>';
+  }
+  respEl.innerHTML = html;
+}
+document.getElementById('leg-perguntar').addEventListener('click', legResponder);
+document.getElementById('leg-busca').addEventListener('keydown', (ev)=>{
+  if(ev.key==='Enter'){ ev.preventDefault(); legResponder(); }
+});
 </script>
 </body>
 </html>
