@@ -81,7 +81,7 @@ h2,h3,h4,.btn,.nav-brand{font-family:'Poppins','Inter',sans-serif}
 .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:26px}
 .sec-head h3{font-size:1.25rem;font-weight:700;color:var(--ink)}
 .sec-head span{font:600 .74rem 'Poppins',sans-serif;color:var(--blue);background:var(--blue-soft);padding:5px 12px;border-radius:999px;letter-spacing:.5px;text-transform:uppercase}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
 .card{position:relative;z-index:0;display:flex;flex-direction:column;padding:28px 24px 24px;border-radius:20px;background:#fff;text-decoration:none;color:var(--text);
   border:1px solid var(--line);box-shadow:0 4px 14px -8px rgba(70,10,30,.12);overflow:hidden;transition:.35s cubic-bezier(.2,.8,.2,1);animation:rise .5s both;min-height:200px}
 @keyframes rise{from{opacity:0;transform:translateY(16px)}}
@@ -185,8 +185,8 @@ footer b{color:#fff;font-weight:600}
 /* ======================================================
    LINKS — para incluir, remover ou mudar um botão,
    edite esta lista e suba o arquivo de novo no GitHub.
-   icon: news, folder, idcard, history, school, doc, chart, search, link, calendar, mail, users, globe, star
-   color: 0 vinho · 1 laranja · 2 roxo · 3 verde · 4 dourado · 5 vermelho
+   icon: news, folder, idcard, history, school, inclusao, doc, chart, search, link, calendar, mail, users, globe, star
+   color: 0 vinho · 1 laranja · 2 roxo · 3 verde · 4 dourado · 5 vermelho · 6 verde-azulado
    ====================================================== */
 const LINKS = [
   { title:"Publicação", desc:"Acompanhe as publicações do Diário Oficial relacionadas aos servidores.",
@@ -200,7 +200,9 @@ const LINKS = [
   { title:"Vida Escolar", desc:"Assistente de apoio à vida escolar do estudante.",
     url:"https://edilson2107-cyber.github.io/material-escolar/assistente-vida-escolar.html", icon:"school", color:4 },
   { title:"Busca Ativa Escolar", desc:"Acompanhamento da frequência e busca ativa dos estudantes.",
-    url:"https://script.google.com/macros/s/AKfycbwcEWkZatOmmkHdTdPBd8_BOqTH8jMk_A-5EqniFNjcFIqnXsMXUU45HmGPipfHl1Pa/exec", icon:"search", color:5 }
+    url:"https://script.google.com/macros/s/AKfycbwcEWkZatOmmkHdTdPBd8_BOqTH8jMk_A-5EqniFNjcFIqnXsMXUU45HmGPipfHl1Pa/exec", icon:"search", color:5 },
+  { title:"Atendimento à Educação Especial", desc:"Painel pedagógico dos estudantes da Educação Especial.",
+    url:"https://edilson2107-cyber.github.io/material-escolar/painel-pedagogico-af-em.html", icon:"inclusao", color:6 }
 ];
 
 /* Frases de pensadores da educação — trocam sozinhas */
@@ -255,9 +257,10 @@ const ICONS = {
   mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
   users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/>',
   globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+  inclusao:'<circle cx="12" cy="4.5" r="2"/><path d="M4.5 8.5 12 10l7.5-1.5"/><path d="M12 10v5"/><path d="m8.5 21 3.5-6 3.5 6"/>',
   star:'<path d="m12 3 2.8 5.8 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.3l1-6.2L3 9.7l6.2-.9Z"/>'
 };
-const COLORS = [["#7a1035","#f8edf1"],["#f97316","#fff1e6"],["#7c3aed","#f1eafe"],["#10b981","#e5f7f0"],["#a0782b","#f7f0e1"],["#e11d48","#fdebef"]];
+const COLORS = [["#7a1035","#f8edf1"],["#f97316","#fff1e6"],["#7c3aed","#f1eafe"],["#10b981","#e5f7f0"],["#a0782b","#f7f0e1"],["#e11d48","#fdebef"],["#0f766e","#e3f4f1"]];
 const esc = s => String(s||"").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const svg = n => `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICONS[n]||ICONS.link}</svg>`;
 
