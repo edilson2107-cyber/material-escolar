@@ -158,6 +158,9 @@ tr.after td{color:var(--muted)}
 button.ic{display:inline-flex;align-items:center;gap:7px}
 .nextbox{background:var(--cream-2);border:1px solid var(--wine-line);border-radius:12px;padding:12px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:10px}
 .nextbox ul{margin:0;padding-left:18px;color:var(--ink-2)}
+.lawbox{display:flex;flex-direction:column;gap:8px;margin-top:14px;background:var(--cream-2);border:1px solid var(--line);border-left:4px solid var(--wine);border-radius:12px;padding:12px 14px;font-size:13.5px}
+.lawbox b{font-family:var(--f-head);font-weight:600;font-size:14px}
+.lawbox span{color:var(--ink-2)}
 .adddoc{width:100%;border:1.5px dashed var(--wine-line);background:var(--cream-2);border-radius:14px;padding:18px;color:var(--wine);font-family:var(--f-head);font-weight:600;font-size:15px;margin-top:14px}
 .adddoc:hover{background:var(--wine-soft)}
 /* painel do pedido */
@@ -278,7 +281,8 @@ button.ic{display:inline-flex;align-items:center;gap:7px}
     </table>
   </div>
   <p class="note" style="margin-top:8px">Como digitar os dias: <b>18/02, 04/03</b> · vários no mesmo mês: <b>04,16/03</b> · período: <b>08/11 a 14/11</b> · sem as datas, só a quantidade: <b>3</b></p>
-  <label class="chk" style="margin-top:10px"><input type="checkbox" id="lc173"> <span>Descontar 28/05/2020 a 31/12/2021 (LC 173/2020), como na CTC oficial</span></label>
+  <div class="lawbox"><b>Período de 28/05/2020 a 31/12/2021</b><span>Conta como tempo de serviço: a LC federal 226/2026 revogou a suspensão da LC 173/2020, e o Decreto estadual 70.396/2026 manda contar esse período, com efeitos a partir de 13/01/2026.</span>
+  <label class="chk"><input type="checkbox" id="lc173"> <span>Não contar esse período (regra antiga da LC 173/2020). Use só se a Unidade Regional orientar assim.</span></label></div>
 </section>
 
 <section class="card" id="titulos">
@@ -383,7 +387,7 @@ const ESC_FIELDS=[
 function blank(){return{v:3,
   serv:{nome:'',rg:'',cpf:'',estadoCivil:'',endereco:'',cep:'',telefone:'',classe:'PEB II',disciplina:'',di:'1',sq:'SQC-II',quadro:'QM',faixa:'1',nivel:'I',jornada:'',categoria:'A EFETIVO',ue:'EE CEL DOMINGOS QUIRINO FERREIRA',municipio:'SÃO PAULO',de:'SUL 1',acumula:'NÃO',
     nasc:'',sexo:'FEMININO',rspv:'',inicioCargo:'',posse:'',tabVcto:'I',subqTab:'SQC-II-QM',ua:'40.205',atsVig:'',sextaParte:''},
-  tempo:{inicio:'',ate:'',lc173:true,anos:{}},
+  tempo:{inicio:'',ate:'',lc173:false,lc226:true,anos:{}},
   docs:[],
   esc:{nome:'EE CEL DOMINGOS QUIRINO FERREIRA',endereco:'Avenida do Café, 681 – Vila Guarani – São Paulo/SP – CEP 04311-001',telefone:'(11) 2658-8596',email:'e004807a@educacao.sp.gov.br',
     diretor:'Denilson Pino',diretorRG:'27.313.393-7',coordenador:'Reinaldo Inácio de Lima',ure:'Unidade Regional de Ensino Sul 1',
@@ -412,7 +416,7 @@ function fromV2(o){const map={J:'J',FM:'FM',INJ:'I',LS:'LS',LF:'LF',LSV:'LSV',AF
   for(const x of (o.tempo&&o.tempo.ocorr)||[]){const t=map[x.tipo];if(!t||!x.ini)continue;const y=x.ini.slice(0,4);const dm=d=>d.slice(8,10)+'/'+d.slice(5,7);
     const txt=x.fim&&x.fim!==x.ini?dm(x.ini)+' a '+dm(x.fim):dm(x.ini);anos[y]=anos[y]||{};anos[y][t]=anos[y][t]?anos[y][t]+', '+txt:txt}
   o.tempo={inicio:o.tempo.inicio||'',ate:o.tempo.ate||'',lc173:o.tempo.lc173!==false,anos};o.v=3;return o}
-function migrateS(){const b=blank();S.serv=Object.assign(b.serv,S.serv);S.esc=Object.assign(b.esc,S.esc);if(!S.esc.recebido||S.esc.recebido==='Secretaria')S.esc.recebido='Edilson Gomes Vieira';S.tempo=Object.assign(b.tempo,S.tempo);S.tempo.anos=S.tempo.anos||{};S.docs=S.docs||[]}
+function migrateS(){const b=blank();if(S.tempo&&!S.tempo.lc226){S.tempo.lc173=false;S.tempo.lc226=true}S.serv=Object.assign(b.serv,S.serv);S.esc=Object.assign(b.esc,S.esc);if(!S.esc.recebido||S.esc.recebido==='Secretaria')S.esc.recebido='Edilson Gomes Vieira';S.tempo=Object.assign(b.tempo,S.tempo);S.tempo.anos=S.tempo.anos||{};S.docs=S.docs||[]}
 migrateS();
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function touched(){S.example=false;save()}
@@ -481,7 +485,7 @@ function obsAno(ano,first){const parts=[];const s=S.serv;
   for(const k of Object.keys(TIPOS)){const r=parseDias(at[k],ano);const dates=r.dates.filter(d=>d>=c0);const n=dates.length+r.n;if(!n)continue;if(k==='J')nJ=n;
     const dl=runsTxt(dates);parts.push(`${TIPOS[k].ab}= ${p2(n)} dia${n>1?'s':''}${dl?' ('+dl+')':''}.`)}
   if(nJ)parts.push(`Inclusive ${p2(nJ)} dia${nJ>1?'s':''} pela LC 943/03.`);
-  if(S.tempo.lc173&&ano>=2020&&ano<=2021)parts.push('Ref. a L.C. 173/20 e Com. CGRH 01/2022.');
+  if(ano>=2020&&ano<=2021)parts.push(S.tempo.lc173?'Ref. a L.C. 173/20 e Com. CGRH 01/2022.':'Período de 28/05/2020 a 31/12/2021 computado nos termos da LC federal 226/2026 e do Decreto 70.396/2026 (efeitos a partir de 13/01/2026).');
   const ats=(s.atsVig||'').split(/[,;\s]+/).map(parseBr).filter(Boolean);
   ats.forEach((d,i)=>{if(d.startsWith(ano+'-'))parts.push(`Vence o ${i+1}º ATS em ${br(d)}.`)});
   if(s.sextaParte&&s.sextaParte.startsWith(ano+'-'))parts.push(`Sexta-parte em ${br(s.sextaParte)}.`);
@@ -507,7 +511,14 @@ function compute(){const R=regra(),T=calcTempo(),Sel=selectDocs();const enough=S
   const lastDoc=enough&&Sel.chosen.length?Sel.chosen[Sel.chosen.length-1].emissao:null;
   const interOk=T&&T.end?iso(T.end)<=todayIso():false;let vig=null;
   if(T&&T.end&&enough){const a=iso(addDays(T.end,1));vig=a>lastDoc?a:lastDoc}
-  return{R,T,Sel,enough,interOk,vig,lastDoc}}
+  // LC 226/2026 + Decreto 70.396/2026: o período 28/05/2020–31/12/2021 conta, mas com efeitos só a partir de 13/01/2026
+  let vigOrig=null,ajuste226=false;
+  if(vig&&!S.tempo.lc173&&vig<EFEITO226&&S.tempo.inicio&&S.tempo.inicio<=LC173.fim&&iso(T.end)>=LC173.ini){
+    S.tempo.lc173=true;let TF=null;try{TF=calcTempo()}finally{S.tempo.lc173=false}
+    if(TF&&TF.end){const aF=iso(addDays(TF.end,1));const vigF=aF>lastDoc?aF:lastDoc;
+      if(vigF>vig){const ef=vigF<EFEITO226?vigF:EFEITO226;if(ef>vig){vigOrig=vig;vig=ef;ajuste226=true}}}}
+  return{R,T,Sel,enough,interOk,vig,lastDoc,vigOrig,ajuste226}}
+const EFEITO226='2026-01-13';
 
 /* ================= Formulários ================= */
 function esc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
@@ -593,9 +604,9 @@ docsHost.addEventListener('click',e=>{const b=e.target.closest('[data-act="del"]
 document.getElementById('btnAddDoc').onclick=()=>{S.docs.push({id:uid(),fator:'atualizacao',comp:'curso',titulo:'',local:'',horas:'',inicio:'',fim:'',emissao:'',homolog:'',autoridade:'',usado:false});touched();renderDocs();refresh()};
 
 /* ================= Resultado ================= */
-function refresh(){const{R,T,Sel,enough,interOk,vig}=compute();const pct=Math.min(100,Sel.tot/R.min*100);let cls='bad',msg;
+function refresh(){const{R,T,Sel,enough,interOk,vig,vigOrig,ajuste226}=compute();const pct=Math.min(100,Sel.tot/R.min*100);let cls='bad',msg;
   if(!S.serv.nome&&!S.docs.length&&!S.tempo.inicio){cls='warn';msg='Preencha os dados para ver o resultado.'}
-  else if(enough&&interOk){cls='ok';msg=`Tem direito à evolução do nível ${R.de} para o ${R.para}. Vigência a partir de ${br(vig)}.`}
+  else if(enough&&interOk){cls='ok';msg=`Tem direito à evolução do nível ${R.de} para o ${R.para}. Vigência a partir de ${br(vig)}${ajuste226?' (efeitos do Decreto 70.396/2026)':''}.`}
   else if(enough&&T&&T.end){cls='warn';msg=`Pontos suficientes. O interstício só se completa em ${br(T.end)}; a evolução valerá a partir de ${br(vig)}.`}
   else if(enough){cls='warn';msg='Pontos suficientes. Informe o início da contagem para calcular o interstício.'}
   else{const falta=R.min-Sel.allTot;msg=falta>0?`Faltam ${falta.toLocaleString('pt-BR')} pontos ponderados para o nível ${R.para}.`:'Pontos insuficientes com os documentos válidos.';if(T&&T.end)msg+=interOk?' O interstício já está cumprido.':` Interstício completa em ${br(T.end)}.`}
@@ -615,6 +626,7 @@ function refresh(){const{R,T,Sel,enough,interOk,vig}=compute();const pct=Math.mi
     <dt>Dias descontados</dt><dd>${T?T.desc:'—'}</dd>
     <dt>Último documento</dt><dd>${enough&&Sel.chosen.length?br(Sel.chosen[Sel.chosen.length-1].emissao):'—'}</dd>
     <dt>Vigência</dt><dd>${vig?br(vig):'—'}</dd></dl>
+  ${ajuste226?`<p class="note" style="margin-top:-6px">Os requisitos foram cumpridos em ${br(vigOrig)} contando 28/05/2020 a 31/12/2021. Pelo art. 2º, parágrafo único, do Decreto 70.396/2026, a contagem desse período só produz efeitos a partir de 13/01/2026. ${vig<EFEITO226?`Pela regra anterior (sem contar o período), os requisitos se completaram em ${br(vig)}, antes dessa data, e essa é a vigência.`:`Por isso a vigência fica em ${br(vig)}.`} Confirme com a Unidade Regional.</p>`:''}
   ${sel?`<div><p class="kicker" style="margin:0 0 6px;color:var(--muted)">Documentos do pedido</p><ul style="margin:0;padding-left:18px;font-size:13.5px">${sel}</ul></div>`:''}
   <div class="gen"><p class="kicker" style="margin:0 0 2px;color:var(--muted)">Ficha do servidor</p>
     <button type="button" data-act="save">Salvar ficha com os dados <small>.html</small></button>
@@ -795,6 +807,7 @@ async function ctcXlsx(c){const zip=await JSZip.loadAsync(b64(TPL.ctc));const s=
     Pn.set('G'+rn,(d.inicio||d.fim)?br(d.inicio)+' a '+br(d.fim):'');Pn.set('H'+rn,br(d.emissao));Pn.set('I'+rn,br(d.homolog));Pn.set('J'+rn,d.autoridade);
     Pn.set('K'+rn,raw);Pn.set('L'+rn,peso);Pn.set('M'+rn,raw*peso,`K${rn}*L${rn}`);Pn.set('N'+rn,c.Sel.chosen.includes(d)?'SIM':'NÃO')});
   Pn.set('M40',c.Sel.tot,'SUMIF(N9:N38,"SIM",M9:M38)');Pn.set('M41',c.Sel.allTot,'SUM(M9:M38)');
+  Pn.set('A44','Base legal: LC 836/97 (arts. 21 a 24); Decreto 49.394/2005 alterado pelo Decreto 59.850/2013; Res. SE 36/2014; Instrução Conjunta CGRH/CGEB de 03/09/2014; LC federal 173/2020 alterada pela LC federal 226/2026; Decreto 70.396/2026.');
   Pn.set('M42',c.Sel.tot>=R.min?'PONTUAÇÃO ATINGIDA':'FALTAM '+(R.min-c.Sel.tot)+' PONTOS',`IF(M40>=K3,"PONTUAÇÃO ATINGIDA","FALTAM "&(K3-M40)&" PONTOS")`);
   zip.file('xl/worksheets/sheet1.xml',F.out());zip.file('xl/worksheets/sheet2.xml',Vs.out());zip.file('xl/worksheets/sheet3.xml',Pn.out());
   return zip.generateAsync({type:'blob',compression:'DEFLATE',mimeType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})}
@@ -837,7 +850,8 @@ const FAQ=[
  ['Qual a diferença entre o roteiro e a CTC?','<p>O <b>roteiro</b> conta o período exato do interstício: do início da contagem (exercício no nível ou dia seguinte à última evolução) até o dia em que se completam os dias líquidos. Ex.: 13/11/2018 a 12/11/2022.</p><p>A <b>CTC</b> mostra anos completos, de 1º de janeiro a 31 de dezembro, do ano do início até o ano em que o interstício termina, com todas as faltas de cada ano. Se o exercício começou no meio do ano, a CTC começa no exercício.</p>'],
  ['Quais faltas descontam do interstício?','<p>Descontam: faltas justificadas (J), injustificadas (I), falta médica (FM), licença-saúde (LS), licença por pessoa da família (LF), licença sem vencimentos (LSV) e afastamentos não computáveis.</p><p>Não descontam: férias, licença-prêmio, licença-gestante, licença-paternidade, gala, nojo, faltas abonadas, doação de sangue, serviços obrigatórios por lei e acidente de trabalho.</p>'],
  ['Como digitar os dias das faltas?','<ul><li>Dias soltos: <b>18/02, 04/03</b></li><li>Vários no mesmo mês: <b>04,16/03</b></li><li>Período: <b>08/11 a 14/11</b></li><li>Sem as datas, só a quantidade: <b>3</b></li></ul><p>Clique no número de faltas de cada ano para abrir os campos. A contagem aparece embaixo de cada campo e o "Não entendi" indica algo digitado errado.</p>'],
- ['O que é a opção da LC 173/2020?','<p>A Lei Complementar federal 173/2020 suspendeu a contagem de tempo para vantagens entre 28/05/2020 e 31/12/2021. As certidões emitidas pela Unidade Regional registram esse período como "Afastamentos" (218 dias em 2020 e 365 em 2021, menos as faltas já lançadas). Deixe marcado se a sua URE aplica a suspensão; desmarque se a orientação mudar.</p>'],
+ ['O que mudou com a LC 226/2026 e o Decreto 70.396/2026?','<p>A <b>LC federal 173/2020</b> (art. 8º, IX) proibia contar o tempo entre 28/05/2020 e 31/12/2021 para adicionais, sexta-parte, licença-prêmio e mecanismos equivalentes. Por isso as CTCs emitidas até 2025 registram esse período como "Afastamentos" (218 dias em 2020 e 365 em 2021).</p><p>A <b>LC federal 226, de 12/01/2026</b>, revogou essa proibição e incluiu o art. 8º-A na LC 173, permitindo que cada ente autorize por lei os pagamentos retroativos.</p><p>O <b>Decreto estadual 70.396, de 24/02/2026</b>, manda contar esse período como período aquisitivo de quinquênios, sexta-parte, licença-prêmio e demais mecanismos equivalentes, determina a revisão da contagem de tempo e diz que a revisão produz efeitos funcionais e remuneratórios <b>a partir de 13/01/2026</b>. Atrasados só com lei específica (art. 4º).</p><p>Na página: o período <b>conta</b> por padrão. Se o interstício só se completa graças a esse período e a vigência cairia antes de 13/01/2026, a página ajusta a vigência para 13/01/2026, ou para a data da regra antiga, se esta for anterior, e avisa no resumo. Se a Unidade Regional orientar diferente, marque "Não contar esse período" na seção Tempo e faltas.</p>'],
+ ['Quais normas a página segue?','<ul><li>LC estadual 836/1997, arts. 21 a 24 (alterada pelas LCs 958/2004 e 1.143/2011)</li><li>Decreto 49.394/2005, alterado pelo Decreto 59.850/2013 (interstícios, pontos e pesos)</li><li>Resolução SE 21/2005 e Resolução SE 36/2014</li><li>Instrução Conjunta CENP/DRHU de 25/04/2005 e Instrução Conjunta CGRH/CGEB de 03/09/2014 (vigência e documentos)</li><li>Manual de Evolução Funcional pela via não acadêmica (DRHU, 2010)</li><li>Lei 10.261/1968, art. 78 (o que é efetivo exercício)</li><li>LC federal 173/2020, alterada pela LC federal 226/2026, e Decreto estadual 70.396/2026 (período de 28/05/2020 a 31/12/2021)</li></ul>'],
  ['Em que nível o servidor está indo?','<p>A página usa o campo <b>Nível atual</b> (seção 1) e considera o nível seguinte. O nível atual aparece no holerite (faixa/nível) e no PAEF. Depois de uma evolução, o novo interstício começa no dia da vigência dela.</p>'],
  ['Como montar o processo?','<ul><li>Ofício da escola</li><li>Requerimento (Anexo I)</li><li>Relação de documentos (Anexo II), assinada pelo interessado</li><li>Cópias dos certificados com "confere com o original" do diretor</li><li>Roteiro do tempo de serviço, assinado por quem elaborou</li><li>CTC</li><li>Declaração do interessado, escrita à mão</li><li>Despacho</li></ul><p>Todas as folhas numeradas e rubricadas. O botão "Todos os arquivos" já gera os documentos nessa ordem.</p>'],
  ['Preciso de internet ou de algum sistema?','<p>Não. Os cálculos e os arquivos são feitos no próprio computador. Basta abrir este arquivo no navegador. Os modelos (Anexo I, papel timbrado e CTC) já estão dentro dele.</p>'],
