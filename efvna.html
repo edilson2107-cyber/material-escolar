@@ -280,9 +280,10 @@ button.ic{display:inline-flex;align-items:center;gap:7px}
 
 <section class="card" id="tempo">
   <div class="chead"><span class="ico orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4M8 14h2M14 14h2M8 17h2"/></svg></span><div><h2>Tempo de serviço e faltas</h2>
-  <p class="hint">Ano por ano, como no roteiro. Clique no número de faltas de um ano para lançar os dias de cada tipo.</p></div></div>
+  <p class="hint">A CTC certifica todo o tempo no cargo, desde o exercício. O roteiro conta só o interstício desta evolução, a partir da vigência da última evolução (ou do exercício, se for a primeira). Lance as faltas de todos os anos: os anteriores entram só na CTC.</p></div></div>
   <div class="fields">
-    <label class="f">Início da contagem (exercício no nível)<input type="date" id="tInicio"></label>
+    <label class="f">Exercício no cargo/função (início da CTC)<input type="date" id="tExerc"></label>
+    <label class="f">Início da contagem do roteiro<input type="date" id="tInicio" title="Primeira evolução: o exercício. Demais: a vigência da última evolução."></label>
     <label class="f">CTC até (opcional)<input type="date" id="tAte" title="Em branco: 31/12 do ano em que o interstício se completa"></label>
     <label class="f">Interstício exigido<input type="text" id="tReq" readonly></label>
   </div>
@@ -462,7 +463,7 @@ function parseDias(str,ano){const res={dates:[],n:0,bad:[]};if(str==null||!Strin
   if(pend.length)res.bad.push(pend.join(','));
   res.dates=[...new Set(res.dates)].filter(d=>d.startsWith(ano+'-')).sort();return res}
 function anoTipos(ano){return S.tempo.anos[ano]||{}}
-function ctcStartIso(){const ini=pd(S.tempo.inicio);if(!ini)return '';let a=pd(ini.getUTCFullYear()+'-01-01');const ex=pd(S.serv.inicioCargo);if(ex&&ex>a&&ex<=ini)a=ex;return iso(a)}
+function ctcStartIso(){const ex=S.serv.inicioCargo,ini=S.tempo.inicio;if(ex&&pd(ex))return ini&&ini<ex?ini:ex;return ini||''}
 function ctcEndIso(T){if(S.tempo.ate)return S.tempo.ate;T=T||calcTempo();const hoje=todayIso();if(!T)return hoje;
   const y=T.end?T.end.getUTCFullYear():+hoje.slice(0,4);const dez=y+'-12-31';return dez>hoje?hoje:dez}
 function ctcRange(){const a=ctcStartIso();return a?br(a)+' a '+br(ctcEndIso()):'—'}
@@ -552,14 +553,14 @@ function buildFields(host,defs,obj,prefix,onChange){host.innerHTML=defs.map(([k,
   return `<label class="f${cl}">${esc(l)}<input type="${opt==='date'?'date':'text'}" id="${id}" data-k="${k}" value="${esc(obj[k])}"></label>`}).join('');
   host.oninput=host.onchange=e=>{const k=e.target.dataset.k;if(!k)return;obj[k]=e.target.value;touched();onChange&&onChange(k);refresh()}}
 const openYears=new Set();let renderedYears='';
-function yearList(T){const y0=pd(S.tempo.inicio).getUTCFullYear();let y1=new Date().getFullYear();
+function yearList(T){const y0=pd(ctcStartIso()||S.tempo.inicio).getUTCFullYear();let y1=new Date().getFullYear();
   if(T&&T.end)y1=Math.max(y1,T.end.getUTCFullYear());if(S.tempo.ate)y1=Math.max(y1,+S.tempo.ate.slice(0,4));
   Object.keys(S.tempo.anos).forEach(y=>{const at=S.tempo.anos[y];if(Object.values(at).some(v=>v&&String(v).trim())&&+y>=y0)y1=Math.max(y1,+y)});
   const out=[];for(let y=y0;y<=Math.min(y1,y0+45);y++)out.push(y);return out}
-function daysInYear(y){const ini=pd(S.tempo.inicio);const a=ini.getUTCFullYear()===y?ini:pd(y+'-01-01');return Math.round((pd(y+'-12-31')-a)/864e5)+1}
+function daysInYear(y){const ini=pd(ctcStartIso()||S.tempo.inicio);const a=ini.getUTCFullYear()===y?ini:pd(y+'-01-01');return Math.round((pd(y+'-12-31')-a)/864e5)+1}
 function updNote(){const ci=ctcStartIso(),el=document.getElementById('ctcIni');if(!ci){el.innerHTML='';return}const T=calcTempo();
-  el.innerHTML=`<b>Roteiro:</b> ${br(S.tempo.inicio)} a ${T&&T.end?br(T.end):'…'} (período exato do interstício). <b>CTC:</b> ${br(ci)} a ${br(ctcEndIso(T))} (anos completos, de janeiro a dezembro${S.tempo.ate?'; data final informada':''}).`}
-function renderTempo(){const R=regra();document.getElementById('tInicio').value=S.tempo.inicio||'';document.getElementById('tAte').value=S.tempo.ate||'';
+  el.innerHTML=`<b>Roteiro:</b> ${br(S.tempo.inicio)} a ${T&&T.end?br(T.end):'…'} (só o interstício desta evolução). <b>CTC:</b> ${br(ci)} a ${br(ctcEndIso(T))} (todo o tempo no cargo/função${S.tempo.ate?', até a data final informada':', até 31/12 do ano em que o interstício termina'}).${S.serv.inicioCargo?'':' <b>Informe o exercício no cargo</b> para a CTC começar no lugar certo.'}`}
+function renderTempo(){const R=regra();document.getElementById('tExerc').value=S.serv.inicioCargo||'';document.getElementById('tInicio').value=S.tempo.inicio||'';document.getElementById('tAte').value=S.tempo.ate||'';
   document.getElementById('tReq').value=R.anos+' anos = '+R.dias.toLocaleString('pt-BR')+' dias líquidos';document.getElementById('lc173').checked=!!S.tempo.lc173;
   updNote();
   const tb=document.querySelector('#tblTempo tbody'),tf=document.querySelector('#tblTempo tfoot');
@@ -570,15 +571,15 @@ function renderTempo(){const R=regra();document.getElementById('tInicio').value=
     <tr class="det" data-dy="${y}"${open?'':' hidden'}><td colspan="5"><div class="fgrid">${Object.entries(TIPOS).map(([k,t])=>`<label><b>${esc(t.l)}</b><input data-y="${y}" data-t="${k}" value="${esc(at[k]||'')}" placeholder="ex.: 18/02, 04,16/03" aria-label="${esc(t.l)} em ${y}"><span class="cnt" data-cy="${y}" data-ct="${k}"></span></label>`).join('')}</div></td></tr>`}).join('');
   updateTempo()}
 function updateTempo(){if(!pd(S.tempo.inicio))return;const T=calcTempo(),years=yearList(T);if(years.join(',')!==renderedYears){renderTempo();return}
-  const map=Object.fromEntries(T.rows.map(r=>[r.ano,r]));const M=T.M;
+  const map=Object.fromEntries(T.rows.map(r=>[r.ano,r]));const cIni=ctcStartIso()||S.tempo.inicio;const M2=dayMap(cIni);const yIni=+S.tempo.inicio.slice(0,4);
   for(const y of years){const tr=document.querySelector(`tr.yr[data-y="${y}"]`);if(!tr)continue;const r=map[y];
     // contagem por tipo no ano inteiro (para mostrar mesmo após o interstício)
-    const cnt={};let tot=0;for(let d=pd(y+'-01-01');d<=pd(y+'-12-31');d=addDays(d,1)){const k=iso(d);if(k<S.tempo.inicio)continue;const e=M.get(k);if(e){cnt[e.t]=(cnt[e.t]||0)+1;tot++}}
+    const cnt={};let tot=0;for(let d=pd(y+'-01-01');d<=pd(y+'-12-31');d=addDays(d,1)){const k=iso(d);if(k<cIni)continue;const e=M2.get(k);if(e){cnt[e.t]=(cnt[e.t]||0)+1;tot++}}
     tr.classList.toggle('after',!r);
     tr.querySelector('.c-dias').textContent=r?r.dias:daysInYear(y);
     tr.querySelector('.c-tot').textContent=r?r.desc:tot;
-    tr.querySelector('.c-chips').textContent=Object.entries(cnt).map(([k,n])=>(k==='LC173'?'LC 173':k==='OUT'?'Outras':k)+' '+n).join(' · ')||'lançar faltas';
-    tr.querySelector('.c-liq').textContent=r?r.liq:'—';
+    tr.querySelector('.c-chips').textContent=(Object.entries(cnt).map(([k,n])=>(k==='LC173'?'LC 173':k==='OUT'?'Outras':k)+' '+n).join(' · ')||'lançar faltas')+(r&&y===yIni&&tot!==r.desc?' (no ano todo, p/ CTC)':'');
+    tr.querySelector('.c-liq').textContent=r?r.liq:(y<yIni?'só CTC':'—');
     tr.querySelector('.c-cum').textContent=r?r.cum.toLocaleString('pt-BR')+(T.end&&r===T.rows[T.rows.length-1]?' ✓':''):'—';
     for(const k of Object.keys(TIPOS)){const el=document.querySelector(`.cnt[data-cy="${y}"][data-ct="${k}"]`);if(!el)continue;const pr=parseDias(anoTipos(y)[k],y);const n=pr.dates.length+pr.n;
       el.textContent=pr.bad.length?'Não entendi: '+pr.bad.join(' '):n?n+(n>1?' dias':' dia')+(pr.n&&!pr.dates.length?' (sem datas)':''):'';el.classList.toggle('err',pr.bad.length>0)}}
@@ -590,6 +591,7 @@ tbT.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(!b)r
   b.setAttribute('aria-expanded',openYears.has(y));b.lastElementChild.textContent=openYears.has(y)?'▴':'▾'});
 tbT.addEventListener('input',e=>{const y=e.target.dataset.y,t=e.target.dataset.t;if(!y||!t)return;(S.tempo.anos[y]=S.tempo.anos[y]||{})[t]=e.target.value;touched();updateTempo();refresh()});
 document.getElementById('lc173').addEventListener('change',e=>{S.tempo.lc173=e.target.checked;touched();updateTempo();refresh()});
+document.getElementById('tExerc').addEventListener('change',e=>{S.serv.inicioCargo=e.target.value;if(!S.tempo.inicio&&e.target.value)S.tempo.inicio=e.target.value;const f=document.getElementById('c_inicioCargo');if(f)f.value=e.target.value;touched();renderTempo();refresh()});
 document.getElementById('tInicio').addEventListener('change',e=>{S.tempo.inicio=e.target.value;touched();renderTempo();refresh()});
 document.getElementById('tAte').addEventListener('change',e=>{S.tempo.ate=e.target.value;touched();updateTempo();refresh()});
 
@@ -950,7 +952,7 @@ const FAQ=[
   <li>Os pontos de cada documento são multiplicados pelo peso do fator. Exemplo do nível I→II: dois cursos de 60h = (5+5) × 4 = 40 pontos.</li>
   <li>Não valem: certificado sem data de emissão, carga horária ou período; curso abaixo de 30h; documento que serviu para o ingresso no cargo; documento já usado em outra evolução.</li></ul>`],
  ['Como a vigência é definida?','<p>A evolução vale a partir do dia em que todos os requisitos foram cumpridos: o dia seguinte ao fim do interstício ou a data de emissão do último certificado usado, o que ocorrer por último (item 6 da Instrução Conjunta CGRH/CGEB de 03/09/2014). Por isso a página escolhe os certificados mais antigos que bastam: documento a mais, mais recente, atrasa a vigência.</p>'],
- ['Qual a diferença entre o roteiro e a CTC?','<p>O <b>roteiro</b> conta o período exato do interstício: do início da contagem (exercício no nível ou dia seguinte à última evolução) até o dia em que se completam os dias líquidos. Ex.: 13/11/2018 a 12/11/2022.</p><p>A <b>CTC</b> mostra anos completos, de 1º de janeiro a 31 de dezembro, do ano do início até o ano em que o interstício termina, com todas as faltas de cada ano. Se o exercício começou no meio do ano, a CTC começa no exercício.</p>'],
+ ['Qual a diferença entre o roteiro e a CTC?','<p>O <b>roteiro</b> conta só o interstício desta evolução: começa na vigência da última evolução (ou no exercício, se for a primeira) e vai até o dia em que se completam os dias líquidos. Ex.: 13/11/2018 a 12/11/2022.</p><p>A <b>CTC</b> certifica todo o tempo no cargo ou função: começa no <b>exercício</b> e vai até 31/12 do ano em que o interstício termina (ou até a data final que você informar), ano a ano, com todas as faltas. Por isso, lance também as faltas dos anos anteriores ao início da contagem: elas aparecem só na CTC.</p>'],
  ['Quais faltas descontam do interstício?','<p>Descontam: faltas justificadas (J), injustificadas (I), falta médica (FM), licença-saúde (LS), licença por pessoa da família (LF), licença sem vencimentos (LSV) e afastamentos não computáveis.</p><p>Não descontam: férias, licença-prêmio, licença-gestante, licença-paternidade, gala, nojo, faltas abonadas, doação de sangue, serviços obrigatórios por lei e acidente de trabalho.</p>'],
  ['Como importar a frequência da SED em PDF?','<p>Na seção <b>Tempo e faltas</b>, clique em <b>Escolher PDF de frequência</b> e envie o relatório "Frequência Digitada" do ano (pode enviar vários de uma vez). A página lê, mês a mês, a tabela "Faltas-Dia" e mostra uma lista para conferir:</p><ul><li>Falta justificada vira J; injustificada vira I; falta médica vira FM; licença-saúde vira LS.</li><li>Férias, recesso, retirada em agência bancária, gala, nojo, licença-gestante e licença-prêmio não descontam.</li><li>O que a página não reconhecer aparece em amarelo para você escolher o tipo.</li></ul><p>Depois de conferir, clique em <b>Lançar nas faltas</b>. Os dias entram no ano certo, com as datas, e os anos sem falta saem como <b>Frequente</b> na CTC. A leitura acontece no próprio computador, sem internet.</p>'],
  ['Como digitar os dias das faltas?','<ul><li>Dias soltos: <b>18/02, 04/03</b></li><li>Vários no mesmo mês: <b>04,16/03</b></li><li>Período: <b>08/11 a 14/11</b></li><li>Sem as datas, só a quantidade: <b>3</b></li></ul><p>Clique no número de faltas de cada ano para abrir os campos. A contagem aparece embaixo de cada campo e o "Não entendi" indica algo digitado errado.</p>'],
