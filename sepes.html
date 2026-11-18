@@ -407,7 +407,10 @@ const FONTES = {
   d30595:  {t:'Decreto nº 30.595/1989 — regulamento do auxílio-transporte (ALESP)', u:'https://www.al.sp.gov.br/repositorio/legislacao/decreto/1989/decreto-30595-13.10.1989.html'},
   lc1096:  {t:'Lei Complementar nº 1.096/2009 — altera arts. 241 e 242 do Estatuto (ALESP)', u:'https://www.al.sp.gov.br/repositorio/legislacao/lei.complementar/2009/lei.complementar-1096-24.09.2009.html'},
   inass:   {t:'Comunicado SGP 75/2024 — inassiduidade após a LC 1.361/2021', u:'https://aojesp.org.br/wp-content/uploads/2024/10/Comunicado-sobre-inassiduidade.pdf'},
-  souSp:   {t:'Comunicado UCRH 09/2023 — ausência médica pelo aplicativo SOU.SP', u:'https://saude.sp.gov.br/resources/crh/pop-crh/comunicdo_cqv_04-2023.pdf'}
+  souSp:   {t:'Comunicado UCRH 09/2023 — ausência médica pelo aplicativo SOU.SP', u:'https://saude.sp.gov.br/resources/crh/pop-crh/comunicdo_cqv_04-2023.pdf'},
+  comLip:  {t:'Comunicado COMOB/DCARF nº 44, de 17/11/2026 — LIP: prazos 2026/2027 (PDF no Drive)', u:'https://drive.google.com/file/d/1DyCcDfGvYMIXaGctZixeNX01J6RV-yL5/view'},
+  comDip:  {t:'Comunicados DIPES/COGEF de nov./2026 — Evolução Funcional 2022-2024 e cessação da readaptação (transcrição no Drive)', u:'https://drive.google.com/file/d/1cvPW2TZYqCcFPDSB8UsLcjuUrOSZvD9_/view'},
+  lipSes:  {t:'SES/CRH — requerimento de LIP com as regras dos arts. 202 a 204 do Estatuto', u:'https://www.saude.sp.gov.br/resources/crh/biblioteca/requerimento_licennca_sem_vctos.docx'}
 };
 
 const TEMAS = [
@@ -431,7 +434,7 @@ const PERFIS = [
 const SITUACOES = [
   {id:'entrar',  b:'Vai entrar / ser contratado', s:'Admissão, ASO, declarações',  ids:['contratacao','contratacao_aoe','aso','declaracoes','acumulo']},
   {id:'sair',    b:'Vai sair ou encerrar',        s:'Extinção, aposentadoria',     ids:['extincao','aposentadoria','funeral']},
-  {id:'ausentar',b:'Vai se ausentar',             s:'Licenças, férias, faltas',    ids:['ferias_sistema','licenca_saude','licenca_parental','gala_nojo','acidente','licenca_premio','ferias','faltas','readaptacao']},
+  {id:'ausentar',b:'Vai se ausentar',             s:'Licenças, férias, faltas',    ids:['ferias_sistema','licenca_saude','licenca_parental','gala_nojo','acidente','licenca_premio','lip','ferias','faltas','readaptacao']},
   {id:'substituir',b:'Precisa cobrir aulas/função', s:'Substituição, GTCN, ALE', ids:['substituicao','vice','cgp','goe']},
   {id:'cadastro',b:'Mudou algo no cadastro',      s:'Nome, RG, sede, BFE',         ids:['dados','bfe']},
   {id:'pagar',   b:'Dúvida de pagamento',         s:'Holerite, auxílio, BFE',      ids:['pagamento','ats','alimentacao','auxilio','decimo','bfe']},
@@ -440,7 +443,7 @@ const SITUACOES = [
 ];
 
 /* m(nome, idDrive, situação, observação) — situação: usar | revisar | substituir */
-const m = (n, id, st, obs) => ({n:n, u:id ? D(id) : '', st:st, obs:obs || ''});
+const m = (n, id, st, obs) => ({n:n, u:id ? (/\.pdf$/i.test(n) ? 'https://drive.google.com/file/d/' + id + '/view' : D(id)) : '', st:st, obs:obs || ''});
 
 const DEMANDAS = [
 {
@@ -958,27 +961,62 @@ const DEMANDAS = [
   fontes:['lc1041','lc1361','inass','souSp']
 },
 {
+  id:'lip', tema:'ausencias', ic:'🧳', setor:'SEAPE', novo:true,
+  titulo:'Licença para tratar de interesses particulares (LIP)',
+  curto:'Sem vencimentos, até 2 anos. Prazos de 2026: DCARF até 23/11; início até 30/11.',
+  publico:['efetivo','ofa','qae','gestor'],
+  chaves:'licenca interesses particulares lip sem vencimentos sem remuneracao afastamento particular artigo 202 atribuicao 2027 dcarf comob',
+  resumo:'Prevista no art. 202 do Estatuto: depois de 5 anos de exercício, o servidor efetivo, o extranumerário e o admitido estável da Lei 500/1974 podem obter licença sem vencimento ou remuneração, por até 2 anos. Não é concedida antes de assumir o exercício (art. 203), e nova licença só depois de 5 anos do fim da anterior (art. 204). Para docentes com aulas atribuídas, o Comunicado COMOB/DCARF nº 44/2026 fixou prazos rígidos para 2026 e para o início de 2027.',
+  passos:[
+    ['Confira o direito','5 anos de exercício, vínculo efetivo ou estável e sem LIP nos últimos 5 anos.'],
+    ['Início ainda em 2026','A URE deve encaminhar o expediente à DCARF até 23/11/2026. Providências funcionais e de atribuição concluídas e início do usufruto até 30/11/2026. Vale também para as autorizações publicadas em 13/11/2026.'],
+    ['Depois de 23/11/2026','Pedido com início ainda em 2026 é devolvido à URE, porque não há tempo de concluir os procedimentos até 30/11/2026.'],
+    ['Início em 2027','Para começar no primeiro dia letivo de 2027 e não concorrer no processo inicial de atribuição, o expediente deve chegar à COMOB até 08/01/2027.'],
+    ['Na escola','Receba o requerimento com antecedência que permita à URE cumprir esses prazos e registre a licença no BFE a partir da publicação.']
+  ],
+  docs:['Requerimento do servidor','Manifestação da direção','Dados funcionais e da atribuição de aulas'],
+  modelos:[
+    m('Comunicado COMOB-DCARF 44-2026 – Licença para tratar de interesses particulares.pdf','1DyCcDfGvYMIXaGctZixeNX01J6RV-yL5','usar','Texto oficial com os prazos (PDF).'),
+    m('Ofício padrão da escola para a URE','1Y0EN0AUYBSP7kuj0A3YxmWvDz6Dd5u2-','usar','Para encaminhar o pedido.')
+  ],
+  leis:[
+    ['Lei nº 10.261/1968, arts. 202 a 204','5 anos de exercício; até 2 anos; não antes do exercício; intervalo de 5 anos','lipSes'],
+    ['Comunicado COMOB/DCARF nº 44, de 17/11/2026','Prazos de 23/11/2026, 30/11/2026 e 08/01/2027','comLip']
+  ],
+  atencao:[
+    ['erro','Prazo curto: para começar em 2026, o expediente precisa chegar à DCARF até 23/11/2026. Depois disso, só para início no primeiro dia letivo de 2027 (envio à COMOB até 08/01/2027).'],
+    ['ambar','Admitido da Lei 500/1974 não estável e contratado da Categoria O: <span class="verificar">confirmar</span> com a URE se cabe a licença.']
+  ],
+  fontes:['comLip','lipSes']
+},
+{
   id:'readaptacao', tema:'ausencias', ic:'♿', setor:'SEAPE',
   titulo:'Readaptação funcional',
   curto:'Perícia no DPME, decisão da CAAS e rol de atividades.',
   publico:['efetivo','ofa','qae'],
-  chaves:'readaptado readaptacao caas dpme rol de atividades sumula pericia carga horaria',
+  chaves:'readaptado readaptacao caas dpme rol de atividades sumula pericia carga horaria reavaliacao cessacao ex readaptado ddapt cogef',
   resumo:'A readaptação depende de inspeção médica do DPME. A CAAS define se é temporária (1 a 2 anos) ou definitiva e fixa o Rol de Atividades. A chefia dá ciência e cópia do rol ao servidor e pede reavaliação à CAAS se houver inadaptação.',
   passos:[
     ['Pedido de perícia','Requerimento do servidor ao DPME para estudo de readaptação, com relatório médico.'],
     ['Publicação da súmula','Com a súmula publicada, o servidor assume as atribuições compatíveis com o rol.'],
     ['Ciência do rol','A direção entrega cópia do Rol de Atividades e registra a ciência.'],
     ['Carga horária e identificação','Use os modelos de apostila de carga horária e de identificação do readaptado.'],
-    ['Reavaliação','Se houver inadaptação, ofício à presidência da CAAS pedindo reavaliação ou revisão do rol.']
+    ['Reavaliação','Se houver inadaptação, ofício à presidência da CAAS pedindo reavaliação ou revisão do rol. Se o servidor não pedir reavaliação, a readaptação cessa e a cessação é publicada no DOE.'],
+    ['Cessação por falta de reavaliação','Após a publicação no DOE e a implantação pela DDAPT: docente titular de cargo volta à jornada do cargo; docente estável volta às cargas horárias da legislação até o efetivo aproveitamento.'],
+    ['Cessação que não foi cumprida a tempo','Não há convalidação nem nova publicação: a URE e a escola regularizam a situação com efeitos desde a data originalmente publicada.'],
+    ['Como regularizar','Carga após a cessação igual ou maior que a da readaptação: procedimentos de regularização. Carga menor: regularização funcional e financeira junto à SGP – folha, com possíveis ajustes de remuneração pela diferença.'],
+    ['O que apurar','Se as unidades cumpriram suas atribuições, se houve boa-fé do servidor e se as medidas foram tomadas no prazo.'],
+    ['Publicações de cessação em 2026 (DOE → vigência encerrada)','26/01 Decisão 01 (tornada sem efeito em 28/01); 28/01 Despacho 02, republicação (vigência 28/01); 28/01 Despacho 03 (28, 30 e 31/01); 29/01 Despacho 01 (fevereiro); 26/02 Decisão 01 (março); 27/03 Despacho 01 (abril); 30/04 Despacho 01 (maio); 28/05 Decisão 01 (junho); 24/06 Decisão 03 (julho); 03/08 Decisão 02 (agosto); 01/09 Despacho 01 (setembro); 30/09 Decisão 05 (outubro); 04/11 Despacho 01 (novembro).']
   ],
-  docs:['Requerimento de perícia','Relatório médico atualizado','Súmula de readaptação e Rol de Atividades'],
+  docs:['Requerimento de perícia','Relatório médico atualizado','Súmula de readaptação e Rol de Atividades','Publicação da cessação no DOE (quando for o caso)'],
   modelos:[
     m('Readaptação – Apostila de carga horária do readaptado','1bbC5PUh0liUJsA_Mv2DOkenQaS5qFfOL','usar',''),
     m('Readaptação – Identificação do servidor readaptado','18aOPqh6G-XYd2VQmOLYA0CaBf08iGqI1','usar','')
   ],
-  leis:[['Regulamento da readaptação (CAAS/DPME)','Tipos, prazos e rol de atividades','readap']],
-  atencao:[['ambar','Readaptado pode ser designado CGP se houver compatibilidade com o rol de atividades.'],['ambar','A fonte usada aqui é uma orientação de URE; <span class="verificar">confirmar</span> o ato normativo vigente.']],
-  fontes:['readap']
+  leis:[['Regulamento da readaptação (CAAS/DPME)','Tipos, prazos e rol de atividades','readap'],
+    ['Res. SGGD nº 3/2025, art. 6º, III, e orientação COGEF/DDAPT de nov./2026','Providências na cessação por ausência de reavaliação','comDip']],
+  atencao:[['erro','Cessação publicada e não cumprida: não existe convalidação. Regularize desde a data original e, se a carga ficou menor, acione a folha (SGP). Dúvidas: cogef.ddapt@educacao.sp.gov.br.'],['ambar','Readaptado pode ser designado CGP se houver compatibilidade com o rol de atividades.'],['ambar','A fonte usada aqui é uma orientação de URE; <span class="verificar">confirmar</span> o ato normativo vigente.']],
+  fontes:['readap','comDip']
 },
 {
   id:'substituicao', tema:'frequencia', ic:'🔁', setor:'SEFREP',
@@ -1351,13 +1389,15 @@ const DEMANDAS = [
   titulo:'Evolução funcional (acadêmica e não acadêmica)',
   curto:'Depende de o docente ter aderido ou não à LC 1.374/2022.',
   publico:['efetivo','ofa','gestor'],
-  chaves:'evolucao funcional efvna via nao academica academica mestrado doutorado interesticio nivel referencia carreira 1374 836',
+  chaves:'evolucao funcional efvna via nao academica academica mestrado doutorado interesticio nivel referencia carreira 1374 836 recurso resultado 2022 2023 2024 servidor nao encontrado reabertura sistema',
   resumo:'Há duas regras. Quem aderiu ao regime da LC 1.374/2022 evolui por desempenho e desenvolvimento (Decreto 69.046/2024), com interstício regulado pela Res. SEDUC 59/2026. Quem não aderiu segue a LC 836/1997 (EFVNA, arts. 21 a 24, e via acadêmica).',
   passos:[
     ['Descubra o regime do servidor','A opção pelo novo plano foi feita pela SED e é irretratável.'],
     ['Aderiu à LC 1.374','Siga o ciclo de evolução e o interstício da Res. 59/2026.'],
     ['Não aderiu','EFVNA: requerimento, títulos e tempo; via acadêmica: diploma e pesquisa na área.'],
-    ['Instrua e envie','Requerimento + documentos, por processo SEI.']
+    ['Instrua e envie','Requerimento + documentos, por processo SEI.'],
+    ['Recurso – Evolução 2022, 2023 e 2024','Sistema reaberto: o servidor consulta o resultado e interpõe recurso de 18/11 a 22/11/2026. O SEPES analisa, decide e faz os ajustes de 23/11 a 24/11/2026.'],
+    ['“Servidor não encontrado”','Não é erro do sistema: significa que o servidor não era elegível à Evolução Funcional daquele ano, por isso não há resultado nem recurso.']
   ],
   docs:['Requerimento (Anexo I)','Títulos e certificados','Contagem de tempo','Diploma de mestrado/doutorado (via acadêmica)'],
   modelos:[
@@ -1371,10 +1411,11 @@ const DEMANDAS = [
     ['Decreto nº 69.046/2024','Evolução por desempenho e desenvolvimento','d69046'],
     ['Res. SEDUC nº 59/2026','Contagem do interstício','res59'],
     ['LC nº 836/1997, arts. 21 a 24','EFVNA para quem não aderiu','efvna'],
-    ['Decreto nº 66.794/2022','Opção pelo novo plano','d66794']
+    ['Decreto nº 66.794/2022','Opção pelo novo plano','d66794'],
+    ['Comunicado DIPES de nov./2026','Reabertura da Evolução 2022-2024: recurso de 18 a 22/11; análise do SEPES de 23 a 24/11/2026','comDip']
   ],
-  atencao:[['ambar','Os decretos e resoluções de 2005 a 2014 da pasta só valem para quem ficou na carreira antiga.']],
-  fontes:['res59','d69046','lc1374','efvna','d66794']
+  atencao:[['erro','Evolução Funcional 2022, 2023 e 2024: recurso só de 18/11 a 22/11/2026, pelo próprio servidor no sistema. Análise e ajustes pelo SEPES em 23 e 24/11/2026.'],['ambar','Os decretos e resoluções de 2005 a 2014 da pasta só valem para quem ficou na carreira antiga.']],
+  fontes:['comDip','res59','d69046','lc1374','efvna','d66794']
 }
 ];
 
@@ -1918,6 +1959,7 @@ const CONCEITOS = [
   [/nao (foi |esta sendo |veio |caiu |entrou )?(pago|paga|pagou|pagaram|recebeu|recebe|recebi|recebido|caiu|veio|entrou)|deixou de (receber|ser pago)|sem receber|nao esta recebendo|parou de receber|faltou no (pagamento|holerite)/g, ' naopago '],
   [/decimo[ -]?terceiro|\b13 ?[ºo°]? ?salario|\b13 ?[ºo°](?= |$)|gratificacao natalina/g, ' decimoterceiro '],
   [/salario[ -]?familia|salario[ -]?esposa/g, ' salariofamilia '],
+  [/(licenca (para )?(tratar (de )?)?)?interesses? particulares?|licenca sem (vencimentos?|remuneracao)|\blip\b/g, ' interessesparticulares '],
   [/holerite|contracheque|demonstrativo( de pagamento)?|salario|vencimentos?/g, ' holerite '],
   [/1\/3|um terco|terco( de ferias)?|adicional de ferias/g, ' terco '],
   [/falta medica|ausencia medica|consulta medica|falt\w* (por|para)? ?(uma )?consulta|falt\w* (com|por) atestado/g, ' faltamedica '],
@@ -1962,7 +2004,7 @@ const VAZIAS = new Set(('a o e as os um uma uns umas de da do das dos em na no n
   'preencher preencho preenche preenchimento formulario formularios documento documentos modelo modelos '+
   'nem nao sim ou tambem so apenas mes ano dia dias hoje agora caso situacao problema escola unidade '+
   'professor professora professores servidor servidora servidores docente funcionario funcionaria colega '+
-  'recebeu receber recebe recebi recebido devo deve devemos certo correto').split(' '));
+  'recebeu receber recebe recebi recebido devo deve devemos certo correto tratativa tratativas pagina site sobre assunto').split(' '));
 const MAPA_CACHE = new Map();
 function normalizarTexto(s){
   let t = ' ' + norm(s).replace(/[“”"'’()\[\],;:!?]/g, ' ') + ' ';
@@ -2185,7 +2227,7 @@ function telaFicha(d){
   const docs = '<ul class="check">' + d.docs.map((x,i) => '<li><input type="checkbox" id="dc'+i+'"><label for="dc'+i+'">'+esc(x)+'</label></li>').join('') + '</ul>';
   const mods = d.modelos.map(x => '<div class="modelo"><div class="tx"><b>'+esc(x.n)+'</b>'+(x.obs?'<span>'+esc(x.obs)+'</span>':'')+'</div>' +
     (x.st !== 'usar' ? '<span class="et et-'+x.st+'">'+({revisar:'Revisar',substituir:'Substituir'})[x.st]+'</span>' : '') +
-    (x.u ? '<a href="'+x.u+'" target="_blank" rel="noopener" title="Baixar o arquivo para preencher">'+(/^Planilha/.test(x.n)?'Baixar .xlsx':'Baixar .docx')+'</a>' : '') + '</div>').join('');
+    (x.u ? '<a href="'+x.u+'" target="_blank" rel="noopener" title="Baixar o arquivo para preencher">'+(/\.pdf$/i.test(x.n)?'Abrir .pdf':/^Planilha/.test(x.n)?'Baixar .xlsx':'Baixar .docx')+'</a>' : '') + '</div>').join('');
   const leis = d.leis.map(l => { const f = FONTES[l[2]];
     return '<div class="lei"><b>'+esc(l[0])+(f?'<a href="'+f.u+'" target="_blank" rel="noopener">fonte ↗</a>':' <span class="verificar">confirmar</span>')+'</b>' +
       '<span>'+esc(l[1])+'</span></div>'; }).join('');
