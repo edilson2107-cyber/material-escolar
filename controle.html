@@ -91,7 +91,25 @@ tr:hover td{background:#FBFBFC}
 .grupo{font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--verm-esc);margin:16px 0 8px;text-transform:uppercase}
 .calc{background:var(--c50);border:1px dashed var(--c300);border-radius:10px;padding:8px 11px;font-size:13px;color:var(--c700)}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--graf);color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;display:none;z-index:30;max-width:90%}
-@media (max-width:700px){.cards{grid-template-columns:repeat(2,1fr)}.dupla,.usos{grid-template-columns:1fr}.barra input{min-width:0;flex:1}.topo .dir{margin-left:0;width:100%}.quem{text-align:left;flex:1}.topo p{display:none}}
+@media (max-width:700px){
+.barra h2{flex:1 1 100%}
+.barra input{flex:1 1 auto}
+.rolar{border:0;overflow:visible}
+.rolar table,.rolar tbody,.rolar tr,.rolar td{display:block;width:100%}
+.rolar thead{display:none}
+.rolar tr{border:1px solid var(--c200);border-radius:12px;margin-bottom:10px;padding:6px 12px;background:#fff}
+.rolar tr:hover td{background:none}
+.rolar td{border:0;padding:5px 0;display:flex;gap:10px;align-items:flex-start}
+.rolar td[data-r]::before{content:attr(data-r);flex:0 0 38%;font-size:12px;color:var(--c500);font-weight:600;padding-top:1px}
+.rolar td.tit{font-weight:700;font-size:15px;border-bottom:1px solid var(--c200);padding-bottom:8px;margin-bottom:2px}
+.rolar td.tit::before{display:none}
+.rolar td .v{flex:1;min-width:0;overflow-wrap:anywhere}
+.rolar td .v .st{margin:2px 0}
+.rolar td.acao{padding-top:8px}
+.rolar td.acao .btn{width:100%;padding:9px}
+.nw{white-space:normal}
+.form.on~.toast,.toast{bottom:86px}
+.cards{grid-template-columns:repeat(2,1fr)}.dupla,.usos{grid-template-columns:1fr}.barra input{min-width:0;flex:1}.topo .dir{margin-left:0;width:100%}.quem{text-align:left;flex:1}.topo p{display:none}}
 </style>
 </head>
 <body>
@@ -351,7 +369,7 @@ function ir(a){ S.aba = a; S.filtro=''; desenhar(); }
 function telaAlertas(A){
   return '<div class="barra"><h2>O que precisa de ação</h2></div>' +
     (A.length ? '<div class="rolar"><table><thead><tr><th>Quem</th><th>Assunto</th><th>Data</th><th>Situação</th><th></th></tr></thead><tbody>' +
-      A.map(x => '<tr><td>'+esc(x.nome)+'</td><td>'+esc(x.assunto)+'</td><td class="nw">'+fmt(x.data)+venc(x.data)+'</td><td>'+tag(x.st)+'</td><td><button class="btn sec min" onclick="abrirForm(\''+x.aba+'\',\''+x.id+'\')">Atualizar</button></td></tr>').join('') +
+      A.map(x => '<tr><td data-r="Quem" class="tit"><div class="v">'+esc(x.nome)+'</div></td><td data-r="Assunto"><div class="v">'+esc(x.assunto)+'</div></td><td data-r="Data" class="nw"><div class="v">'+fmt(x.data)+venc(x.data)+'</div></td><td data-r="Situação"><div class="v">'+tag(x.st)+'</div></td><td class="acao"><button class="btn sec min" onclick="abrirForm(\''+x.aba+'\',\''+x.id+'\')">Atualizar</button></td></tr>').join('') +
       '</tbody></table></div>' : '<p class="vazio">Nenhum alerta. Tudo em dia.</p>') +
     '<p class="ajuda">Benefícios e contratos: alerta 30 dias antes. Processos: 7 dias antes do prazo. O alerta some quando a situação vira “Concluído”.</p>';
 }
@@ -367,7 +385,7 @@ function telaLista(aba){
   return '<div class="barra"><h2>'+E.titulo+' <small style="color:var(--c500);font-weight:500">('+S.D[aba].length+')</small></h2><input id="filtro" placeholder="Filtrar por nome, SEI, assunto…" value="'+esc(S.filtro)+'" oninput="S.filtro=this.value;S.foco=true;desenhar()">' +
     '<button class="btn prim" onclick="abrirForm(\''+aba+'\',\'\')">+ Novo '+E.nome+'</button></div>' +
     (linhas.length ? '<div class="rolar"><table><thead><tr>'+COLS[aba].map(c=>'<th>'+c[0]+'</th>').join('')+'<th></th></tr></thead><tbody>' +
-      linhas.map(r => '<tr>'+COLS[aba].map(c=>'<td>'+c[1](r)+'</td>').join('')+'<td><button class="btn sec min" onclick="abrirForm(\''+aba+'\',\''+r.id+'\')">Editar</button></td></tr>').join('') +
+      linhas.map(r => '<tr>'+COLS[aba].map((c,j)=>'<td data-r="'+c[0]+'"'+(j===0?' class="tit"':'')+'><div class="v">'+c[1](r)+'</div></td>').join('')+'<td class="acao"><button class="btn sec min" onclick="abrirForm(\''+aba+'\',\''+r.id+'\')">Editar</button></td></tr>').join('') +
       '</tbody></table></div>' : '<p class="vazio">Nenhum registro'+(q?' para esse filtro':'')+'.</p>');
 }
 
