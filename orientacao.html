@@ -323,7 +323,7 @@ a.btn{cursor:pointer}
 .rg-intro{color:var(--c700);margin:0 0 14px;line-height:1.55}
 .rg-grade{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .rg-col{border-radius:14px;padding:12px 12px 6px;border:1.5px solid}
-.rg-ok{background:#F0FAF4;border-color:#9AD3B3}.rg-limite{background:#FFF8EB;border-color:#F0C97A}.rg-zera{background:#FDF0F0;border-color:#F2A9AC}
+.rg-ok{background:#F0FAF4;border-color:#9AD3B3}.rg-limite{background:#FFF8EB;border-color:#F0C97A}.rg-zera{background:#FDF0F0;border-color:#F2A9AC}.rg-info{background:#EEF4FB;border-color:#A9C5E8}
 .rg-cab{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px}.rg-cab span{font-size:18px}
 .rg-cab b{display:block;font-size:14.5px}.rg-cab small{display:block;color:var(--c700);font-size:12px;line-height:1.35;margin-top:2px}
 .rg-col ul{list-style:none;margin:0;padding:0}
@@ -364,6 +364,16 @@ a.btn{cursor:pointer}
 const D = id => 'https://drive.google.com/uc?export=download&id=' + id;
 
 const FONTES = {
+  in17:{t:'Instrução Normativa SGP nº 17/2026 (DOE 24/11/2026) – afastamento para outro órgão', u:'https://doe.sp.gov.br/executivo/secretaria-de-gestao-e-governo-digital/instrucao-normativa-sgp-n-17-de-23-de-novembro-de-2026-20261123112952092301206'},
+  in18:{t:'Instrução Normativa SGP nº 18/2026 (DOE 24/11/2026) – agentes vinculados ao RGPS/INSS', u:'https://doe.sp.gov.br/executivo/secretaria-de-gestao-e-governo-digital/instrucao-normativa-sgp-n-18-de-23-de-novembro-de-2026-20261123112952092301229'},
+  in19:{t:'Instrução Normativa SGP nº 19/2026 (DOE 24/11/2026) – consultas à SGP e à PGE', u:'https://doe.sp.gov.br/executivo/secretaria-de-gestao-e-governo-digital/instrucao-normativa-sgp-n-19-de-23-de-novembro-de-2026-20261123112952092301176'},
+  cogefIta:{t:'URE Itararé – CTC: Instrução COGEF nº 01/2026 (DOE 16/07/2026) e tutorial do Portal', u:'https://www.educacao.sp.gov.br/ureitarare/estrutura/sepes/ctc'},
+  dipesMan:{t:'SEDUC/DIPES – Manual do Servidor (CTC, art. 1º da Instrução COGEF nº 1/2026)', u:'https://www.educacao.sp.gov.br/educacao/institucional/subsecretarias/subsecretariagestaocorporativa/diretorias_e_coordenadorias/diretoria_de_pessoas/manual_do_servidor'},
+  ctcLeste2:{t:'URE Leste 2 – CTC: protocolo pelo Portal e assinatura do requerimento', u:'https://www.educacao.sp.gov.br/ureleste2/ex-servidor/ctc%20orientacoes'},
+  ctcPiraju:{t:'URE Piraju – CTC para ex-servidores: CPF e PIS/PASEP', u:'https://www.educacao.sp.gov.br/urepiraju/servico-de-pessoas/ctc-ex-servidores'},
+  ctcBpt:  {t:'SEPES Botucatu – CTC: documentos, categorias e homologação', u:'https://sites.google.com/servidor.educacao.sp.gov.br/sepbpt/atendimento'},
+  ctcReq:  {t:'SEDUC – modelo de requerimento de CTC (campos: órgão destinatário, período, situação funcional)', u:'https://midiasstoragesec.blob.core.windows.net/001/2022/04/requerimento-ctc-20-04-2022.pdf'},
+  seduc0800:{t:'EFAPE/SEDUC – atendimento telefônico 0800 770 0012', u:'https://efape.educacao.sp.gov.br/?p=4985'},
   est10261:{t:'Lei nº 10.261/1968 – Estatuto (texto com alterações, ALESP)', u:'https://www.al.sp.gov.br/repositorio/legislacao/lei/1968/original-lei-10261-28.10.1968.html'},
   pa36:    {t:'PGE – Parecer PA nº 36/2022 (licença-prêmio após a LC 1.361/2021)', u:'https://saude.sp.gov.br/resources/crh/ggp/con/instrucaocomunicado-ggp/2022/parecerpa36-2022-contagemdetempo-blococompletadoate31-10-21regraanteriorcomaabonada-blocoposteriordesconta-seaabonada.pdf'},
   lc1361:  {t:'LC nº 1.361/2021 (ALESP)', u:'https://www.al.sp.gov.br/repositorio/legislacao/lei.complementar/2021/lei.complementar-1361-21.10.2021.html'},
@@ -469,8 +479,8 @@ const PERFIS = [
 
 const SITUACOES = [
   {id:'entrar',  b:'Vai entrar / ser contratado', s:'Admissão, ASO, declarações',  ids:['contratacao','contratacao_aoe','aso','declaracoes','acumulo']},
-  {id:'sair',    b:'Vai sair ou encerrar',        s:'Extinção, aposentadoria',     ids:['extincao','aposentadoria','funeral']},
-  {id:'ausentar',b:'Vai se ausentar',             s:'Licenças, férias, faltas',    ids:['ferias_sistema','licenca_saude','licenca_parental','gala_nojo','acidente','licenca_premio','lip','ferias','faltas','readaptacao']},
+  {id:'sair',    b:'Vai sair ou encerrar',        s:'Extinção, aposentadoria, CTC', ids:['extincao','aposentadoria','ctc','funeral']},
+  {id:'ausentar',b:'Vai se ausentar',             s:'Licenças, férias, faltas',    ids:['ferias_sistema','licenca_saude','licenca_parental','gala_nojo','acidente','licenca_premio','lip','ferias','faltas','readaptacao','rgps','afast_orgao']},
   {id:'substituir',b:'Precisa cobrir aulas/função', s:'Substituição, GTCN, ALE', ids:['substituicao','vice','cgp','goe']},
   {id:'cadastro',b:'Mudou algo no cadastro',      s:'Nome, RG, sede, BFE',         ids:['dados','bfe']},
   {id:'pagar',   b:'Dúvida de pagamento',         s:'Holerite, auxílio, BFE',      ids:['pagamento','ats','alimentacao','auxilio','decimo','bfe']},
@@ -585,10 +595,11 @@ const DEMANDAS = [
   ],
   leis:[['Comunicado do RH central sobre exames admissionais (arquivo original da pasta)','Exame em clínica particular; formulário para eSocial em até 3 dias','—']],
   atencao:[
+    ['azul','Para quem está no INSS (Cat. O, Lei 500 no RGPS, comissionado), a aptidão para o ingresso é comprovada por atestado de médico com CRM e não depende de perícia do INSS (Instrução Normativa SGP nº 18/2026, art. 23).'],
     ['ambar','Os arquivos antigos da pasta davam dois prazos de validade para o ASO (30 dias e 3 meses). Pergunte à SEPES qual prazo ela aceita entre o exame e o início do exercício. <span class="verificar">confirmar</span>'],
     ['ambar','O link do formulário do ASO muda. Peça o link atual à SEPES antes de enviar.']
   ],
-  fontes:[]
+  fontes:['in18']
 },
 {
   id:'declaracoes', tema:'admissao', ic:'✍️', setor:'SEPES',
@@ -786,6 +797,174 @@ const DEMANDAS = [
   fontes:['lp26','lpTab','lpCert','pa36','est10261','l18473','lc1041c','treTce','lc226']
 },
 {
+  id:'ctc', tema:'saida', ic:'📜', setor:'SEAPE', novo:true,
+  titulo:'CTC e CTS: certidão de tempo para ex-servidor',
+  curto:'Pedido pelo Portal de Atendimento (Instrução COGEF nº 01/2026).',
+  publico:['efetivo','ofa','cato','eventual','qae'],
+  chaves:'ctc cts certidao tempo contribuicao servico ex servidor exservidor levar tempo averbar averbacao inss prefeitura outro regime portal atendimento cogef revisao substituicao cancelamento',
+  resumo:'A Certidão de Tempo de Contribuição (CTC) leva o tempo trabalhado na SEDUC para outro regime de previdência, como o INSS ou uma prefeitura. Desde a Instrução COGEF nº 01/2026 (DOE de 16/07/2026), o pedido de emissão, revisão, substituição ou cancelamento é feito pelo Portal de Atendimento da Secretaria da Educação.',
+  passos:[
+    ['Confira se cabe CTC','Só depois da exoneração ou dispensa do cargo ou função-atividade. Quem ainda está na ativa não pede CTC.'],
+    ['Acesse o Portal de Atendimento','https://atendimento.educacao.sp.gov.br – opção “CTC – Certidão de Tempo de Contribuição”.'],
+    ['Escolha o tipo de pedido','1ª solicitação, revisão, substituição ou cancelamento.'],
+    ['Preencha e assine o requerimento','Com órgão destinatário, período e situação funcional atual. Assinatura à mão ou eletrônica válida (gov.br).'],
+    ['Anexe os documentos','Lista completa no quadro abaixo. Documento eletrônico precisa ter QR Code ou outro meio oficial de validação.'],
+    ['Acompanhe a homologação','A CTC só vale depois de homologada pela SPPREV e é enviada ao interessado por e-mail.']
+  ],
+  docs:['RG ou CIN','CPF (ou comprovante de situação cadastral da Receita)','Título de eleitor','Comprovante de endereço atualizado','Certidão de nascimento ou casamento, com averbações, se houver','Extrato do PIS/PASEP carimbado e assinado pelo banco (ou comprovante cadastral do Meu INSS)','Requerimento preenchido e assinado'],
+  modelos:[],
+  leis:[
+    ['Instrução COGEF nº 01/2026 (DOE 16/07/2026)','Solicitação, emissão, revisão, substituição e cancelamento de CTC/CTS pelo Portal de Atendimento (art. 1º)','cogefIta'],
+    ['Resolução SEDUC nº 67/2026 e Portaria SPPREV nº 102/2014','Citadas pela DIPES como base do requerimento à SPPREV','dipesMan']
+  ],
+  atencao:[
+    ['ambar','A CTC só tem validade depois da homologação pela SPPREV. A SEPES de Botucatu informa que o processo leva, em média, um ano.'],
+    ['azul','Dúvidas: 0800 770 0012 (atendimento da SEDUC).']
+  ],
+  regras:{
+    titulo:'Antes de pedir: confira tudo',
+    intro:'Pedido incompleto volta. Confira quem pode pedir, os documentos e o que o requerimento precisa trazer.',
+    grupos:[
+      {tipo:'ok', ic:'👤', titulo:'Quem pede e quando', sub:'Conforme a Instrução COGEF nº 01/2026 e as SEPES das UREs', itens:[
+        ['Ex-servidor que quer levar o tempo da SEDUC para outro regime (INSS, prefeitura, outro órgão)','SEPES Botucatu','ctcBpt'],
+        ['Só depois da exoneração ou dispensa do cargo ou da função-atividade','SEPES Botucatu','ctcBpt'],
+        ['Períodos nas categorias A, F, H, P e S são certificados por CTC','SEPES Botucatu','ctcBpt'],
+        ['Pedido pelo Portal de Atendimento: 1ª solicitação, revisão, substituição ou cancelamento','Instrução COGEF nº 01/2026, art. 1º','dipesMan']
+      ]},
+      {tipo:'limite', ic:'📎', titulo:'Documentos obrigatórios', sub:'Anexar todos; documento eletrônico com QR Code ou validação oficial', itens:[
+        ['RG ou Carteira de Identidade Nacional (CIN)','URE Itararé','cogefIta'],
+        ['CPF – ou comprovante de situação cadastral da Receita Federal','URE Piraju','ctcPiraju'],
+        ['Título de eleitor','SEPES Botucatu','ctcBpt'],
+        ['Comprovante de endereço','SEPES Botucatu','ctcBpt'],
+        ['Certidão de nascimento ou casamento, atualizada se houve mudança de nome ou averbação','URE Itararé','cogefIta'],
+        ['PIS/PASEP: extrato carimbado e assinado pelo Banco do Brasil ou pela Caixa – a URE Piraju também aceita o comprovante cadastral do Meu INSS','SEPES Botucatu; URE Piraju','ctcPiraju'],
+        ['Requerimento assinado à mão ou com assinatura eletrônica válida (gov.br)','URE Leste 2','ctcLeste2']
+      ]},
+      {tipo:'info', ic:'📝', titulo:'O que o requerimento precisa trazer', sub:'Campos do modelo de requerimento de CTC da SEDUC', itens:[
+        ['Tipo do pedido: 1ª solicitação, revisão, substituição ou cancelamento','URE Itararé','cogefIta'],
+        ['Órgão destinatário (para onde vai a certidão: INSS, prefeitura etc.)','Modelo de requerimento SEDUC','ctcReq'],
+        ['Período a certificar','Modelo de requerimento SEDUC','ctcReq'],
+        ['Situação funcional atual (é servidor hoje? aposentado? por qual órgão?)','Modelo de requerimento SEDUC','ctcReq']
+      ]}
+    ],
+    erros:[
+      'Pedir CTC ainda em exercício no cargo ou na função: só depois da exoneração ou dispensa.',
+      'Esquecer o título de eleitor.',
+      'Mandar o cartão do PIS em vez do extrato carimbado e assinado pelo banco (ou do comprovante do Meu INSS).',
+      'Deixar em branco o órgão destinatário: é ele que recebe o tempo certificado.'
+    ],
+    confirmar:[
+      'CNPJ do órgão destinatário como campo obrigatório: aparece em material de divulgação, mas não localizei no requerimento da SEDUC nem no texto da COGEF. Confirme com a SEAPE.',
+      'Se a escola também pode protocolar o pedido: a SEPES de Botucatu orienta procurar a última escola; a COGEF (art. 1º) indica o Portal. Confirme o fluxo da URE Sul 1.',
+      'Horário do 0800 770 0012: não localizei em página oficial.'
+    ]
+  },
+  fontes:['cogefIta','dipesMan','ctcLeste2','ctcPiraju','ctcBpt','ctcReq','seduc0800']
+},
+{
+  id:'afast_orgao', tema:'ausencias', ic:'🏛️', setor:'SEAPE', novo:true,
+  titulo:'Afastamento para exercer em outro órgão (regularização)',
+  curto:'Checklist oficial no SEI – Instrução Normativa SGP nº 17/2026.',
+  publico:['efetivo','ofa','qae','gestor'],
+  chaves:'afastamento outro orgao entidade cessao cedido prefeitura municipio exercicio fora regularizacao checklist sgp 17 artigo 64 lc 444 decreto 7332 49893',
+  resumo:'Desde 24/11/2026, o processo que regulariza o afastamento de servidor para exercer em outro órgão ou entidade é instruído no SEI com o formulário de conferência (checklist) da Instrução Normativa SGP nº 17/2026. Para o Quadro do Magistério vale o Anexo III (art. 64, IV, da LC 444/1985 e Decretos 7.332/1975 e 49.893/2005).',
+  passos:[
+    ['Escolha o checklist certo','Anexo I: estatutários (arts. 65 e 66 da Lei 10.261/68 e Decreto 7.332/75). Anexo II: CLT. Anexo III: Quadro do Magistério (art. 64, IV, da LC 444/85). Os anexos estão no site da Subsecretaria de Gestão de Pessoas (IN 17, arts. 5º e 6º).'],
+    ['Junte os documentos no SEI na ordem do checklist','A sequência do formulário deve ser seguida (IN 17, art. 3º).'],
+    ['Marque cada requisito','Atendido, pendente ou inaplicável, com o número do documento SEI. Justifique pendência ou inaplicabilidade (IN 17, art. 4º, II e III).'],
+    ['Junte o checklist preenchido ao final','Antes de enviar à unidade que analisa (IN 17, art. 4º, IV).'],
+    ['Confira antes de enviar','Faltou documento indispensável? O processo pode voltar com a lista do que falta (IN 17, art. 8º).']
+  ],
+  docs:['Solicitação do afastamento ou da prorrogação','Justificativa da regularização e período','Informação: com ou sem prejuízo dos vencimentos','Justificativa do interesse público','Anuência do servidor','Certificação de que não há outro servidor afastado no mesmo período para o mesmo Estado/Município','Prazo: até 1 ano, prorrogável no máximo 3 vezes por igual período','Necessidade do serviço público','Disponibilidade de pessoal da unidade de origem','Funções a serem exercidas','Mínimo de 3 anos de efetivo exercício no cargo (hipótese do § 1º do art. 1º do Decreto 49.893/2005)','Atestado de frequência de todo o período de regularização','Manifestação da origem sobre qual órgão pagou os vencimentos','Apuração preliminar, só quando instaurada','Manifestação favorável do Titular da Pasta de origem','Manifestação favorável do Titular da Pasta de destino'],
+  modelos:[],
+  leis:[
+    ['Instrução Normativa SGP nº 17/2026','Instrução por checklist no SEI (arts. 2º a 8º); Anexo III para o Quadro do Magistério; revoga o Ofício Circular UCRH nº 01/2024','in17'],
+    ['LC nº 444/1985, art. 64, IV; Decretos nº 7.332/1975 e nº 49.893/2005','Fundamento do afastamento do Quadro do Magistério (Anexo III)','in17']
+  ],
+  atencao:[
+    ['azul','O checklist orienta e confere a instrução; não substitui a análise de mérito nem a autorização legal do afastamento (IN 17, art. 1º, parágrafo único, e art. 7º).'],
+    ['ambar','A documentação da apuração preliminar só é exigida quando há circunstâncias que justificam a apuração (IN 17, art. 5º, parágrafo único).']
+  ],
+  fontes:['in17']
+},
+{
+  id:'rgps', tema:'ausencias', ic:'🧾', setor:'SEFREP / SEAPE', novo:true,
+  titulo:'Contratado (Cat. O), Lei 500 no INSS e comissionados: INSS, maternidade e salário-família',
+  curto:'Regras de 2026 para quem contribui ao INSS – Instrução Normativa SGP nº 18/2026.',
+  publico:['cato','ofa'],
+  chaves:'rgps inss contratado contratada categoria o lei 1093 lei 500 comissao comissionado auxilio incapacidade temporaria quinze dias beneficio inss licenca complementar fgts sgp 18',
+  resumo:'A Instrução Normativa SGP nº 18/2026 (DOE de 24/11/2026) organiza afastamentos e benefícios de quem está no Regime Geral (INSS): contratados da LC 1.093/2009, admitidos pela Lei 500/1974 ainda no RGPS e ocupantes exclusivamente de cargo em comissão. Quem decide sobre benefício é o INSS; o órgão paga o que a lei manda e registra.',
+  passos:[
+    ['Afastamento de até 15 dias','O servidor entrega a documentação médica ao RH, que confere e registra. Esses primeiros 15 dias são pagos pelo órgão (arts. 3º e 6º).'],
+    ['Passou de 15 dias','O RH orienta o pedido de benefício no INSS e registra as decisões; o interessado comunica as decisões do INSS ao RH (art. 7º).'],
+    ['Informe a folha','Comunique início, término e decisões do INSS à unidade de pagamento (art. 9º).'],
+    ['Novo afastamento pelo mesmo motivo','Observe as regras de soma de períodos do art. 75 do Decreto federal 3.048/1999; não há prorrogação automática (art. 8º).']
+  ],
+  docs:['Documentação médica do afastamento','Decisões do INSS (concessão, indeferimento, cessação)','Salário-família: certidão de nascimento, vacinação e frequência escolar nas idades exigidas','Salário-maternidade: documentos exigidos pelo INSS'],
+  modelos:[],
+  leis:[
+    ['Instrução Normativa SGP nº 18/2026','Afastamentos e benefícios dos agentes vinculados ao RGPS; revoga os Comunicados Conjuntos UCRH/CAF nº 03/2015 e CAF/UCRH nº 01/2017','in18'],
+    ['Lei federal nº 8.213/1991 e Decreto federal nº 3.048/1999','Benefícios do INSS (art. 75 do decreto: os primeiros 15 dias)','in18']
+  ],
+  atencao:[
+    ['ambar','Indeferimento ou cessação pelo INSS não vira automaticamente falta justificada ou injustificada: os efeitos funcionais são analisados pela lei do vínculo (art. 9º, parágrafo único).'],
+    ['azul','Estar no INSS não dá direito a FGTS por si só (art. 22).']
+  ],
+  regras:{
+    titulo:'Quem é quem e o que cabe a cada um',
+    intro:'Vale só para quem é <b>efetivamente filiado ao INSS (RGPS)</b> (IN SGP 18/2026, art. 2º). Efetivo e OFA no regime próprio seguem o Estatuto.',
+    grupos:[
+      {tipo:'info', ic:'👥', titulo:'Quem está nesta regra', sub:'IN SGP 18/2026, art. 2º', itens:[
+        ['Contratado por tempo determinado (LC 1.093/2009 – Cat. O)','Art. 2º, II','in18'],
+        ['Admitido pela Lei 500/1974 com vínculo mantido no RGPS','Art. 2º, I','in18'],
+        ['Ocupante exclusivamente de cargo em comissão','Art. 2º, III','in18']
+      ]},
+      {tipo:'ok', ic:'🏢', titulo:'O órgão paga e registra', sub:'Art. 3º, parágrafo único', itens:[
+        ['Os primeiros 15 dias do afastamento por incapacidade (doença ou acidente)','Art. 3º, 1, e art. 6º, § 2º','in18'],
+        ['Salário-maternidade, quando a lei federal atribui o pagamento ao empregador, com compensação no INSS','Art. 3º, 2, e art. 15','in18'],
+        ['Cotas do salário-família, quando a lei atribui ao empregador','Art. 3º, 3, e art. 13','in18'],
+        ['Licença complementar: servidora no RGPS de órgão abrangido pelo art. 1º da LC 1.395/2023, com licença-maternidade de origem menor que 180 dias, recebe mais 60 dias com remuneração integral, até 180 no total','Art. 20 – <span class="verificar">confirmar</span> com a SEPES se alcança o seu vínculo','in18']
+      ]},
+      {tipo:'limite', ic:'🏛️', titulo:'O INSS decide', sub:'Arts. 3º, 5º, 7º e 26', itens:[
+        ['Auxílio por incapacidade temporária a partir do 16º dia','Arts. 5º e 7º','in18'],
+        ['Salário-maternidade: em regra 120 dias pelo parto','Art. 14','in18'],
+        ['Adoção ou guarda para adoção: o interessado pede o salário-maternidade direto ao INSS','Arts. 17 e 18','in18'],
+        ['Reabilitação profissional','Art. 24','in18'],
+        ['Pensão por morte e auxílio-reclusão (dependentes)','Art. 4º','in18']
+      ]}
+    ],
+    erros:[
+      'Pagar ou lançar como licença estadual um afastamento acima de 15 dias que é benefício do INSS.',
+      'Presumir prorrogação do benefício: a continuidade depende da decisão do INSS (art. 8º, parágrafo único).',
+      'Exigir perícia do INSS para o ingresso: a aptidão é comprovada por atestado de médico com CRM (art. 23).'
+    ],
+    confirmar:[
+      'Se a licença complementar do art. 20 (até 180 dias) alcança a contratada da LC 1.093/2009 na SEDUC: o texto fala em “servidora estadual segurada do RGPS” de órgão abrangido pela LC 1.395/2023. Confirme com a SEPES.'
+    ]
+  },
+  fontes:['in18']
+},
+{
+  id:'consulta_sgp', tema:'funcional', ic:'⚖️', setor:'URE / DIPES', novo:true,
+  titulo:'Consulta à SGP e à PGE (dúvida sobre legislação de pessoal)',
+  curto:'O que o processo precisa ter – Instrução Normativa SGP nº 19/2026.',
+  publico:['gestor'],
+  chaves:'consulta duvida juridica sgp subsecretaria gestao pessoas pge procuradoria nucleo direito pessoal parecer encaminhar processo sgp 19',
+  resumo:'Processo enviado à Subsecretaria de Gestão de Pessoas para dúvida na aplicação da legislação de pessoal precisa chegar completo (Instrução Normativa SGP nº 19/2026, DOE de 24/11/2026). Se ainda houver dúvida jurídica, a SGP encaminha ao Núcleo de Direito de Pessoal da PGE. Quem envia é o órgão setorial de RH; a escola e a URE preparam a informação do caso.',
+  passos:[
+    ['Relate o caso','Relatório circunstanciado da situação funcional, com a documentação (art. 1º, I).'],
+    ['Indique a lei','Legislação aplicável e suas alterações, inclusive regime jurídico e remuneratório (art. 1º, II).'],
+    ['Junte atos internos','Resoluções, portarias e instruções do órgão que se aplicam ao caso (art. 1º, III).'],
+    ['Manifestação conclusiva do RH','Questão objetiva, análise técnica e solução proposta com fundamento (art. 1º, IV).'],
+    ['Se for à PGE','Pareceres anteriores, ações judiciais, outros servidores na mesma situação, prática do órgão e as dúvidas jurídicas formuladas (art. 2º, § 2º).']
+  ],
+  docs:['Relatório circunstanciado da situação funcional','Legislação aplicável e alterações','Atos normativos internos aplicáveis','Manifestação conclusiva do RH (questão, análise e solução proposta)','Para a PGE: pareceres anteriores, ações judiciais, casos semelhantes, prática adotada e dúvidas formuladas'],
+  modelos:[],
+  leis:[['Instrução Normativa SGP nº 19/2026','Requisitos de instrução; envio à PGE após análise da SGP; processo incompleto pode ser devolvido (art. 3º); revoga a IN SGP nº 06/2025','in19']],
+  atencao:[['azul','Processo sem documento ou informação indispensável pode ser devolvido com a indicação do que falta (art. 3º).']],
+  fontes:['in19']
+},
+{
   id:'aposentadoria', tema:'saida', ic:'🎓', setor:'SEAPE',
   titulo:'Aposentadoria (instrução para a SPPREV)',
   curto:'Documentos para o PUCT/PAS e o fluxo no SIGEPREV.',
@@ -879,11 +1058,12 @@ const DEMANDAS = [
     ['ACL — Avaliação de Capacidade Laboral','Fluxo para contratados Cat. O (AOE e docentes) desde 01/09/2025','aclCatO']
   ],
   atencao:[
+    ['azul','Contratado (Cat. O), Lei 500 no INSS e comissionado seguem a Instrução Normativa SGP nº 18/2026: até 15 dias o órgão paga e registra; depois, o benefício é do INSS. Veja o tema “Contratado (Cat. O)… INSS”.'],
     ['erro','Sem atestado no prazo, a perícia passa a ser obrigatória e as ausências podem virar faltas injustificadas.'],
     ['ambar','Quem não comparece à perícia tem o pagamento suspenso pela unidade (Decreto 69.234/2024).'],
     ['azul','Sistema e e-mail para registrar a dispensa de perícia: <span class="verificar">confirmar</span> com a SEFREP da URE Sul 1.']
   ],
-  fontes:['d69234','aclCatO','aclSeduc','est']
+  fontes:['d69234','aclCatO','aclSeduc','est','in18']
 },
 {
   id:'licenca_parental', tema:'ausencias', ic:'👶', setor:'SEAPE / SEFREP', novo:true,
@@ -909,10 +1089,11 @@ const DEMANDAS = [
     ['Decreto nº 69.234/2024, arts. 21 a 23','Gestante concedida sem perícia; alto risco é licença-saúde','d69234']
   ],
   atencao:[
-    ['ambar','Contratada (Cat. O) é segurada do INSS: confirme com a SEPES como fica o salário-maternidade e o prazo de 180 dias. <span class="verificar">confirmar</span>'],
-    ['ambar','Há ação no STF sobre ampliar a licença-paternidade e a adotante no Estado. Verifique se houve mudança antes de aplicar.']
+    ['ambar','Contratada (Cat. O) é segurada do INSS: salário-maternidade em regra de 120 dias, decidido pelo INSS (Instrução Normativa SGP nº 18/2026, art. 14). A licença complementar até 180 dias do art. 20 depende do vínculo: <span class="verificar">confirmar</span> com a SEPES.'],
+    ['azul','Admitida pela Lei 500 após 02/06/2007: licença à gestante de 180 dias (IN SGP 18/2026, art. 19).'],
+    ['azul','Licença-paternidade do servidor estadual: 20 dias desde a Lei 18.473, de 03/06/2026 (Estatuto, art. 198-A).']
   ],
-  fontes:['lc1054','d69234']
+  fontes:['lc1054','d69234','in18']
 },
 {
   id:'gala_nojo', tema:'ausencias', ic:'🕊️', setor:'SEFREP',
@@ -1315,8 +1496,8 @@ const DEMANDAS = [
     ['LC nº 180/1978, art. 163-A (LC 1.012/2007)','Baixa renda pelo critério do RGPS; documentos exigidos','lc1012'],
     ['Decretos nº 52.859/2008 e 53.301/2008','Regulamentação; valor igual ao do RGPS','popSes']
   ],
-  atencao:[['ambar','Os valores de 2026 foram conferidos em fontes secundárias que citam a Portaria Interministerial MPS/MF nº 13/2026: <span class="verificar">confirmar</span> no holerite ou com a SEFREP.']],
-  fontes:['lc1012','popSes']
+  atencao:[['azul','Para quem está no INSS, a Instrução Normativa SGP nº 18/2026 (arts. 10 a 13) lista os documentos: certidão de nascimento ou prova de equiparado, dependência econômica quando exigida, invalidez quando aplicável, vacinação e frequência escolar.'],['ambar','Os valores de 2026 foram conferidos em fontes secundárias que citam a Portaria Interministerial MPS/MF nº 13/2026: <span class="verificar">confirmar</span> no holerite ou com a SEFREP.']],
+  fontes:['lc1012','popSes','in18']
 },
 {
   id:'funeral', tema:'saida', ic:'🕊️', setor:'SEFREP', novo:true,
@@ -2032,11 +2213,11 @@ function filtrarBFE(){
    ========================================================================== */
 const SUB_TEMA = {
   admissao:'Contratos, exame admissional, declarações e acúmulo',
-  ausencias:'Férias, licenças, faltas, perícia e readaptação',
+  ausencias:'Férias, licenças, faltas, perícia, readaptação, INSS e afastamento para outro órgão',
   frequencia:'BFE, substituições, pagamento, auxílios, 13º e salário-família',
   funcional:'Evolução, quinquênio, dados, deveres e estrutura da URE',
   designacao:'Vice-diretor, CGP e GOE',
-  saida:'Extinção de contrato, aposentadoria e auxílio-funeral'
+  saida:'Extinção de contrato, aposentadoria, CTC/CTS e auxílio-funeral'
 };
 const CALC = { licenca_premio:'lp', ferias:'fer' };
 const ORDEM_TEMAS = ['admissao','ausencias','frequencia','funcional','designacao','saida'];
@@ -2271,7 +2452,7 @@ function responder(q){
     return;
   }
   if (!R.certeza){
-    const ops = r.slice(0, 4);
+    const ops = r.slice(0, 4).filter((x, i) => i < 2 || x.p >= r[0].p * 0.75);
     alvo.innerHTML = '<div class="escolha"><b>Para responder certo, preciso saber qual destes é o seu caso:</b>' +
       ops.map(x => '<button onclick="ir(\''+(x.tipo==='g'?'g/':'p/')+x.it.id+'\')"><span class="ic">'+x.it.ic+'</span><span><b>'+esc(x.it.titulo)+'</b><small>'+
         esc(x.tipo === 'g' ? 'Como preencher · ' + porId(x.it.pai).titulo : (x.it.curto || ''))+'</small></span></button>').join('') +
@@ -2331,9 +2512,9 @@ function trilhaGuia(g){ const pai = porId(g.pai), t = tema(pai.tema);
 function blocoRegras(d){
   const R = d.regras; if (!R) return '';
   const fonte = k => { const f = k && FONTES[k]; return f ? ' <a class="rg-f" href="'+f.u+'" target="_blank" rel="noopener" title="'+esc(f.t)+'">fonte ↗</a>' : ''; };
-  const ico = {ok:'✅', limite:'⚖️', zera:'⛔'};
+  const ico = {ok:'✅', limite:'⚖️', zera:'⛔', info:'📝'};
   const grupos = '<div class="rg-grade">' + R.grupos.map(g =>
-    '<div class="rg-col rg-'+g.tipo+'"><div class="rg-cab"><span>'+ico[g.tipo]+'</span><div><b>'+g.titulo+'</b><small>'+g.sub+'</small></div></div><ul>' +
+    '<div class="rg-col rg-'+g.tipo+'"><div class="rg-cab"><span>'+(g.ic||ico[g.tipo])+'</span><div><b>'+g.titulo+'</b><small>'+g.sub+'</small></div></div><ul>' +
     g.itens.map(i => '<li><b>'+i[0]+'</b><small>'+i[1]+fonte(i[2])+'</small></li>').join('') + '</ul></div>').join('') + '</div>';
   const tr = R.transicao ? '<div class="rg-trans"><h4>'+R.transicao.titulo+'</h4>' + R.transicao.itens.map(i =>
     '<div class="rg-tl"><span>'+i[0]+'</span><p>'+i[1]+fonte(i[2])+'</p></div>').join('') + '</div>' : '';
