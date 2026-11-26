@@ -316,6 +316,29 @@ a.btn{cursor:pointer}
 .escolha small{display:block;color:var(--c500);font-size:13px;margin-top:2px}
 .escolha p{font-size:13px;color:var(--c500);margin:6px 2px 4px}
 .escolha p a{color:var(--vermelho-esc);cursor:pointer;font-weight:600}
+.form-direto{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;background:#fff;border:2px solid var(--vermelho);border-radius:16px;padding:16px 18px;margin:10px 0 14px}
+.form-direto span{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--vermelho);text-transform:uppercase}
+.form-direto b{display:block;font-size:16px;margin:2px 0}
+.form-direto small{color:var(--c500);font-size:12.5px}
+.rg-intro{color:var(--c700);margin:0 0 14px;line-height:1.55}
+.rg-grade{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rg-col{border-radius:14px;padding:12px 12px 6px;border:1.5px solid}
+.rg-ok{background:#F0FAF4;border-color:#9AD3B3}.rg-limite{background:#FFF8EB;border-color:#F0C97A}.rg-zera{background:#FDF0F0;border-color:#F2A9AC}
+.rg-cab{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px}.rg-cab span{font-size:18px}
+.rg-cab b{display:block;font-size:14.5px}.rg-cab small{display:block;color:var(--c700);font-size:12px;line-height:1.35;margin-top:2px}
+.rg-col ul{list-style:none;margin:0;padding:0}
+.rg-col li{background:#fff;border-radius:10px;padding:8px 10px;margin-bottom:6px;border:1px solid rgba(0,0,0,.05)}
+.rg-col li b{display:block;font-size:13.5px;font-weight:600;line-height:1.35}
+.rg-col li small{display:block;font-size:12px;color:var(--c500);margin-top:2px;line-height:1.35}
+.rg-f{color:var(--vermelho-esc);white-space:nowrap;font-weight:600}
+.rg-trans{margin-top:14px;border:1.5px solid var(--c200);border-radius:14px;padding:12px 14px;background:#fff}
+.rg-trans h4,.rg-box h4{margin:0 0 8px;font-size:14.5px}
+.rg-tl{display:grid;grid-template-columns:220px 1fr;gap:10px;padding:8px 0;border-top:1px solid var(--c100)}
+.rg-tl:first-of-type{border-top:0}.rg-tl span{font-size:13px}.rg-tl p{margin:0;font-size:13.5px;line-height:1.45}
+.rg-box{margin-top:12px;border-radius:14px;padding:12px 14px}
+.rg-box ul{margin:0;padding-left:18px}.rg-box li{font-size:13.5px;line-height:1.5;margin-bottom:4px}
+.rg-erros{background:#FDF0F0;border:1.5px solid #F2A9AC}.rg-conf{background:#FFF8EB;border:1.5px solid #F0C97A}
+@media (max-width:900px){.rg-grade{grid-template-columns:1fr}.rg-tl{grid-template-columns:1fr;gap:2px}}
 </style>
 </head>
 <body>
@@ -341,6 +364,15 @@ a.btn{cursor:pointer}
 const D = id => 'https://drive.google.com/uc?export=download&id=' + id;
 
 const FONTES = {
+  est10261:{t:'Lei nº 10.261/1968 – Estatuto (texto com alterações, ALESP)', u:'https://www.al.sp.gov.br/repositorio/legislacao/lei/1968/original-lei-10261-28.10.1968.html'},
+  pa36:    {t:'PGE – Parecer PA nº 36/2022 (licença-prêmio após a LC 1.361/2021)', u:'https://saude.sp.gov.br/resources/crh/ggp/con/instrucaocomunicado-ggp/2022/parecerpa36-2022-contagemdetempo-blococompletadoate31-10-21regraanteriorcomaabonada-blocoposteriordesconta-seaabonada.pdf'},
+  lc1361:  {t:'LC nº 1.361/2021 (ALESP)', u:'https://www.al.sp.gov.br/repositorio/legislacao/lei.complementar/2021/lei.complementar-1361-21.10.2021.html'},
+  lc1041c: {t:'LC nº 1.041/2008 – faltas por consulta e tratamento de saúde (ALESP)', u:'https://www.al.sp.gov.br/repositorio/legislacao/lei.complementar/2008/compilacao-lei.complementar-1041-14.04.2008.html'},
+  l18473:  {t:'Lei nº 18.473/2026 – licença-paternidade de 20 dias e licença-adoção (ALESP)', u:'https://www.al.sp.gov.br/repositorio/legislacao/lei/2026/lei-18473-03.06.2026.html'},
+  lc226:   {t:'LC federal nº 226/2026 (Planalto)', u:'https://planalto.gov.br/ccivil_03/LEIS/LCP/Lcp226.htm'},
+  treTce:  {t:'TCE-SP – Ausência por convocação do TRE (art. 78, V, do Estatuto)', u:'https://tce.sp.gov.br/sites/default/files/publicacoes/Tutorial%20-%20SEI-ELEI%C3%87%C3%95ES%20%E2%80%93%20AUS%C3%8ANCIA%20TRABALHO%20CONVOCA%C3%87%C3%83O%20TRE.pdf'},
+  treTse:  {t:'TSE – folga em dobro aos mesários, sem prejuízo de vantagens (Lei 9.504/1997, art. 98)', u:'https://www.tse.jus.br/comunicacao/noticias/2023/Marco/mesarias-e-mesarios-que-colaboraram-nas-eleicoes-2022-contam-com-beneficios'},
+  lc1093c: {t:'LC nº 1.093/2009 – texto com alterações (ALESP)', u:'https://www.al.sp.gov.br/repositorio/legislacao/lei.complementar/2009/compilacao-lei.complementar-1093-16.07.2009.html'},
   lp26:    {t:'Decreto nº 70.396/2026 (ALESP)', u:'https://www.al.sp.gov.br/repositorio/legislacao/decreto/2026/decreto-70396-24.02.2026.html'},
   lpTab:   {t:'Instruções de Licença-Prêmio — URE Taboão da Serra (2026)', u:'https://midiasstoragesec.blob.core.windows.net/001/2026/07/licena-prmio-instrues.pdf'},
   lpCert:  {t:'Orientação técnica — certidão de licença-prêmio (exemplos, 2026)', u:'https://midiasstoragesec.blob.core.windows.net/001/2026/07/orientao-tcnica-emisso-de-certido-de-licena-prmio-exemplos.pdf'},
@@ -447,7 +479,8 @@ const SITUACOES = [
 ];
 
 /* m(nome, idDrive, situação, observação) — situação: usar | revisar | substituir */
-const m = (n, id, st, obs) => ({n:n, u:id ? (/\.pdf$/i.test(n) ? 'https://drive.google.com/file/d/' + id + '/view' : D(id)) : '', st:st, obs:obs || ''});
+const EXT = {"1E5PmYTs9Kyw47NuKEy1RWeqorXbqIybU":"docx","1JEgTVUGITnTWdZMZjbKs3J8A8AaeHBec":"doc","1H9KhDKKq444ow1y1P18n3fAyfknzQ5-V":"docx","1_7eQ9_zxLt4WYXIzmzViBglNh8WgdVAk":"doc","1ka-jUCbrcESIQ8AIyifiMZ7e2-5Lp1gr":"docx","1MjITYgEtr8IM5ZbFB2NcISeI8hGE5Evg":"docx","1Uw80OUp3kNAEEABFfdltXykDXucVUoi4":"docx","12v2fpOhVgmJ-LJbX-P7nalTgBp2jXG3N":"doc","170Y2NNKIcbP3jI25P7Yx7BOceCsgcoOW":"doc","1ikFvBgfcPUSuw0W50OEnWs91xvfCMi5-":"docx","1PqCbUtYvTvAq0gWmYod8r34WPwrZt_Fo":"doc","1yJaIEIR0uJAeSKzxkyTHEWOGp2jHMepV":"docx","1YEHBRmEDBPh3gRvM-T7ZT5UeAtleyh6O":"doc","1kUnTYZQug8bkb91N-43R3MMy_dnNXIuY":"doc","1yFw6EJ8cR4-1ouQ0oeEAQnOuW2MeRaIU":"doc","11crk8SELEj0j_Mpx4stxJ-99ZCOj7pq5":"doc","1Z7n8g-7DSuHFS669Xn3PHVpbzX0JgyOK":"doc","1zodpqAImTxku_xMQe6QmG-3af3SqtJq_":"docx","1mMeRi4mW5dm-TNcv5TyV4yCXcpVB1f4J":"doc","18xgVohIBhoTGBh-5ZLaf7r4ZNYOVd9BI":"doc","14tN-hmxunGhIQduRLj9UYs8VroYoc5K2":"doc","1jLYYgtkl3wMMFYdeA2wIaHz9mXHdLA3K":"doc","1vNmvSX2rTH26TDTK0QAfJe41-eZrHtD9":"doc","1k8XOOAIP_q580mLz80_SsjoNLLFcnBfL":"doc","1BKrxf9c09iaHIJ3RDhMtE_hNllixikd_":"doc","1vPd7OKtw7MSgcPERXDbmSHGTDuXxcX4N":"doc","1J9XR1UOvKoY-e-_3HWdKMwKHL2sFNwp_":"doc","1fJE38X-2488N70CWy6mgOZ9VyA24qyMP":"doc","1LepOiKPIMt4Ev1DXrHzaBMkGJDKIjxyO":"doc","1BFWHva4MwXW6b1irhlL3tRpP7j6QgaO0":"docx","1F6M8CAcPVCh0I6PxfkiYYz5w7lm1ezGd":"doc","1RQLboQ1qN_ADRtoj2r316dkju-CxhHSp":"doc","1hmJAyHEpxPIiE17Su4TLjcb2Xm3G4HS6":"doc","1SwhgeojS4eYR46tTFSBa-gTOCjW5TvQm":"doc","1uQp0elFu5k2hTaAT9SgrgKYiaTtb4T72":"doc","16o8y-yCxJ_zrmOwgdX8HZuB1N3wApGVg":"doc","1yVDKQt5UxxOYGCOkPyPTdaagqfC37vA8":"docx","1lkgqETH34lBa5wdmdzsyvspWMqGTo9Bv":"docx","1drTcLKrQL8heaEFWnnqO6IbiRTIaMFyS":"doc","1NGHEj0zhClQdzgyZo2d7c3l6ISg_kbb5":"docx","1euIUKx9bb8DJ1gCiJaXOiexB8YNfi3Im":"docx","1_PCvMyqMl8G6uWGrYCe_V-CawgYwQhsl":"docx","1CYfAoHuvrCHn5o6d2MwBPzPj1wLK_wbX":"doc","13WHuduDdEqNfigRZVD-cY3nRVInwysWh":"doc","13rLmVLrGVxJCsz4rxyJX4atKJqNLLnMG":"doc","183tmyccMFiiZhSQ8SnyiEzVHrIuQtxw0":"doc","1Sl08rP8dDqLv__n_LEx5LB0HsnhrNI8G":"doc","1f1gTapjOXk2nmMopiPRmNEQJGg1uwAF6":"doc","1bLB6XETYH__19qEtV9NSozf3J_XQijCE":"doc","1hNIq7cZDg_10GyVE4puMaO2Ta4W_7Bn6":"doc","17-LyNWrjPUzAMpHWkhDFLu2wOZEdbNwq":"doc","1212_pW498zR_e-R5ELlO-q4ZY4WN89o6":"doc","1z4YpZpMPYskLY77MeftpGoRMOVAoHAH8":"pdf","1QpREnSQbGSd3o6DOVKnk7o0Ka6x9jerE":"pdf","1czoR3G77tRTbsYsmPZB4tf9VZ7dpQesW":"pdf","14MTrg6udyLLVg9exMevChWDZZBiAwCOy":"pdf","19_HXfrxszlO2M5gC1_QbVkfzKjWtZk-x":"pdf","1Vz3dgPbQhcXqjy23T6BOzGnY4B3mmiI3":"xls","1VgC2-ajo8Q1P1dsJJ33Y03i7B3O1K_bp":"xls","1QvrFDdCPo__naFEUkg_LSazEiXGLrFRE":"xls"};
+const m = (n, id, st, obs) => { const e = EXT[id] || (/\.pdf$/i.test(n) ? 'pdf' : 'docx'); return {n:n.replace(/\.pdf$/i,''), e:e, u:id ? (e === 'pdf' ? 'https://drive.google.com/file/d/' + id + '/view' : D(id)) : '', st:st, obs:obs || ''}; };
 
 const DEMANDAS = [
 {
@@ -468,11 +501,11 @@ const DEMANDAS = [
   ],
   docs:['RG (dentro da validade) e CPF','PIS/PASEP (se houver duplicidade, manter o número já cadastrado)','Título de eleitor e certidão de quitação eleitoral (TSE)','Certidão de nascimento ou casamento','Quitação militar (homens)','Antecedentes criminais — federal e estadual','Comprovante de endereço completo','Comprovante de conta no Banco do Brasil','CTPS — página da foto e do 1º emprego','ASO (exame admissional)','Diploma/histórico ou declaração de matrícula atualizada','CREF (somente Educação Física)','Declarações: parentesco, acúmulo e penalidades','Prints do cadastro no Banco de Talentos'],
   modelos:[
-    m('CTD – Contrato docente (com nome social)','1J3iUjJSW0sFmpjM4JCTPVmgIMJzdelrf','usar',''),
-    m('CTD – Contrato docente eventual','1-I8S1pnsfQORoNcThspbHvlvu36Z422m','usar',''),
-    m('CTD – Contrato AOE e ASE','1sxgHDXYETbKmEABKdAaWHAcAcFmYE2fC','usar',''),
-    m('Orientação – Documentos para admissão e contratação','1XrCVSpXaGfMufLk-U97nOmZtdwtm4mzJ','usar',''),
-    m('Orientação – Envio da documentação de contratação','1V9H4HWjh2E4fN4dgdjCIW97yYdkpIkFu','usar','')
+    m('CTD – Contrato docente (com nome social)','1H9KhDKKq444ow1y1P18n3fAyfknzQ5-V','usar',''),
+    m('CTD – Contrato docente eventual','1_7eQ9_zxLt4WYXIzmzViBglNh8WgdVAk','usar',''),
+    m('CTD – Contrato AOE e ASE','1JEgTVUGITnTWdZMZjbKs3J8A8AaeHBec','usar',''),
+    m('Documentos exigidos para admissão de docente (URE Sul 1).pdf','1z4YpZpMPYskLY77MeftpGoRMOVAoHAH8','usar',''),
+    m('E-mails para contratos (URE Sul 1).pdf','1QpREnSQbGSd3o6DOVKnk7o0Ka6x9jerE','usar','')
   ],
   leis:[
     ['LC nº 1.093/2009','Lei da contratação por tempo determinado; intervalo entre contratos (art. 8º DT)','—'],
@@ -509,14 +542,12 @@ const DEMANDAS = [
   ],
   docs:['RG/CIN e CPF','PIS/PASEP (se houver)','Título de eleitor e quitação eleitoral','Certidão de nascimento ou casamento','Quitação militar (homens)','Antecedentes criminais — estadual e federal','Certificado de conclusão do Ensino Médio','Comprovante de endereço','Conta no Banco do Brasil','CTPS (foto e 1º emprego)','Comprovante de inscrição no Banco de Talentos','Comprovantes de experiência e certificados de informática','Formação específica (somente AOE da Educação Especial)','ASO admissional','Declarações de parentesco, acúmulo e penalidades'],
   modelos:[
-    m('AOE – Edital de abertura do processo seletivo (modelo da escola)','1B6zQwld38-MgqCfYQOkwtD4BCie6qPOJ','usar','Novo. Baseado em editais de 2026 de outras UREs.'),
-    m('AOE – Ficha de entrevista e pontuação','1UI_4YqwlJwsJFMgrktOZI4is4vAwUxF0','usar','Novo. Critérios de 40 pontos e estudos de caso.'),
-    m('CTD – Contrato AOE e ASE','1sxgHDXYETbKmEABKdAaWHAcAcFmYE2fC','usar','Revisado: Unidade Regional de Ensino Sul 1.'),
-    m('Orientação – Documentos para admissão e contratação','1XrCVSpXaGfMufLk-U97nOmZtdwtm4mzJ','usar',''),
-    m('Orientação – Exame admissional (ASO)','1JWbyITYUROSy-5urEkzcpUXhFjWkQYbW','usar',''),
-    m('Declaração – Não parentesco','18sG0aCftEOqDmZQ_jpPqygG7RJPiNoGJ','usar',''),
-    m('Declaração – Acúmulo de cargos','1s_TcAchG2u14gX_UAsk0NF0MVQlvKWVt','usar',''),
-    m('Declaração – Não ter sofrido penalidades','1D0GCjI18am_iuGsyJoTTMP0jtxNmwC0N','usar','')
+    m('CTD – Contrato AOE e ASE','1JEgTVUGITnTWdZMZjbKs3J8A8AaeHBec','usar','Revisado: Unidade Regional de Ensino Sul 1.'),
+    m('Documentos exigidos para admissão de docente (URE Sul 1).pdf','1z4YpZpMPYskLY77MeftpGoRMOVAoHAH8','usar',''),
+    m('Exames admissionais – ASO (URE Sul 1).pdf','1czoR3G77tRTbsYsmPZB4tf9VZ7dpQesW','usar',''),
+    m('Declaração – Não parentesco','1MjITYgEtr8IM5ZbFB2NcISeI8hGE5Evg','usar',''),
+    m('Declaração – Acúmulo de cargos','1ka-jUCbrcESIQ8AIyifiMZ7e2-5Lp1gr','usar',''),
+    m('Declaração – Não ter sofrido penalidades','1Uw80OUp3kNAEEABFfdltXykDXucVUoi4','usar','')
   ],
   leis:[
     ['LC nº 1.093/2009 e Decreto nº 54.682/2009','Contratação por tempo determinado, prazo e intervalo entre contratos','—'],
@@ -549,8 +580,8 @@ const DEMANDAS = [
   ],
   docs:['ASO com conclusão “apto”','Nome e CRM do médico examinador','Nome e CRM do médico coordenador do PCMSO','URE contratante e CNPJ','Nome e endereço da escola','Data de emissão'],
   modelos:[
-    m('Orientação – Exame admissional (ASO)','1JWbyITYUROSy-5urEkzcpUXhFjWkQYbW','usar',''),
-    m('ASO – Modelo de atestado admissional','1u-bM2nr5R-9RQZtk-8Ejd35_R5RzqiqH','usar','')
+    m('Exames admissionais – ASO (URE Sul 1).pdf','1czoR3G77tRTbsYsmPZB4tf9VZ7dpQesW','usar',''),
+    m('ASO – Modelo de atestado admissional','1E5PmYTs9Kyw47NuKEy1RWeqorXbqIybU','usar','')
   ],
   leis:[['Comunicado do RH central sobre exames admissionais (arquivo original da pasta)','Exame em clínica particular; formulário para eSocial em até 3 dias','—']],
   atencao:[
@@ -573,9 +604,9 @@ const DEMANDAS = [
   ],
   docs:['Declaração de parentesco (Decreto 54.376/2009)','Declaração de acúmulo ou não acúmulo (inclui aposentadoria)','Declaração de não ter sofrido penalidade (5 anos; 10 anos se demissão a bem do serviço público)'],
   modelos:[
-    m('Declaração – Não parentesco','18sG0aCftEOqDmZQ_jpPqygG7RJPiNoGJ','usar',''),
-    m('Declaração – Acúmulo de cargos','1s_TcAchG2u14gX_UAsk0NF0MVQlvKWVt','usar',''),
-    m('Declaração – Não ter sofrido penalidades','1D0GCjI18am_iuGsyJoTTMP0jtxNmwC0N','usar','')
+    m('Declaração – Não parentesco','1MjITYgEtr8IM5ZbFB2NcISeI8hGE5Evg','usar',''),
+    m('Declaração – Acúmulo de cargos','1ka-jUCbrcESIQ8AIyifiMZ7e2-5Lp1gr','usar',''),
+    m('Declaração – Não ter sofrido penalidades','1Uw80OUp3kNAEEABFfdltXykDXucVUoi4','usar','')
   ],
   leis:[['Decreto nº 54.376/2009','Declaração de parentesco (anexos)','—'],['Decreto nº 41.915/1997','Acumulações remuneradas','d41915']],
   atencao:[['azul','Quem preenche, data e assina é o próprio interessado. A escola confere e junta ao processo.']],
@@ -596,7 +627,7 @@ const DEMANDAS = [
   ],
   docs:['Declaração de acúmulo','Comprovante do outro vínculo (cargo, jornada, horário)','Horário de trabalho nos dois vínculos'],
   modelos:[
-    m('Declaração – Acúmulo de cargos','1s_TcAchG2u14gX_UAsk0NF0MVQlvKWVt','usar','')
+    m('Declaração – Acúmulo de cargos','1ka-jUCbrcESIQ8AIyifiMZ7e2-5Lp1gr','usar','')
   ],
   leis:[
     ['Constituição Federal, art. 37, XVI','Hipóteses de acúmulo remunerado','—'],
@@ -611,50 +642,81 @@ const DEMANDAS = [
   titulo:'Extinção de contrato, exoneração e dispensa',
   curto:'Encerrar CTD de docente, AOE ou ASE com férias e indenização.',
   publico:['cato','eventual','qae'],
-  chaves:'extincao contratual encerrar contrato dispensa desligamento fim contrato aoe ase docente exoneracao a pedido',
+  chaves:'extincao contratual encerrar contrato dispensa desligamento fim contrato termino vigencia ultimo dia letivo aoe ase docente exoneracao a pedido descumprimento indenizacao intervalo 40 dias',
   resumo:'A extinção do CTD segue a LC 1.093/2009, com cálculo de férias (art. 12, II) e da indenização (art. 8º, § 2º, VIII) quando cabível. O motivo e a data da extinção precisam estar claros, pois contam para o intervalo até um novo contrato.',
   passos:[
-    ['Identifique o motivo e a data','Término do prazo, a pedido, por avaliação de desempenho ou outra hipótese da lei.'],
+    ['Identifique o motivo e a data','Veja a tabela “Quando e como o contrato termina”: término do prazo (art. 7º) ou uma das hipóteses do art. 8º.'],
     ['Calcule férias e indenização','Use os campos próprios do modelo, com o fundamento legal.'],
     ['Encerre a frequência','Ajuste o BFE do mês para que o servidor não continue constando.'],
     ['Envie à URE para publicação','Por processo SEI/canal institucional.']
   ],
   docs:['Modelo de extinção preenchido','Frequência até a data da extinção','Pedido do contratado, se for a pedido'],
   modelos:[
-    m('Extinção contratual – Docente','1KPgJRuWZILd7qgaQAD3-vE5NBIypzRl1','usar',''),
-    m('Extinção contratual – AOE e ASE','1mzR5W5qwqPCbRTCrbWR70gAVGBaUP9oA','usar',''),
-    m('Requerimento – Exoneração ou dispensa a pedido','1N_YIEVLtREkXNJqZriWifDD6X096vNYu','usar','Quando o próprio servidor pede para sair.'),
-    m('Extinção por descumprimento – Notificação ao contratado','1StOsEJAXoL4eP6uKPQU0McZkd2-RQyRE','usar','Prazo de 3 dias úteis para defesa.'),
-    m('Extinção por descumprimento – Informação da direção','1_IBLFIAMwC0z3Uu54ZyOivSDrXZRavXP','usar','')
+    m('Extinção contratual – Docente','13WHuduDdEqNfigRZVD-cY3nRVInwysWh','usar',''),
+    m('Extinção contratual – AOE e ASE','1CYfAoHuvrCHn5o6d2MwBPzPj1wLK_wbX','usar','')
   ],
   leis:[['LC nº 1.093/2009','Férias (art. 12, II), indenização (art. 8º, § 2º, VIII) e intervalo entre contratos','—']],
   atencao:[['azul','Os modelos citam a Res. SE 67/2009 como base de competência, a mesma usada nos contratos de outras UREs.']],
-  fontes:[]
+  regras:{
+    titulo:'Quando e como o contrato termina',
+    intro:'Contrato por tempo determinado de docente, AOE e ASE segue a <b>LC 1.093/2009</b>. Confira abaixo qual é o caso antes de preencher o modelo.',
+    grupos:[
+      {tipo:'ok', titulo:'Término pelo prazo', sub:'O contrato acaba sozinho (art. 7º, § 3º)', itens:[
+        ['Docente: até 3 anos, podendo ser prorrogado até o último dia letivo do ano em que vencem os 3 anos','Art. 7º, § 1º (LC 1.277/2015)','lc1093c'],
+        ['Demais funções (AOE, ASE): até 12 meses','Art. 7º, caput (LC 1.132/2011)','lc1093c'],
+        ['Findo o prazo, o contrato está automaticamente extinto','Art. 7º, § 3º','lc1093c'],
+        ['Sem aulas atribuídas, os direitos e obrigações ficam suspensos; o contrato não acaba por isso','Art. 7º, § 2º','lc1093c']
+      ]},
+      {tipo:'limite', titulo:'Extinção antes do prazo', sub:'Hipóteses do art. 8º', itens:[
+        ['I – a pedido do contratado','Art. 8º, I – sem indenização (§ 1º)','lc1093c'],
+        ['II – retorno do titular','Art. 8º, II (LC 1.361/2021) – sem indenização','lc1093c'],
+        ['III – conclusão do objeto ou fim da emergência/calamidade','Art. 8º, III (LC 1.361/2021) – sem indenização','lc1093c'],
+        ['IV – descumprimento de obrigação legal ou contratual','Art. 8º, IV – defesa em 3 dias úteis e conclusão em 10 dias (§ 3º)','lc1093c'],
+        ['V e VI – provimento ou criação do cargo correspondente','Art. 8º, V e VI – sem indenização','lc1093c'],
+        ['VII – vaga de concurso, serviço militar, mandato eletivo, nota abaixo do mínimo na avaliação de desempenho','Art. 8º, VII, “a” a “d” – sem indenização','lc1093c'],
+        ['VIII – conveniência da Administração','Art. 8º, VIII – indenização de 1 remuneração mensal (§ 2º)','lc1093c']
+      ]},
+      {tipo:'zera', titulo:'Na saída e depois', sub:'Direitos e novo contrato', itens:[
+        ['13º proporcional: 1/12 por mês trabalhado ou fração acima de 15 dias','Art. 12, I','lc1093c'],
+        ['Férias: a lei fala em pagamento decorridos 12 meses de efetivo exercício','Art. 12, II – <span class="verificar">confirmar</span> com a URE o cálculo em contratos mais curtos','lc1093c'],
+        ['Novo contrato da mesma pessoa: intervalo de 40 dias do término','Art. 6º, § 1º, c/c art. 8º das Disposições Transitórias (LC 1.331/2018)','lc1093c']
+      ]}
+    ],
+    erros:[
+      'Tratar como extinção a falta de aulas atribuídas: nesse caso o contrato fica suspenso (art. 7º, § 2º).',
+      'Extinguir por descumprimento sem a notificação e o prazo de defesa de 3 dias úteis (art. 8º, § 3º).',
+      'Lançar indenização em hipótese diferente da conveniência da Administração (art. 8º, §§ 1º e 2º).'
+    ],
+    confirmar:[
+      'Data a registrar como “Data da Extinção” quando o último dia letivo cai numa sexta-feira (a própria sexta, o sábado ou a segunda-feira): não localizei norma ou orientação escrita da SEDUC sobre isso. A lei diz só que o contrato se extingue ao fim do prazo (art. 7º, § 3º). Confirme com o SEFREP/SEPES da URE antes de lançar.'
+    ]
+  },
+  fontes:['lc1093c']
 },
 {
   id:'licenca_premio', tema:'ausencias', ic:'🏖️', setor:'SEAPE', novo:true,
   titulo:'Licença-prêmio: certidão, gozo e pecúnia',
   curto:'90 dias a cada 5 anos. Em 2026 mudou a contagem de 2020–2021.',
   publico:['efetivo','ofa','qae','gestor'],
-  chaves:'licenca premio lp certidao gozo pecunia pulp 90 dias bloco cinco anos conversao dinheiro',
+  chaves:'licenca premio lp certidao gozo pecunia pulp 90 dias bloco cinco anos conversao dinheiro conta nao conta interrompe bloco tre eleitoral mesario',
   resumo:'Cinco anos de exercício sem penalidade dão direito a 90 dias de licença-prêmio. Em 2026, o Decreto 70.396 passou a contar o período de 28/05/2020 a 31/12/2021 para a licença-prêmio, com efeitos desde 13/01/2026. Certidões que pularam esse período precisam ser revistas.',
   passos:[
     ['Verifique se já existe certidão','Consulte o DOE e as escolas anteriores antes de emitir uma nova.'],
     ['Abra o processo no SEI','Tipo “Licença Prêmio (pecúnia, gozo ou certidão)”, com os documentos listados abaixo.'],
-    ['Conte as ausências do quinquênio','Até 30 ausências (com abonadas) para blocos fechados até 31/10/2021; até 25 (sem abonadas) a partir de 01/11/2021.'],
+    ['Classifique cada ausência do quinquênio','Use a tabela “O que conta e o que não conta”: exercício, ausência que soma no limite de 25 ou interrupção.'],
     ['Emita e publique a certidão','A concessão independe de requerimento e é publicada no DOE.'],
     ['Gozo: pedido, publicação e início','Por inteiro ou em parcelas de 15 dias ou mais. O servidor aguarda em exercício; o gozo começa em até 30 dias da publicação.'],
     ['Lance a fruição na SED','E informe o início no mesmo processo SEI.']
   ],
   docs:['RG ou CIN','Portarias de admissão e dispensa / título de nomeação','Ficha 100 com visto “confere” do diretor','Levantamento de afastamentos','Requerimento','Declaração de acúmulo, se houver','PULP completo (se já houver certidão)','Para pecúnia: Ficha 100 do ano anterior e declaração de não fruição'],
   modelos:[
-    m('LP 01 – Requerimento de certidão de licença-prêmio','16NFsokrtos263Nn9t3Q-4rF2b5MFPeID','usar',''),
-    m('LP 02 – Ofício de abertura do processo de licença-prêmio','1q3SNrz0DEaLtMkNgbWOtW21Te9Cv9gnq','usar',''),
-    m('LP 03 – Certidão de licença-prêmio (OFA)','1MnBF9nYBZg9tibevNrrYYldsyMDtzEKC','usar',''),
-    m('LP 04 – Certidão de licença-prêmio (mandado judicial)','1QZ5kCPWaRLELUw5BaKasKgbvMHakFCPe','usar',''),
-    m('LP 05 – Despacho do diretor (encaminha PULP)','1N1lrAjVIutMXpn29UxMdu8smOIvjLm4r','usar',''),
-    m('LP 06 – Requerimento de gozo de licença-prêmio','1eL-p3HDuU1cljddZISNAYdKfSPIr_mzf','usar',''),
-    m('LP 07 – Conversão de licença-prêmio em pecúnia','1EoU61TK6LrqzcBWBgrXoTI1BR2jN5swD','usar','')
+    m('LP 01 – Requerimento de certidão de licença-prêmio','1PqCbUtYvTvAq0gWmYod8r34WPwrZt_Fo','usar',''),
+    m('LP 02 – Ofício de abertura do processo de licença-prêmio','1yJaIEIR0uJAeSKzxkyTHEWOGp2jHMepV','usar',''),
+    m('LP 03 – Certidão de licença-prêmio (OFA)','1YEHBRmEDBPh3gRvM-T7ZT5UeAtleyh6O','usar',''),
+    m('LP 04 – Certidão de licença-prêmio (mandado judicial)','1kUnTYZQug8bkb91N-43R3MMy_dnNXIuY','usar',''),
+    m('LP 05 – Despacho do diretor (encaminha PULP)','1yFw6EJ8cR4-1ouQ0oeEAQnOuW2MeRaIU','usar',''),
+    m('LP 06 – Requerimento de gozo de licença-prêmio','11crk8SELEj0j_Mpx4stxJ-99ZCOj7pq5','usar',''),
+    m('LP 07 – Conversão de licença-prêmio em pecúnia','1Z7n8g-7DSuHFS669Xn3PHVpbzX0JgyOK','usar','')
   ],
   leis:[
     ['Lei nº 10.261/1968, arts. 209 a 214 (red. LC 1.048/2008)','Direito, gozo em parcelas e prazos','lpTab'],
@@ -667,7 +729,61 @@ const DEMANDAS = [
     ['ambar','Pecúnia: as normas falam em pedido 3 meses antes do mês de aniversário, e orientações da SEDUC falam em 4 meses. <span class="verificar">confirmar</span> com a URE.'],
     ['ambar','Docente afastado por mais de 15 dias precisa de carta do substituto; em PEI, ofício do diretor.']
   ],
-  fontes:['lp26','lpTab','lpCert']
+  regras:{
+    titulo:'O que conta e o que não conta no bloco de 5 anos',
+    intro:'O servidor ganha 90 dias a cada 5 anos de exercício <b>ininterrupto</b> e <b>sem penalidade</b> (Estatuto, art. 209). O art. 210 diz o que <b>não</b> interrompe esse exercício. Use a tabela para classificar cada ausência do período.',
+    grupos:[
+      {tipo:'ok', titulo:'Conta como exercício', sub:'Não interrompe e não entra no limite de ausências (art. 210, I, c/c art. 78)', itens:[
+        ['Férias','Art. 78, I'],
+        ['Casamento, até 8 dias','Art. 78, II'],
+        ['Falecimento de cônjuge, filhos, pais ou irmãos, até 8 dias','Art. 78, III'],
+        ['Falecimento de avós, netos, sogros, padrasto ou madrasta, até 2 dias','Art. 78, IV'],
+        ['Folga da Justiça Eleitoral (mesário, apoio, junta), com a declaração do TRE','Art. 78, V – “serviços obrigatórios por lei”; Lei federal 9.504/1997, art. 98 (sem prejuízo de qualquer vantagem)','treTce'],
+        ['Licença por acidente em serviço ou doença profissional','Art. 78, VI'],
+        ['Licença à gestante (180 dias)','Art. 78, VII; art. 198 (LC 1.054/2008)'],
+        ['Licença-paternidade (20 dias desde 03/06/2026)','Art. 78, XVI, e art. 198-A (Lei 18.473/2026)','l18473'],
+        ['Licença-adoção ou guarda judicial para adoção','Art. 78, XVIII (Lei 18.473/2026)','l18473'],
+        ['Licença compulsória (medida profilática)','Art. 78, VIII'],
+        ['Licença-prêmio em gozo','Art. 78, IX'],
+        ['Missão ou estudo autorizado (art. 68)','Art. 78, XI'],
+        ['Doação de sangue','Art. 78, XII (art. 122)'],
+        ['Licença para doação de tecidos ou órgãos','Art. 78, XVII (LC 1.361/2021)'],
+        ['Afastamento por processo administrativo, se absolvido ou punido só com repreensão ou multa; e os dias que passarem da suspensão aplicada','Art. 78, XIII (veja também a penalidade, na coluna ao lado)'],
+        ['Trânsito por mudança de sede, até 8 dias','Art. 78, XIV'],
+        ['Competições desportivas','Art. 78, XV'],
+        ['Período de 28/05/2020 a 31/12/2021 (pandemia)','LC federal 226/2026 e Decreto 70.396/2026 – efeitos desde 13/01/2026','lp26']
+      ]},
+      {tipo:'limite', titulo:'Não interrompe, mas soma no limite', sub:'Até 25 dias no bloco completado a partir de 01/11/2021 (art. 210, II, red. LC 1.361/2021)', itens:[
+        ['Falta justificada','Art. 210, II'],
+        ['Licença para tratamento de saúde do próprio servidor','Art. 210, II, c/c art. 181, I'],
+        ['Licença por doença em pessoa da família','Art. 210, II, c/c art. 181, IV'],
+        ['Falta médica (consulta ou exame: até 6 por ano, 1 por mês)','LC 1.041/2008, art. 4º: conta só para aposentadoria e disponibilidade. Os exemplos oficiais de certidão da SEDUC somam as faltas médicas no total do bloco.','lpCert'],
+        ['Somou mais de 25? O bloco não se forma.','Art. 210, II – o limite é para todo o período de 5 anos']
+      ]},
+      {tipo:'zera', titulo:'Interrompe o bloco', sub:'Não está entre as exceções do art. 210', itens:[
+        ['Falta injustificada (qualquer uma)','Não consta do art. 78 nem do art. 210, II','lpTab'],
+        ['Penalidade administrativa no período (repreensão, multa, suspensão)','Art. 209: o bloco exige que “não haja sofrido qualquer penalidade administrativa”'],
+        ['Licença para tratar de interesses particulares (sem vencimentos)','Art. 202; não consta do art. 78 nem do art. 210, II','lpTab'],
+        ['Afastamento para concorrer a eleição (campanha)','Listado como interrupção pela URE Taboão da Serra; <span class="verificar">confirmar</span> manifestação da PGE','lpTab']
+      ]}
+    ],
+    transicao:{titulo:'Faltas abonadas e a mudança de 01/11/2021', itens:[
+      ['Bloco completado <b>até 31/10/2021</b>','Regra antiga: até <b>30</b> ausências, <b>contando</b> as abonadas (direito adquirido).','pa36'],
+      ['Bloco completado <b>a partir de 01/11/2021</b>','Regra nova: até <b>25</b> ausências. Abonadas tiradas antes de 01/11/2021 <b>não entram</b> na conta.','pa36'],
+      ['Depois de 01/11/2021','A falta abonada deixou de existir: a LC 1.361/2021 revogou o § 1º do art. 110 do Estatuto.','lc1361']
+    ]},
+    erros:[
+      'Usar o limite de 30 (com abonadas) em bloco que só fechou depois de 01/11/2021.',
+      'Pular o período de 28/05/2020 a 31/12/2021: desde 13/01/2026 ele conta. Certidões que o pularam precisam de revisão.',
+      'Lançar como ausência a folga do TRE, a licença-gestante, a licença-paternidade ou a licença-adoção: todas são exercício (art. 78).',
+      'Esquecer que uma única penalidade no período impede o bloco (art. 209).'
+    ],
+    confirmar:[
+      'A data em que começa o novo bloco depois de uma interrupção: não localizei norma ou orientação escrita. Confirme com a SEAPE da URE antes de emitir a certidão.',
+      'Recontagem do período 2020–2021 junto com a regra da LC 1.361/2021: a ALESP (outro Poder) suspendeu as próprias retificações para analisar o tema. Siga a orientação da URE/DIPES.'
+    ]
+  },
+  fontes:['lp26','lpTab','lpCert','pa36','est10261','l18473','lc1041c','treTce','lc226']
 },
 {
   id:'aposentadoria', tema:'saida', ic:'🎓', setor:'SEAPE',
@@ -684,10 +800,10 @@ const DEMANDAS = [
   ],
   docs:['Título de nomeação e portarias (OFA: admissões, dispensas e apostilas)','Certidão negativa de débito (se houve afastamento art. 202)','Apostilas: gratificações, incorporação, insalubridade, ATS, sexta-parte, último enquadramento','Apostila e rol de atividades (readaptado)','Laudo médico (invalidez)','Mapa de aulas (professor)','RG, CPF, PIS/PASEP, certidão atualizada (6 meses), comprovante de endereço','Último demonstrativo (e prova de abono de permanência, se houver)','Certidões ratificadas pela DIPES e do INSS/Prefeitura (se houver)','Requerimento, conta Banco do Brasil e Termo de Ciência TCE (originais)'],
   modelos:[
-    m('Aposentadoria – Documentos para o processo','1sEqTmTCax9HSbgUhfvc9k0AnA098SsDK','usar',''),
-    m('Aposentadoria – Requerimento à SPPREV','12Z4-5whqWPcp3n4hqj7plZUTWJOo2Ou-','usar',''),
-    m('Aposentadoria – Declaração de cessação após 90 dias','13zLhtA0yvy8glc5J8pteG7mMZhxjKAKk','usar',''),
-    m('Aposentadoria – Termo de ciência e notificação (TCE)','1r8ZZrsG_f_HFBwUnuMOZnJbhWzSY1bGK','usar','')
+    m('Aposentadoria – Documentos para o processo','1NGHEj0zhClQdzgyZo2d7c3l6ISg_kbb5','usar',''),
+    m('Aposentadoria – Requerimento à SPPREV','1euIUKx9bb8DJ1gCiJaXOiexB8YNfi3Im','usar',''),
+    m('Aposentadoria – Declaração de cessação após 90 dias','1drTcLKrQL8heaEFWnnqO6IbiRTIaMFyS','usar',''),
+    m('Aposentadoria – Termo de ciência e notificação (TCE)','1_PCvMyqMl8G6uWGrYCe_V-CawgYwQhsl','usar','')
   ],
   leis:[
     ['Portaria SPPREV nº 25/2012','Instrução do processo de aposentadoria','aposSP'],
@@ -708,7 +824,7 @@ const DEMANDAS = [
   resumo:'O pagamento das férias depende do sistema. Para servidores administrativos (QAE/QSE) e equipe gestora, a escola monta a escala anual, a URE homologa e a escola digita e aponta mês a mês no SIPAF (Sistema de Programação e Apontamento de Férias, dentro do Portalnet). Para docentes, CGP e PEC, as férias seguem o calendário escolar e vão por arquivo automático, o BIF (Boletim Informativo de Férias); a escola só confere e corrige o que faltar pelo Formulário 05. Essas tarefas são atribuição da secretaria da escola (Res. SE 52/2011, art. 3º, X).',
   passos:[
     ['Tenha o perfil SIPAF','O acesso é pelo Portalnet. Se a opção SIPAF não aparecer, peça o perfil ao Administrador de Segurança na SETEC da URE.'],
-    ['Monte a escala anual (administrativos)','Use o modelo “Férias – Escala anual”. Não inclua docentes, CGP nem PEC. O Diretor de Escola tem escala própria, assinada pela URE.'],
+    ['Monte a escala anual (administrativos)','Não inclua docentes, CGP nem PEC. O Diretor de Escola tem escala própria, assinada pela URE.'],
     ['Envie a escala pelo SEI para homologação','Ofício do Diretor pedindo homologação, com a escala assinada, no prazo do cronograma da URE (em geral, out/nov do ano anterior).'],
     ['Digite a programação no SIPAF','Portalnet › SIPAF › Programação/Agendamento de Férias – Não Docente, dentro da janela aberta pela URE. A URE homologa no sistema.'],
     ['Aponte todo mês','Portalnet › SIPAF › Apontamento – Não Docente: aponte as férias que começam no mês, no cronograma da folha. Sem apontamento, não há pagamento.'],
@@ -719,10 +835,8 @@ const DEMANDAS = [
   ],
   docs:['Escala anual assinada (servidores e direção)','Ofício de homologação (SEI)','Aviso de Férias impresso do SIPAF, com ciência','Formulário 05 para inclusões e correções','Consulta PAPC do servidor (quando pedida pela URE)'],
   modelos:[
-    m('Férias – Escala anual de férias (administrativos) para SIPAF','1FB5_5ZCvUyU88a-cmeAi7Pin87xwz9cX','usar','Novo. Já traz as regras e o fluxo no rodapé.'),
-    m('Férias – F05 Comunicado de gozo de férias','1rvMvWlqeMiq2wgtsbhkkCtI_I9HaDp6d','usar','Para incluir, anular ou corrigir férias.'),
-    m('Férias – Requerimento de férias do diretor','1riM3-9qPCrB-_ospY95OPC-bgFtW2yk7','usar',''),
-    m('Ofício padrão da escola para a URE','1Y0EN0AUYBSP7kuj0A3YxmWvDz6Dd5u2-','usar','Para o pedido de homologação da escala.')
+    m('Férias – F05 Comunicado de gozo de férias','170Y2NNKIcbP3jI25P7Yx7BOceCsgcoOW','usar','Para incluir, anular ou corrigir férias.'),
+    m('Férias – Requerimento de férias do diretor','1ikFvBgfcPUSuw0W50OEnWs91xvfCMi5-','usar','')
   ],
   leis:[
     ['Lei nº 10.261/1968, arts. 176 a 180','30 dias (20 se mais de 10 ausências no ano anterior); um ou dois períodos iguais','est'],
@@ -756,9 +870,8 @@ const DEMANDAS = [
   ],
   docs:['Atestado médico com dias, data, CRM e emissor','Comprovante do agendamento/registro no sistema da perícia','Publicação da licença no DOE','Para pessoa da família: declaração de indispensabilidade da assistência'],
   modelos:[
-    m('Ficha anual de controle de ausências','1KsMrvrBQ1Oq2baAy-n8XiW2XZ4vOMG3o','usar','Para controlar os 15 dias/ano sem perícia e os 20 meses de pessoa da família.'),
-    m('F04 – Comunicado de ocorrência','1foRqNEk__atZrx6GKuU2N_sF36YcuWKw','usar',''),
-    m('F09 – Reassunção','10lUOBoZewQA7k91AqiZ6kjWYGKsPbEe4','usar','No retorno da licença.')
+    m('F04 – Comunicado de ocorrência','14tN-hmxunGhIQduRLj9UYs8VroYoc5K2','usar',''),
+    m('F09 – Reassunção','1jLYYgtkl3wMMFYdeA2wIaHz9mXHdLA3K','usar','No retorno da licença.')
   ],
   leis:[
     ['Decreto nº 69.234/2024, arts. 15 a 20 e 36','Prazo do agendamento, dispensa de perícia, pessoa da família, início da licença','d69234'],
@@ -789,8 +902,7 @@ const DEMANDAS = [
   ],
   docs:['Atestado médico ou certidão de nascimento','Termo de guarda/adoção (adoção)','Publicação no DOE'],
   modelos:[
-    m('Ofício padrão da escola para a URE','1Y0EN0AUYBSP7kuj0A3YxmWvDz6Dd5u2-','usar',''),
-    m('F04 – Comunicado de ocorrência','1foRqNEk__atZrx6GKuU2N_sF36YcuWKw','usar','')
+    m('F04 – Comunicado de ocorrência','14tN-hmxunGhIQduRLj9UYs8VroYoc5K2','usar','')
   ],
   leis:[
     ['Lei nº 10.261/1968, art. 198, e LC nº 1.054/2008','Gestante 180 dias; paternidade 5 dias; adoção 180 dias','lc1054'],
@@ -816,7 +928,7 @@ const DEMANDAS = [
   ],
   docs:['Certidão de casamento','Certidão ou atestado de óbito e prova do parentesco'],
   modelos:[
-    m('Ficha anual de controle de ausências','1KsMrvrBQ1Oq2baAy-n8XiW2XZ4vOMG3o','usar','')
+    
   ],
   leis:[
     ['Lei nº 10.261/1968, art. 78','Gala e nojo como efetivo exercício','est'],
@@ -842,9 +954,8 @@ const DEMANDAS = [
   ],
   docs:['Publicação da concessão no DOE (se houver)','Demonstrativos dos meses sem pagamento','Ficha 100 / frequência do período','Portarias e certidões de tempo anterior (se houver)','Formulário 12 ou Requerimento – Dúvida de pagamento'],
   modelos:[
-    m('F12 – Verificação de pagamento','1dXBdhv4pVVryj0s9bT-5hCVhDvQbjRIx','usar','Concessão publicada e não paga.'),
-    m('Requerimento – Dúvida de pagamento (servidor)','1JbjeXZAAe2kzFtbKTgPGn6gAJxumkCBP','usar','Concessão não publicada: marque “Quinquênio”.'),
-    m('Ofício padrão da escola para a URE','1Y0EN0AUYBSP7kuj0A3YxmWvDz6Dd5u2-','usar','Para encaminhar portarias e certidões de tempo.')
+    m('F12 – Verificação de pagamento','1vNmvSX2rTH26TDTK0QAfJe41-eZrHtD9','usar','Concessão publicada e não paga.'),
+    m('Requerimento – Dúvida de pagamento (servidor)','1SwhgeojS4eYR46tTFSBa-gTOCjW5TvQm','usar','Concessão não publicada: marque “Quinquênio”.')
   ],
   leis:[
     ['Constituição Estadual, art. 129','Quinquênio a cada 5 anos; sexta-parte aos 20 anos','cart8'],
@@ -874,7 +985,7 @@ const DEMANDAS = [
     ['DIPES – Diretoria de Pessoas (órgão central)','Coordena as áreas de pessoal das URE e gere vantagens, gratificações e adicionais (Decreto 69.665/2025, art. 19). A escola não envia direto à DIPES: tudo passa pela URE.']
   ],
   docs:['Processo SEI com o assunto certo','Ofício da escola identificando a seção (SEFREP ou SEAPE)'],
-  modelos:[m('Ofício padrão da escola para a URE','1Y0EN0AUYBSP7kuj0A3YxmWvDz6Dd5u2-','usar','Já traz o campo para marcar SEFREP ou SEAPE.')],
+  modelos:[],
   leis:[
     ['Decreto nº 69.665/2025','Estrutura da Secretaria; URE dirigida pelo Coordenador Geral – Dirigente Regional de Ensino','d69665'],
     ['Res. SEDUC nº 108/2025, arts. 1º, VII, e 143 a 145','Estrutura interna da URE e atribuições do SEPES, SEFREP e SEAPE; vigência em 01/08/2025','res108'],
@@ -899,7 +1010,7 @@ const DEMANDAS = [
   ],
   docs:['NAT preenchida','Relato da direção e das testemunhas','Atestado e documentos médicos','Boletim de ocorrência, se acidente de trajeto'],
   modelos:[
-    m('Ofício padrão da escola para a URE','1Y0EN0AUYBSP7kuj0A3YxmWvDz6Dd5u2-','usar','')
+    
   ],
   leis:[
     ['Decreto nº 69.234/2024, arts. 39 a 44','NAT, perícia e nexo causal','d69234'],
@@ -923,9 +1034,9 @@ const DEMANDAS = [
   ],
   docs:['Formulário 05 preenchido','Planilha de cálculo de férias (agentes)'],
   modelos:[
-    m('Férias – F05 Comunicado de gozo de férias','1rvMvWlqeMiq2wgtsbhkkCtI_I9HaDp6d','usar',''),
-    m('Férias – Requerimento de férias do diretor','1riM3-9qPCrB-_ospY95OPC-bgFtW2yk7','usar',''),
-    m('Planilha – Férias na extinção contratual (agentes)','1GI1GwUu2aY5t2t92e8sZGAnjQdwoj3qE','usar','')
+    m('Férias – F05 Comunicado de gozo de férias','170Y2NNKIcbP3jI25P7Yx7BOceCsgcoOW','usar',''),
+    m('Férias – Requerimento de férias do diretor','1ikFvBgfcPUSuw0W50OEnWs91xvfCMi5-','usar',''),
+    m('Planilha – Férias na extinção contratual (agentes)','1QvrFDdCPo__naFEUkg_LSazEiXGLrFRE','usar','')
   ],
   leis:[
     ['Lei nº 10.261/1968, arts. 176 a 180','Regime de férias','fer26'],
@@ -952,8 +1063,7 @@ const DEMANDAS = [
   ],
   docs:['Atestado ou documento idôneo','Comunicado de ocorrência (quando aplicável)'],
   modelos:[
-    m('Ficha anual de controle de ausências','1KsMrvrBQ1Oq2baAy-n8XiW2XZ4vOMG3o','usar',''),
-    m('F04 – Comunicado de ocorrência','1foRqNEk__atZrx6GKuU2N_sF36YcuWKw','usar','')
+    m('F04 – Comunicado de ocorrência','14tN-hmxunGhIQduRLj9UYs8VroYoc5K2','usar','')
   ],
   leis:[
     ['LC nº 1.041/2008','Falta para consulta/tratamento: até 6 por ano, 1 por mês','lc1041'],
@@ -980,8 +1090,7 @@ const DEMANDAS = [
   ],
   docs:['Requerimento do servidor','Manifestação da direção','Dados funcionais e da atribuição de aulas'],
   modelos:[
-    m('Comunicado COMOB-DCARF 44-2026 – Licença para tratar de interesses particulares.pdf','1DyCcDfGvYMIXaGctZixeNX01J6RV-yL5','usar','Texto oficial com os prazos (PDF).'),
-    m('Ofício padrão da escola para a URE','1Y0EN0AUYBSP7kuj0A3YxmWvDz6Dd5u2-','usar','Para encaminhar o pedido.')
+    m('Comunicado COMOB-DCARF 44-2026 – Licença para tratar de interesses particulares.pdf','1DyCcDfGvYMIXaGctZixeNX01J6RV-yL5','usar','Texto oficial com os prazos (PDF).')
   ],
   leis:[
     ['Lei nº 10.261/1968, arts. 202 a 204','5 anos de exercício; até 2 anos; não antes do exercício; intervalo de 5 anos','lipSes'],
@@ -1014,8 +1123,8 @@ const DEMANDAS = [
   ],
   docs:['Requerimento de perícia','Relatório médico atualizado','Súmula de readaptação e Rol de Atividades','Publicação da cessação no DOE (quando for o caso)'],
   modelos:[
-    m('Readaptação – Apostila de carga horária do readaptado','1bbC5PUh0liUJsA_Mv2DOkenQaS5qFfOL','usar',''),
-    m('Readaptação – Identificação do servidor readaptado','18aOPqh6G-XYd2VQmOLYA0CaBf08iGqI1','usar','')
+    m('Readaptação – Apostila de carga horária do readaptado','1zodpqAImTxku_xMQe6QmG-3af3SqtJq_','usar',''),
+    m('Readaptação – Identificação do servidor readaptado','1mMeRi4mW5dm-TNcv5TyV4yCXcpVB1f4J','usar','')
   ],
   leis:[['Regulamento da readaptação (CAAS/DPME)','Tipos, prazos e rol de atividades','readap'],
     ['Res. SGGD nº 3/2025, art. 6º, III, e orientação COGEF/DDAPT de nov./2026','Providências na cessação por ausência de reavaliação','comDip']],
@@ -1037,13 +1146,13 @@ const DEMANDAS = [
   ],
   docs:['Formulário do caso','Frequência do mês','Ato de designação/atribuição que gerou a substituição'],
   modelos:[
-    m('F13 – Substituição eventual (exceto QM)','1mPI2bv2wshPuP-U1y8lsmcA1cRCga9D1','usar',''),
-    m('F14 – Substituição eventual (Quadro do Magistério)','16zSd1mtIG8jJXziNBOG6IWlPQN-2DrVx','usar',''),
-    m('F15 – GTN, ALE e atestado de frequência (QAE-QSE)','1s4vrVdKxiPelMoD934FCy4sx8zZbpFga','usar',''),
-    m('F16 – Docente eventual, reposição, GTCN, ALE e serviço extra','1A21EEt3tKo4_FA8oUfPDjLalcnJv8HVb','usar',''),
-    m('F17 – Carga suplementar, GTCN, ALE e atestado de frequência','18f31gXN1_UTIUvLmf5PnVNacBKtLcB8K','usar',''),
-    m('F26 – Alteração de jornada e carga suplementar','1tv7GlXnmtpuD30HzjUaInzpFs2d_r-iL','usar',''),
-    m('F29 – Aulas em substituição, GTCN e ALE','1BDHTo_fnrwGIoTCMTDacGIBI2YJKOREA','usar','')
+    m('F13 – Substituição eventual (exceto QM)','1k8XOOAIP_q580mLz80_SsjoNLLFcnBfL','usar',''),
+    m('F14 – Substituição eventual (Quadro do Magistério)','1BKrxf9c09iaHIJ3RDhMtE_hNllixikd_','usar',''),
+    m('F15 – GTN, ALE e atestado de frequência (QAE-QSE)','1vPd7OKtw7MSgcPERXDbmSHGTDuXxcX4N','usar',''),
+    m('F16 – Docente eventual, reposição, GTCN, ALE e serviço extra','1J9XR1UOvKoY-e-_3HWdKMwKHL2sFNwp_','usar',''),
+    m('F17 – Carga suplementar, GTCN, ALE e atestado de frequência','1fJE38X-2488N70CWy6mgOZ9VyA24qyMP','usar',''),
+    m('F26 – Alteração de jornada e carga suplementar','1LepOiKPIMt4Ev1DXrHzaBMkGJDKIjxyO','usar',''),
+    m('F29 – Aulas em substituição, GTCN e ALE','1BFWHva4MwXW6b1irhlL3tRpP7j6QgaO0','usar','')
   ],
   leis:[
     ['LC nº 444/1985, cap. XIV (red. LC 774/1994)','GTCN: docente no curso noturno; entra no 13º e nas férias; não incorpora','lc774'],
@@ -1069,10 +1178,10 @@ const DEMANDAS = [
   ],
   docs:['Ofício com justificativa','Formulário de alteração de BFE','Ato que motivou (portaria, publicação)'],
   modelos:[
-    m('Planilha – Alteração de BFE','1rG9KyBxS3P8dhuCITnwOmBbql6IDnyta','usar',''),
-    m('Ofício – Interrupção de exercício (docente)','1EIUqedDSLZsV2ktPeOMrLV1z_Dg_8kJa','usar',''),
-    m('Ofício – Cessação da interrupção de exercício','1nR28509UbFZA9VJbaC5GNfjW8mqm6zXf','usar',''),
-    m('F09 – Reassunção','10lUOBoZewQA7k91AqiZ6kjWYGKsPbEe4','usar','')
+    m('Planilha – Alteração de BFE','1Vz3dgPbQhcXqjy23T6BOzGnY4B3mmiI3','usar',''),
+    m('Ofício – Interrupção de exercício (docente)','1RQLboQ1qN_ADRtoj2r316dkju-CxhHSp','usar',''),
+    m('Ofício – Cessação da interrupção de exercício','1F6M8CAcPVCh0I6PxfkiYYz5w7lm1ezGd','usar',''),
+    m('F09 – Reassunção','1jLYYgtkl3wMMFYdeA2wIaHz9mXHdLA3K','usar','')
   ],
   leis:[['Orientação de rotinas de BFE (DE Diadema, 2025)','Referência externa de procedimento','bfe']],
   atencao:[['ambar','A fonte é de outra regional. <span class="verificar">confirmar</span> o fluxo da URE Sul 1.']],
@@ -1093,10 +1202,9 @@ const DEMANDAS = [
   ],
   docs:['Demonstrativo do mês','Cópia do BFE do mês','Formulário 12 ou de dúvidas'],
   modelos:[
-    m('F12 – Verificação de pagamento','1dXBdhv4pVVryj0s9bT-5hCVhDvQbjRIx','usar',''),
-    m('Requerimento – Dúvida de pagamento (servidor)','1JbjeXZAAe2kzFtbKTgPGn6gAJxumkCBP','usar',''),
-    m('Ofício – Senha para informar pagamentos (Fazenda)','1SaP3Ue4l_sY-JCQV-GINiwYafxcLjVMk','usar',''),
-    m('Requerimento – Auxílio-alimentação não recebido','1tmvxlEqQSlJRpjZJyfYlpaPXMFqwh1ID','usar','Quando o auxílio-alimentação não caiu.')
+    m('F12 – Verificação de pagamento','1vNmvSX2rTH26TDTK0QAfJe41-eZrHtD9','usar',''),
+    m('Requerimento – Dúvida de pagamento (servidor)','1SwhgeojS4eYR46tTFSBa-gTOCjW5TvQm','usar',''),
+    m('Ofício – Senha para informar pagamentos (Fazenda)','1hmJAyHEpxPIiE17Su4TLjcb2Xm3G4HS6','usar','')
   ],
   leis:[['Formulários da Secretaria da Fazenda (F04, F12)','Comunicação de ocorrências e pedido de verificação de pagamento','—']],
   atencao:[['ambar','Fluxo e prazos: <span class="verificar">confirmar</span> com a SEFREP.']],
@@ -1117,7 +1225,7 @@ const DEMANDAS = [
   ],
   docs:['Declaração de itinerário','Comprovante de endereço','Planilha de cálculo'],
   modelos:[
-    m('Planilha – Cálculo de auxílio-transporte','1ryTpDs7JZvYa9jq_6xV8KEIKW8aAj0eZ','usar','')
+    m('Planilha – Cálculo de auxílio-transporte','1VgC2-ajo8Q1P1dsJJ33Y03i7B3O1K_bp','usar','')
   ],
   leis:[
     ['Lei nº 6.248/1988, arts. 1º a 3º e 6º','Finalidade, cálculo com 6% (redação da LC 755/1994), pagamento por dia trabalhado; não recebe quem está afastado para outro ente','l6248'],
@@ -1144,8 +1252,7 @@ const DEMANDAS = [
   ],
   docs:['Consulta ao BFE do mês de frequência','Ofício do diretor (direito confirmado e teto respeitado)','Holerite do(s) mês(es) sem pagamento ou com pagamento a menor'],
   modelos:[
-    m('Requerimento – Auxílio-alimentação não recebido','1tmvxlEqQSlJRpjZJyfYlpaPXMFqwh1ID','usar','Pedido do servidor à escola.'),
-    m('Ofício padrão da escola para a URE','1Y0EN0AUYBSP7kuj0A3YxmWvDz6Dd5u2-','usar','Ofício do diretor que acompanha o processo SEI.')
+    
   ],
   leis:[
     ['Lei nº 7.524/1991, arts. 1º e 4º','Institui o benefício; valor fixado por decreto; teto definido por decreto','l7524'],
@@ -1201,7 +1308,7 @@ const DEMANDAS = [
   ],
   docs:['Requerimento','Certidão de nascimento (ou documento do equiparado/inválido)','Declaração para efeito de salário-família','Vacinação e frequência escolar (anual)'],
   modelos:[
-    m('Ofício padrão da escola para a URE','1Y0EN0AUYBSP7kuj0A3YxmWvDz6Dd5u2-','usar','Para encaminhar o pedido.')
+    
   ],
   leis:[
     ['Lei nº 10.261/1968, arts. 155 a 161','Concessão, dependentes, pais servidores, vedação de pagamento em duplicidade','est'],
@@ -1226,7 +1333,7 @@ const DEMANDAS = [
   ],
   docs:['Certidão de óbito','Documento de identidade e CPF do requerente','Certidão de casamento ou prova de união estável, ou nota fiscal do funeral'],
   modelos:[
-    m('Ofício padrão da escola para a URE','1Y0EN0AUYBSP7kuj0A3YxmWvDz6Dd5u2-','usar','Para comunicar o óbito.')
+    
   ],
   leis:[
     ['Lei nº 10.261/1968, art. 168 (LC 1.123/2010)','Valor de 1 mês da remuneração; beneficiários; alvará em plano funerário','lc1123'],
@@ -1294,9 +1401,9 @@ const DEMANDAS = [
   ],
   docs:['Documento comprobatório (certidão, RG)','Formulário 02'],
   modelos:[
-    m('F02 – Alteração de dados pessoais e funcionais','1dtEohtY9WQUDV6GkCYS9P_tXtwFJOx74','usar',''),
-    m('Apostila – Alteração de nome','1tPtUvpffXAWjuCsKSgwHpxrkHC7rF7XO','usar',''),
-    m('Apostila – Alteração de RG','1C7zxDlou22hCQ4YkqaPJF0HsiB93XLSg','usar','')
+    m('F02 – Alteração de dados pessoais e funcionais','18xgVohIBhoTGBh-5ZLaf7r4ZNYOVd9BI','usar',''),
+    m('Apostila – Alteração de nome','16o8y-yCxJ_zrmOwgdX8HZuB1N3wApGVg','usar',''),
+    m('Apostila – Alteração de RG','1uQp0elFu5k2hTaAT9SgrgKYiaTtb4T72','usar','')
   ],
   leis:[['Formulário 02 da Secretaria da Fazenda','Atualização do cadastro de pagamento','—']],
   atencao:[['azul','Mudou nome ou RG: além do Formulário 02, faça a apostila. Só o F02 não atualiza o título ou a portaria.']],
@@ -1318,7 +1425,7 @@ const DEMANDAS = [
   ],
   docs:['Ofício de indicação','Edital e resultado','Documento de identidade e título exigido','Declarações (acúmulo, parentesco)','Anuência, se de outra unidade'],
   modelos:[
-    m('Checklist – Designação de Vice-Diretor Escolar','1C03ZckavmHHepYDtqp87TNfwG39FlkPo','usar','')
+    m('Designação de Vice-Diretor de Escola (URE Sul 1).pdf','19_HXfrxszlO2M5gC1_QbVkfzKjWtZk-x','usar','')
   ],
   leis:[
     ['Res. SEDUC nº 52/2022, alterada pela Res. 9/2024','Função de Vice-Diretor Escolar','credVice'],
@@ -1339,7 +1446,7 @@ const DEMANDAS = [
     ['Abra o processo no SEI','Tipo “Atendimento às requisições, ordens judiciais e administrativas”, especificação “Edital de Gerente de Organização Escolar – nome da escola”. Inclua o ofício assinado pelo diretor e o edital em PDF.'],
     ['Aguarde a SEPES aprovar o edital','A SEPES confere a legalidade e pede a publicação no site da URE.'],
     ['Receba propostas e entreviste','No prazo do edital, presencial ou remoto. Registre a escolha.'],
-    ['Junte a documentação do aprovado','Use o “Checklist – Designação de GOE”: tudo em PDF único, com acesso restrito no SEI. Inclua o ofício de aprovação e a portaria em Word.'],
+    ['Junte a documentação do aprovado','Tudo em PDF único, com acesso restrito no SEI. Inclua o ofício de aprovação e a portaria em Word.'],
     ['Publicação e portaria','A SEPES publica no DOE e o Coordenador Geral assina a portaria. A SEPES registra a designação no PAEF.'],
     ['Cessação a pedido','Carta do servidor assinada, ofício do diretor e portaria de cessação, em processo SEI próprio (acesso restrito).'],
     ['Cessação pela administração','Notifique o servidor, dê 72 horas para defesa e faça relatório circunstanciado. Até a decisão, ele continua designado.'],
@@ -1347,11 +1454,8 @@ const DEMANDAS = [
   ],
   docs:['Ofício do diretor (abertura e aprovação)','Edital em PDF','Propostas recebidas','Checklist com os documentos do aprovado','Portaria de designação ou de cessação (Word)','Na cessação: carta do servidor ou notificação, defesa e relatório','CAF (cessação)'],
   modelos:[
-    m('Checklist – Designação de Gerente de Organização Escolar','1A4n8UR2t5gGWIHCjhPfRmO2fX3lz5XYb','usar',''),
-    m('Designação – Ofício de indicação','1NbRZTXQj8a6jGM7l1Bor9tkC9UcpbPoQ','usar',''),
-    m('Designação – Termo de anuência do superior imediato','1HNDAUutVZsDImYIGoPhuYRDMboFsVSJT','usar','Se o indicado é de outra unidade.'),
-    m('Declaração – Acúmulo de cargos','1s_TcAchG2u14gX_UAsk0NF0MVQlvKWVt','usar',''),
-    m('Declaração – Não parentesco','18sG0aCftEOqDmZQ_jpPqygG7RJPiNoGJ','usar','')
+    m('Declaração – Acúmulo de cargos','1ka-jUCbrcESIQ8AIyifiMZ7e2-5Lp1gr','usar',''),
+    m('Declaração – Não parentesco','1MjITYgEtr8IM5ZbFB2NcISeI8hGE5Evg','usar','')
   ],
   leis:[
     ['LC nº 1.144/2011, arts. 15 e 18','GOE como função de designação no QAE','popGoe'],
@@ -1377,8 +1481,11 @@ const DEMANDAS = [
   ],
   docs:['Ofício do diretor','Edital e resultado','Diploma de licenciatura plena','Anuência (se de outra UE)','Declarações'],
   modelos:[
-    m('CGP – Portaria de designação','1UeKlUaoLQ106tb_y-YY-Jr_jc9iqMODG','usar',''),
-    m('CGP – Portaria de cessação','1IlUnO6fcTMxNRRKIaGDEGYCiNGJ59AzZ','usar','')
+    m('Professor Coordenador – Portaria de designação (OFA)','1Sl08rP8dDqLv__n_LEx5LB0HsnhrNI8G','usar',''),
+    m('Designação de Professor Coordenador (URE Sul 1).pdf','14MTrg6udyLLVg9exMevChWDZZBiAwCOy','usar',''),
+    m('Professor Coordenador – Portaria de cessação','1f1gTapjOXk2nmMopiPRmNEQJGg1uwAF6','usar',''),
+    m('Professor Coordenador – Portaria de cessação (incisos I e II)','1bLB6XETYH__19qEtV9NSozf3J_XQijCE','usar',''),
+    m('Professor Coordenador – Portaria de cessação (inciso III)','1hNIq7cZDg_10GyVE4puMaO2Ta4W_7Bn6','usar','')
   ],
   leis:[
     ['Res. SEDUC nº 53/2022','Função de CGP: requisitos e designação','edCgp'],
@@ -1406,9 +1513,9 @@ const DEMANDAS = [
   docs:['Requerimento (Anexo I)','Títulos e certificados','Contagem de tempo','Diploma de mestrado/doutorado (via acadêmica)'],
   modelos:[
     m('01 - Manual Evolução Funcional Via Não Acadêmica.pdf','1A1LNQXdDvsw1uFvwQkqBE6ZqM9jVc1m-','usar','Manual oficial (PDF).'),
-    m('Evolução funcional – Requerimento via não acadêmica (LC 836)','1LWwVbLB_Rx47tVwvQgkYdUwGyPnsddaN','usar',''),
+    m('Evolução funcional – Requerimento via não acadêmica (LC 836)','1lkgqETH34lBa5wdmdzsyvspWMqGTo9Bv','usar',''),
     m('Modelo de Declaração do Interessado EFVNA.pdf','1EeePYBFzYcAHGFCZgYTCZbv_Nuak-h2h','usar','PDF oficial da SEDUC, sem edição.'),
-    m('Evolução funcional – Requerimento via acadêmica (LC 836)','1w9dJYc-HCHepvfytTyeThFRWMf7RaR-d','usar','')
+    m('Evolução funcional – Requerimento via acadêmica (LC 836)','1yVDKQt5UxxOYGCOkPyPTdaagqfC37vA8','usar','')
   ],
   leis:[
     ['LC nº 1.374/2022','Novo plano de carreira e evolução','lc1374'],
@@ -1467,7 +1574,6 @@ const GUIAS = [
     ['Confira o pagamento','Veja no demonstrativo se o 1/3 entrou. Se não, use o Formulário 05 ou a verificação de pagamento.']
   ],
   anexos:['Escala homologada','Avisos de férias assinados (arquivo da escola)'],
-  modelo:['Férias – Escala anual de férias (administrativos) para SIPAF','1FB5_5ZCvUyU88a-cmeAi7Pin87xwz9cX'],
   dica:'Docente, CGP e PEC não entram no SIPAF: as férias deles vêm pelo BIF.'
 },
 {
@@ -1494,7 +1600,7 @@ const GUIAS = [
     ['Confira o pagamento','No mês seguinte, veja se o 1/3 entrou.']
   ],
   anexos:['Formulário 05','Consulta PAPC','Publicação da licença, quando for o caso'],
-  modelo:['Férias – F05 Comunicado de gozo de férias','1rvMvWlqeMiq2wgtsbhkkCtI_I9HaDp6d'],
+  modelo:['Férias – F05 Comunicado de gozo de férias','170Y2NNKIcbP3jI25P7Yx7BOceCsgcoOW'],
   dica:'Alterou a carga horária do docente durante as férias? Atualize na SED com efeito a partir do dia seguinte ao fim das férias.'
 },
 {
@@ -1533,7 +1639,7 @@ const GUIAS = [
     ['Inclua no BFE','Lance o exercício na frequência do mês para o pagamento sair.']
   ],
   anexos:['ASO admissional','Documentos pessoais e de escolaridade','Declarações de parentesco, acúmulo e penalidades','Comprovante do Banco de Talentos e publicação da classificação'],
-  modelo:['CTD – Contrato AOE e ASE','1sxgHDXYETbKmEABKdAaWHAcAcFmYE2fC'],
+  modelo:['CTD – Contrato AOE e ASE','1JEgTVUGITnTWdZMZjbKs3J8A8AaeHBec'],
   dica:'O exercício começa no 1º dia útil depois da assinatura do contrato (Decreto 54.682/2009, art. 13, § 1º).'
 },
 {
@@ -1568,7 +1674,7 @@ const GUIAS = [
     ['Dê ciência da resposta','A resposta volta nos campos “Resposta”. Mostre ao servidor e arquive.']
   ],
   anexos:['Demonstrativo(s) de pagamento dos meses afetados','BFE ou atestado de frequência do mês','Publicação no DOE do ato que gera o direito (designação, substituição, atribuição)'],
-  modelo:['F12 – Verificação de pagamento','1dXBdhv4pVVryj0s9bT-5hCVhDvQbjRIx'],
+  modelo:['F12 – Verificação de pagamento','1vNmvSX2rTH26TDTK0QAfJe41-eZrHtD9'],
   dica:'Se quem pede é o próprio servidor, use o “Requerimento de dúvidas de pagamento”.'
 },
 {
@@ -1594,7 +1700,7 @@ const GUIAS = [
     ['Colha a ciência','Quando a resposta voltar, o servidor assina a ciência no verso.']
   ],
   anexos:['Demonstrativos citados','Documentos que comprovem o pedido'],
-  modelo:['Requerimento – Dúvida de pagamento (servidor)','1JbjeXZAAe2kzFtbKTgPGn6gAJxumkCBP'],
+  modelo:['Requerimento – Dúvida de pagamento (servidor)','1SwhgeojS4eYR46tTFSBa-gTOCjW5TvQm'],
   dica:'Se o erro foi de lançamento da escola (código errado no BFE, formulário não enviado), a escola corrige antes. Veja “Verificação de pagamento”.'
 },
 {
@@ -1615,7 +1721,7 @@ const GUIAS = [
   ],
   andamento:[['Preencha antes do início do gozo','<span class="verificar">confirmar</span> prazo de envio com a SEFREP.'],['Assinatura do responsável','Diretor ou responsável pelo órgão de pessoal.'],['Envie à SEFREP','CANAL'],['Lance no BFE','Registre o período de férias na frequência do mês.']],
   anexos:[],
-  modelo:['Férias – F05 Comunicado de gozo de férias','1rvMvWlqeMiq2wgtsbhkkCtI_I9HaDp6d']
+  modelo:['Férias – F05 Comunicado de gozo de férias','170Y2NNKIcbP3jI25P7Yx7BOceCsgcoOW']
 },
 {
   id:'dados_f02', pai:'dados', ic:'🪪',
@@ -1634,7 +1740,7 @@ const GUIAS = [
   andamento:[['Anexe o comprovante','Itens 01, 04, 07, 08, 10, 11, 12 e 21 exigem cópia do documento. Itens 14, 15 e 16 exigem BCS se o docente teve redução de carga ou perda de vantagens.'],
     ['Assine e carimbe','Responsável da escola.'],['Envie à SEFREP','CANAL'],['Se for nome ou RG','Faça também a apostila de alteração (ficha “Alteração de dados”).']],
   anexos:['Cópia do documento que comprova cada item alterado','BCS, se itens 14/15/16 com redução de carga'],
-  modelo:['F02 – Alteração de dados pessoais e funcionais','1dtEohtY9WQUDV6GkCYS9P_tXtwFJOx74']
+  modelo:['F02 – Alteração de dados pessoais e funcionais','18xgVohIBhoTGBh-5ZLaf7r4ZNYOVd9BI']
 },
 {
   id:'ocorrencia_f04', pai:'bfe', ic:'📣',
@@ -1651,7 +1757,7 @@ const GUIAS = [
   ],
   andamento:[['Envie assim que souber do fato','Evita pagamento indevido e reposição depois.'],['Envie à SEFREP','CANAL'],['Ajuste o BFE','A frequência do mês deve refletir a ocorrência.']],
   anexos:['Publicação no DOE, quando houver'],
-  modelo:['F04 – Comunicado de ocorrência','1foRqNEk__atZrx6GKuU2N_sF36YcuWKw']
+  modelo:['F04 – Comunicado de ocorrência','14tN-hmxunGhIQduRLj9UYs8VroYoc5K2']
 },
 {
   id:'reassuncao_f09', pai:'bfe', ic:'↩️',
@@ -1669,7 +1775,7 @@ const GUIAS = [
   ],
   andamento:[['Anexe os comprovantes','O modelo pede comprovante da SPPREV e atestado de frequência com conta bancária (ou BCS, se docente).'],['Envie à SEFREP','CANAL'],['Lance no BFE','Frequência a partir da data de reassunção.']],
   anexos:['Atestado de frequência','Comprovante de conta bancária ou BCS (docente)'],
-  modelo:['F09 – Reassunção','10lUOBoZewQA7k91AqiZ6kjWYGKsPbEe4']
+  modelo:['F09 – Reassunção','1jLYYgtkl3wMMFYdeA2wIaHz9mXHdLA3K']
 },
 {
   id:'interrupcao', pai:'bfe', ic:'⏸️',
@@ -1688,7 +1794,7 @@ const GUIAS = [
   ],
   andamento:[['Envie à URE','CANAL'],['No retorno','Use o modelo “Cessação da Interrupção de Exercício”.'],['BFE','Ajuste a frequência do mês.']],
   anexos:[],
-  modelo:['Ofício – Interrupção de exercício (docente)','1EIUqedDSLZsV2ktPeOMrLV1z_Dg_8kJa']
+  modelo:['Ofício – Interrupção de exercício (docente)','1RQLboQ1qN_ADRtoj2r316dkju-CxhHSp']
 },
 {
   id:'bfe_alt', pai:'bfe', ic:'🗂️',
@@ -1706,7 +1812,7 @@ const GUIAS = [
   ],
   andamento:[['Faça o ofício','Ofício da escola com a justificativa, junto com a planilha.'],['Envie à SEFREP','CANAL']],
   anexos:['Ofício com justificativa','Documento que comprova a correção (atestado, publicação)'],
-  modelo:['Planilha – Alteração de BFE','1rG9KyBxS3P8dhuCITnwOmBbql6IDnyta']
+  modelo:['Planilha – Alteração de BFE','1Vz3dgPbQhcXqjy23T6BOzGnY4B3mmiI3']
 },
 {
   id:'senha_caf', pai:'pagamento', ic:'🔑',
@@ -1724,7 +1830,7 @@ const GUIAS = [
   ],
   andamento:[['Envie pela URE','CANAL'],['Na troca de GOE','Peça a exclusão da senha de quem saiu e a inclusão de quem entrou.']],
   anexos:[],
-  modelo:['Ofício – Senha para informar pagamentos (Fazenda)','1SaP3Ue4l_sY-JCQV-GINiwYafxcLjVMk']
+  modelo:['Ofício – Senha para informar pagamentos (Fazenda)','1hmJAyHEpxPIiE17Su4TLjcb2Xm3G4HS6']
 },
 {
   id:'lp_req_unico', pai:'licenca_premio', ic:'📝',
@@ -1744,7 +1850,7 @@ const GUIAS = [
   ],
   andamento:[['Abra o processo no SEI','Tipo “Licença Prêmio (pecúnia, gozo ou certidão)”.'],['Junte a documentação','Ficha 100 com visto “confere”, levantamento de afastamentos, portarias/título.'],['A URE emite e publica a certidão','A concessão independe de requerimento e sai no DOE.']],
   anexos:['Ficha 100 com visto “confere” do diretor','Levantamento de afastamentos','RG ou CIN','Portarias de admissão/dispensa ou título de nomeação','Declaração de acúmulo, se houver'],
-  modelo:['LP 01 – Requerimento de certidão de licença-prêmio','16NFsokrtos263Nn9t3Q-4rF2b5MFPeID'],
+  modelo:['LP 01 – Requerimento de certidão de licença-prêmio','1PqCbUtYvTvAq0gWmYod8r34WPwrZt_Fo'],
   dica:'Lembre do Decreto 70.396/2026: o período de 28/05/2020 a 31/12/2021 agora conta.'
 },
 {
@@ -1763,7 +1869,7 @@ const GUIAS = [
   ],
   andamento:[['Instrua no SEI','Junte ao processo (PULP) a portaria de autorização do diretor.'],['Publicação','Aguarde a publicação no DOE.'],['Início do gozo','Até 30 dias da publicação; depois disso, novo pedido.'],['SED e SEI','Lance a fruição na SED e informe a data de início no mesmo SEI.']],
   anexos:['PULP completo','Portaria de autorização','Carta do substituto / ofício (PEI), se docente'],
-  modelo:['LP 06 – Requerimento de gozo de licença-prêmio','1eL-p3HDuU1cljddZISNAYdKfSPIr_mzf']
+  modelo:['LP 06 – Requerimento de gozo de licença-prêmio','11crk8SELEj0j_Mpx4stxJ-99ZCOj7pq5']
 },
 {
   id:'lp_pecunia', pai:'licenca_premio', ic:'💰',
@@ -1781,7 +1887,7 @@ const GUIAS = [
   ],
   andamento:[['Abra no SEI','Processo de pagamento de férias e licença-prêmio em pecúnia.'],['Junte os anexos','Ficha 100 do ano anterior e atualizada, declaração de não fruição.'],['Pagamento','No mês de aniversário, se autorizado.']],
   anexos:['Ficha 100 (ano anterior e atualizada)','Declaração de não fruição de parcela no ano'],
-  modelo:['LP 07 – Conversão de licença-prêmio em pecúnia','1EoU61TK6LrqzcBWBgrXoTI1BR2jN5swD']
+  modelo:['LP 07 – Conversão de licença-prêmio em pecúnia','1Z7n8g-7DSuHFS669Xn3PHVpbzX0JgyOK']
 },
 {
   id:'subst_qae', pai:'substituicao', ic:'🔁',
@@ -1802,7 +1908,7 @@ const GUIAS = [
   ],
   andamento:[['Assinatura','Responsável da escola.'],['Envie à SEFREP com a frequência do mês','CANAL']],
   anexos:['Publicação do impedimento/designação','Ato concessório (gratificação de representação)'],
-  modelo:['F13 – Substituição eventual (exceto QM)','1mPI2bv2wshPuP-U1y8lsmcA1cRCga9D1']
+  modelo:['F13 – Substituição eventual (exceto QM)','1k8XOOAIP_q580mLz80_SsjoNLLFcnBfL']
 },
 {
   id:'subst_doc', pai:'substituicao', ic:'👩‍🏫',
@@ -1820,7 +1926,7 @@ const GUIAS = [
   ],
   andamento:[['Confira com o diário/registro de aulas','As horas devem bater com o que foi dado.'],['Envie com a frequência do mês','CANAL']],
   anexos:[],
-  modelo:['F16 – Docente eventual, reposição, GTCN, ALE e serviço extra','1A21EEt3tKo4_FA8oUfPDjLalcnJv8HVb']
+  modelo:['F16 – Docente eventual, reposição, GTCN, ALE e serviço extra','1J9XR1UOvKoY-e-_3HWdKMwKHL2sFNwp_']
 },
 {
   id:'carga_sup', pai:'substituicao', ic:'➕',
@@ -1838,7 +1944,7 @@ const GUIAS = [
   ],
   andamento:[['Assinatura e carimbo do diretor','Nos dois lados.'],['Envie com a frequência do mês','CANAL']],
   anexos:[],
-  modelo:['F17 – Carga suplementar, GTCN, ALE e atestado de frequência','18f31gXN1_UTIUvLmf5PnVNacBKtLcB8K']
+  modelo:['F17 – Carga suplementar, GTCN, ALE e atestado de frequência','1fJE38X-2488N70CWy6mgOZ9VyA24qyMP']
 },
 {
   id:'aux_calc', pai:'auxilio', ic:'🚌',
@@ -1854,7 +1960,7 @@ const GUIAS = [
   ],
   andamento:[['Desconte faltas e afastamentos','O auxílio é devido pelos dias efetivamente trabalhados (Lei 6.248/1988).'],['Envie com a frequência','CANAL']],
   anexos:['Declaração de itinerário','Comprovante de endereço'],
-  modelo:['Planilha – Cálculo de auxílio-transporte','1ryTpDs7JZvYa9jq_6xV8KEIKW8aAj0eZ']
+  modelo:['Planilha – Cálculo de auxílio-transporte','1VgC2-ajo8Q1P1dsJJ33Y03i7B3O1K_bp']
 }
 ];
 </script>
@@ -2053,7 +2159,21 @@ function termosConhecidos(qt){
     return melhor && mq >= 0.85 ? {t, w:melhor, q:mq} : null;
   }).filter(Boolean);
 }
+/* número de formulário: "formulário 29", "form. 29", "F29", "modelo 17", "nº 05" */
+function porNumeroFormulario(q){
+  const s = String(q).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const mm = s.match(/(?:\bf-?|\bform(?:ulario)?\.?|\bmodelo)\s*(?:n[º°o]?\.?\s*)?(\d{1,2})\b/);
+  if (!mm) return null;
+  const n = ('0' + mm[1]).slice(-2), alvo = new RegExp('^F' + n + '\\b|Formul[aá]rio ' + n + '\\b|\\bF' + n + ' ');
+  const g = GUIAS.find(x => new RegExp('Formulário ' + n + '\\)').test(x.titulo)) || GUIAS.find(x => x.modelo && new RegExp('^F' + n + ' ').test(x.modelo[0]));
+  const d = DEMANDAS.find(x => (x.modelos || []).some(mo => alvo.test(mo.n)));
+  const lista = [];
+  if (g) lista.push({tipo:'g', it:g, p:99, cob:1});
+  if (d) lista.push({tipo:'d', it:d, p:98, cob:1});
+  return lista.length ? {lista, certeza:true, motivo:'numero', n} : null;
+}
 function interpretar(q){
+  const num = porNumeroFormulario(q); if (num) return num;
   const B = base(), qt = tokens(q);
   const kt = termosConhecidos(qt);
   if (!kt.length) return {lista:[], certeza:false, motivo:'vazio'};
@@ -2082,6 +2202,13 @@ function interpretar(q){
   const forte = kt.some(k => B.idf(k.w) >= 2.2 && a.it && (base().itens.find(x => x.it === a.it).all.has(k.w)));
   let certeza = a.cob >= 0.55 && forte;
   if (b && !parentes && b.p >= a.p * 0.88) certeza = false;
+  /* pergunta que cita licença-prêmio vai para a licença-prêmio (ex.: "falta médica conta na licença-prêmio?") */
+  const qn = String(q).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  if (/licen[cs]a[\s-]*premio|\blp\b/.test(qn)) {
+    const i = lista.findIndex(x => x.it.id === 'licenca_premio');
+    const topoLP = lista[0] && (lista[0].it.id === 'licenca_premio' || lista[0].it.pai === 'licenca_premio');
+    if (!topoLP && i > 0 || (i === 0 && !certeza)) { const [lp] = lista.splice(i, 1); lista.unshift(lp); return {lista, certeza:true, motivo:'ok'}; }
+  }
   return {lista, certeza, motivo: certeza ? 'ok' : 'ambiguo'};
 }
 function entender(q){ return interpretar(q).lista; }
@@ -2156,9 +2283,18 @@ function responder(q){
   const alt = '<div class="nao-e">' + (outros.length ? '<span>Não é isso?</span>' + outros.map(x =>
       '<button onclick="ir(\''+(x.tipo==='g'?'g/':'p/')+x.it.id+'\')">'+x.it.ic+' '+esc(x.it.titulo)+'</button>').join('') : '') +
       '<button class="limpar" onclick="ir(\'\')">Nova pergunta</button></div>';
-  alvo.innerHTML = '<div class="entendi">Entendi: <b>'+esc(top.it.titulo)+'</b></div>' + alt +
+  let cartaoForm = '';
+  if (R.motivo === 'numero') {
+    const re = new RegExp('^F' + R.n + ' ');
+    const mo = DEMANDAS.flatMap(x => x.modelos || []).find(x => re.test(x.n));
+    if (mo && mo.u) cartaoForm = '<div class="form-direto"><div><span>Formulário '+R.n+'</span><b>'+esc(mo.n)+'</b><small>Arquivo original da URE Sul 1</small></div>' +
+      '<a class="btn btn-pri" href="'+mo.u+'" target="_blank" rel="noopener">'+(mo.e==='pdf'?'Abrir .pdf':'Baixar .'+mo.e)+'</a></div>';
+  }
+  alvo.innerHTML = '<div class="entendi">Entendi: <b>'+esc(top.it.titulo)+'</b></div>' + cartaoForm + alt +
     (top.tipo === 'g' ? respostaGuia(top.it, q) : respostaDemanda(top.it));
-  setTimeout(() => { const e = document.querySelector('.entendi'); if (e) e.scrollIntoView({behavior:'smooth', block:'start'}); }, 60);
+  setTimeout(() => {
+    const e = document.querySelector('.entendi'); if (e) e.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 60);
 }
 
 /* ---------- resposta: guia de preenchimento ---------- */
@@ -2178,8 +2314,8 @@ function respostaGuia(g, q){
       (anexos ? '<div class="bloco"><h3>O que anexar</h3>'+anexos+'</div>' : '') +
     '</div>' +
     '<aside class="resp-lado">' +
-      '<div class="lado-card"><span class="lado-rot">Modelo da pasta</span><b>'+esc(g.modelo[0])+'</b>' +
-        '<a class="btn btn-pri btn-bloco" href="https://drive.google.com/uc?export=download&id='+g.modelo[1]+'" target="_blank" rel="noopener">'+(/^Planilha/.test(g.modelo[0])?'Baixar modelo (.xlsx)':'Baixar modelo (.docx)')+'</a></div>' +
+      (g.modelo ? '<div class="lado-card"><span class="lado-rot">Modelo da pasta</span><b>'+esc(g.modelo[0])+'</b>' +
+        '<a class="btn btn-pri btn-bloco" href="https://drive.google.com/uc?export=download&id='+g.modelo[1]+'" target="_blank" rel="noopener">'+('Baixar modelo (.'+(EXT[g.modelo[1]]||'docx')+')')+'</a></div>' : '') +
       '<div class="lado-card"><button class="btn btn-bloco" onclick="copiarGuia(\''+g.id+'\')">📋 Copiar orientação</button>' +
         '<button class="btn btn-bloco" onclick="window.print()">🖨️ Imprimir</button>' +
         '<a class="btn btn-bloco" onclick="ir(\'p/'+pai.id+'\')">'+pai.ic+' Procedimento completo</a></div>' +
@@ -2191,10 +2327,25 @@ function trilhaGuia(g){ const pai = porId(g.pai), t = tema(pai.tema);
     '<a onclick="ir(\'p/'+pai.id+'\')">'+esc(pai.titulo)+'</a><i>›</i><span>Como preencher</span></nav>'; }
 
 /* ---------- resposta: procedimento (quando não há formulário específico) ---------- */
+/* ---------- regras estruturadas: o que conta / limite / interrompe ---------- */
+function blocoRegras(d){
+  const R = d.regras; if (!R) return '';
+  const fonte = k => { const f = k && FONTES[k]; return f ? ' <a class="rg-f" href="'+f.u+'" target="_blank" rel="noopener" title="'+esc(f.t)+'">fonte ↗</a>' : ''; };
+  const ico = {ok:'✅', limite:'⚖️', zera:'⛔'};
+  const grupos = '<div class="rg-grade">' + R.grupos.map(g =>
+    '<div class="rg-col rg-'+g.tipo+'"><div class="rg-cab"><span>'+ico[g.tipo]+'</span><div><b>'+g.titulo+'</b><small>'+g.sub+'</small></div></div><ul>' +
+    g.itens.map(i => '<li><b>'+i[0]+'</b><small>'+i[1]+fonte(i[2])+'</small></li>').join('') + '</ul></div>').join('') + '</div>';
+  const tr = R.transicao ? '<div class="rg-trans"><h4>'+R.transicao.titulo+'</h4>' + R.transicao.itens.map(i =>
+    '<div class="rg-tl"><span>'+i[0]+'</span><p>'+i[1]+fonte(i[2])+'</p></div>').join('') + '</div>' : '';
+  const erros = R.erros && R.erros.length ? '<div class="rg-box rg-erros"><h4>Erros que mais acontecem</h4><ul>' + R.erros.map(e => '<li>'+e+'</li>').join('') + '</ul></div>' : '';
+  const conf = R.confirmar && R.confirmar.length ? '<div class="rg-box rg-conf"><h4><span class="verificar">confirmar</span> Ponto sem norma escrita localizada</h4><ul>' + R.confirmar.map(e => '<li>'+e+'</li>').join('') + '</ul></div>' : '';
+  return '<div class="bloco rg"><h3>'+R.titulo+'</h3><p class="rg-intro">'+R.intro+'</p>' + grupos + tr + erros + conf + '</div>';
+}
 function respostaDemanda(d){
   const gs = GUIAS.filter(g => g.pai === d.id);
   return '<div class="resp"><div class="resp-main">' +
     '<div class="bloco"><div class="resp-cab"><span class="resp-ic">'+d.ic+'</span><div><h2>'+esc(d.titulo)+'</h2><p>'+esc(d.resumo)+'</p></div></div></div>' +
+    blocoRegras(d) +
     '<div class="bloco"><h3>Passo a passo</h3><ol class="passos">' + d.passos.map(p => '<li onclick="this.classList.toggle(\'feito\')"><b>'+esc(p[0])+'</b><span>'+p[1]+'</span></li>').join('') + '</ol></div>' +
     (gs.length ? '<div class="bloco"><h3>Formulários — como preencher</h3>' + listaGuias(gs) + '</div>' : '') +
     '<div class="bloco"><h3>Documentos</h3><ul class="check">' + d.docs.map((x,i) => '<li><input type="checkbox" id="rd'+i+'"><label for="rd'+i+'">'+esc(x)+'</label></li>').join('') + '</ul></div>' +
@@ -2231,7 +2382,7 @@ function telaFicha(d){
   const docs = '<ul class="check">' + d.docs.map((x,i) => '<li><input type="checkbox" id="dc'+i+'"><label for="dc'+i+'">'+esc(x)+'</label></li>').join('') + '</ul>';
   const mods = d.modelos.map(x => '<div class="modelo"><div class="tx"><b>'+esc(x.n)+'</b>'+(x.obs?'<span>'+esc(x.obs)+'</span>':'')+'</div>' +
     (x.st !== 'usar' ? '<span class="et et-'+x.st+'">'+({revisar:'Revisar',substituir:'Substituir'})[x.st]+'</span>' : '') +
-    (x.u ? '<a href="'+x.u+'" target="_blank" rel="noopener" title="Baixar o arquivo para preencher">'+(/\.pdf$/i.test(x.n)?'Abrir .pdf':/^Planilha/.test(x.n)?'Baixar .xlsx':'Baixar .docx')+'</a>' : '') + '</div>').join('');
+    (x.u ? '<a href="'+x.u+'" target="_blank" rel="noopener" title="Baixar o arquivo para preencher">'+(x.e==='pdf'?'Abrir .pdf':'Baixar .'+x.e)+'</a>' : '') + '</div>').join('');
   const leis = d.leis.map(l => { const f = FONTES[l[2]];
     return '<div class="lei"><b>'+esc(l[0])+(f?'<a href="'+f.u+'" target="_blank" rel="noopener">fonte ↗</a>':' <span class="verificar">confirmar</span>')+'</b>' +
       '<span>'+esc(l[1])+'</span></div>'; }).join('');
@@ -2244,7 +2395,7 @@ function telaFicha(d){
       '<p>'+esc(d.resumo)+'</p>' +
       '<div class="acoes"><button class="btn" onclick="copiarFicha(\''+d.id+'\')">📋 Copiar checklist</button>' +
       '<button class="btn" onclick="window.print()">🖨️ Imprimir</button></div></div>' +
-    passos + formularios + calc +
+    blocoRegras(d) + passos + formularios + calc +
     sanfona('docs', 'Documentos necessários', d.docs.length, docs) +
     sanfona('mod', 'Todos os modelos da pasta', subs ? subs+' a trocar' : d.modelos.length, mods, !!subs) +
     sanfona('leis', 'Base legal', d.leis.length, leis) +
