@@ -48,7 +48,7 @@ h2,h3,h4,.btn,.nav-brand{font-family:'Poppins','Inter',sans-serif}
 .hero{flex-shrink:0;position:relative;overflow:hidden;background:linear-gradient(180deg,#faf5ef 0%,#fff 100%)}
 .hero::before{content:"";position:absolute;width:640px;height:640px;right:-180px;top:-220px;border-radius:50%;background:radial-gradient(circle,rgba(168,50,90,.10),transparent 65%)}
 .hero::after{content:"";position:absolute;width:420px;height:420px;left:-180px;bottom:-220px;border-radius:50%;background:radial-gradient(circle,rgba(105,11,45,.07),transparent 65%)}
-.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.05fr;gap:48px;align-items:center;padding-top:clamp(32px,6vh,60px);padding-bottom:clamp(36px,6vh,60px)}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;padding-top:clamp(32px,6vh,60px);padding-bottom:clamp(36px,6vh,60px)}
 .badge{display:inline-flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);
   padding:7px 16px 7px 8px;border-radius:999px;font-size:.86rem;font-weight:500;color:var(--ink);cursor:pointer;transition:.2s;margin-bottom:20px}
 .badge:hover{border-color:var(--blue)}
@@ -58,23 +58,58 @@ h2,h3,h4,.btn,.nav-brand{font-family:'Poppins','Inter',sans-serif}
 .hero h2 .hl{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero .sub{margin-top:14px;font-size:1rem;color:var(--muted);line-height:1.6;max-width:480px}
 
-/* Cartão de citação */
-.quote-card{position:relative;background:#fff;border:1px solid var(--line);border-radius:22px;padding:34px 34px 28px 34px;box-shadow:var(--shadow-lg);overflow:hidden}
-.quote-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--grad)}
-.q-tag{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}
-.q-tag span{font:600 .74rem 'Poppins',sans-serif;color:var(--blue);background:var(--blue-soft);padding:5px 12px;border-radius:999px;letter-spacing:.5px;text-transform:uppercase}
-.q-mark{font:700 4.2rem/1 Georgia,serif;color:var(--blue);opacity:.15;height:34px;margin-top:-6px}
-.q-body{transition:opacity .6s,transform .6s}
-.q-body.out{opacity:0;transform:translateY(8px)}
-.q-text{font-family:'Lora',Georgia,serif;font-style:italic;font-size:clamp(1.05rem,1.55vw,1.3rem);line-height:1.6;color:var(--ink);min-height:6.4em}
-.q-author{margin-top:16px;display:flex;align-items:center;gap:12px}
-.q-author .av{width:40px;height:40px;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;font:600 .9rem 'Poppins',sans-serif;flex:none}
-.q-author b{display:block;font:600 .95rem 'Poppins',sans-serif;color:var(--ink)}
-.q-author small{font-size:.78rem;color:var(--muted)}
-.q-progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--line)}
-.q-progress i{display:block;height:100%;width:0;background:var(--grad)}
-.q-progress i.run{animation:prog linear forwards}
+/* Frase do pensador (abaixo do título) */
+.mini-quote{margin-top:18px;max-width:520px;padding-left:14px;border-left:3px solid var(--blue-2);transition:opacity .6s}
+.mini-quote.out{opacity:0}
+.mini-quote q{font-family:'Lora',Georgia,serif;font-style:italic;font-size:1.02rem;line-height:1.55;color:var(--ink);quotes:"“" "”"}
+.mini-quote span{display:block;margin-top:6px;font-size:.8rem;color:var(--muted)}
+.mini-quote span b{color:var(--ink);font-weight:600}
+
+/* Demandas da semana */
+.dem-card{position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 20px 12px 24px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;max-width:520px;justify-self:end;width:100%}
+.dem-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--grad)}
+.dem-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.dem-head .tg{font:600 .66rem 'Poppins',sans-serif;color:var(--blue);background:var(--blue-soft);padding:5px 12px;border-radius:999px;letter-spacing:.5px;text-transform:uppercase}
+.dem-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;gap:16px;scrollbar-width:none;flex:1}
+.dem-track::-webkit-scrollbar{display:none}
+.aviso{flex:0 0 100%;scroll-snap-align:start;max-height:330px;overflow-y:auto;padding-right:4px}
+.aviso .topo{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.aviso .et{display:inline-block;font:700 .64rem 'Inter',sans-serif;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:3px 9px;color:#b45309;background:#fdf0dc}
+.aviso.info .et{color:#1d4ed8;background:#e8effd}
+.aviso time{font-size:.72rem;color:var(--muted);font-weight:600}
+.aviso h3{font:600 1rem 'Poppins',sans-serif;color:var(--ink);margin:8px 0 3px}
+.aviso p{font-size:.84rem;line-height:1.5;color:var(--text)}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.chips b{font:600 .68rem 'Poppins',sans-serif;color:#fff;background:var(--grad);border-radius:6px;padding:2px 8px;white-space:nowrap}
+.aviso.info .chips b{background:#1d4ed8}
+.prazos{list-style:none;margin:8px 0 4px;padding:0!important;display:flex;flex-direction:column;gap:5px}
+.prazos li{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:start;font-size:.82rem;line-height:1.4;color:var(--ink)}
+.prazos b{font:600 .66rem 'Poppins',sans-serif;color:var(--blue);background:var(--blue-soft);border-radius:6px;padding:2px 7px;white-space:nowrap;min-width:78px;text-align:center;margin-top:1px}
+.aviso.info .prazos b{color:#1d4ed8;background:#e8effd}
+.aviso details{margin-top:8px;font-size:.84rem;color:var(--text)}
+.aviso summary{cursor:pointer;font-weight:600;color:var(--blue);width:max-content;font-size:.8rem;list-style:none;display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:var(--blue-soft);transition:.2s}
+.aviso summary::-webkit-details-marker{display:none}
+.aviso summary::after{content:"›";font-size:1rem;line-height:1;transition:transform .2s}
+.aviso details[open] summary::after{transform:rotate(90deg)}
+.aviso summary:hover{background:#f1dde4}
+.aviso.info summary{color:#1d4ed8;background:#e8effd}
+.aviso ul{margin:6px 0 0;padding-left:18px;line-height:1.5}
+.aviso .fonte{display:block;margin-top:6px;font-size:.72rem;color:var(--muted)}
+.dem-empty{color:var(--muted);font-size:.95rem;line-height:1.6;padding:10px 0}
+.dem-ctl{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:8px}
+.dem-dots{display:flex;gap:6px}
+.dem-dots button{width:8px;height:8px;border-radius:50%;border:0;background:var(--line);cursor:pointer;padding:0;transition:.2s}
+.dem-dots button[aria-current="true"]{background:var(--blue);width:22px;border-radius:99px}
+.dem-nav{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted)}
+.dem-nav button{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;font-size:.95rem;line-height:1}
+.dem-nav button:hover{border-color:var(--blue);color:var(--blue)}
+.dem-upd{font-size:.74rem;color:var(--muted);margin-top:8px}
+.dem-progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--line)}
+.dem-progress i{display:block;height:100%;width:0;background:var(--grad)}
+.dem-progress i.run{animation:prog linear forwards}
+.dem-progress i.paused{animation-play-state:paused}
 @keyframes prog{to{width:100%}}
+
 
 /* Acessos */
 .services{background:var(--bg-2);padding:clamp(36px,6vh,60px) 0;flex:1 0 auto}
@@ -116,7 +151,7 @@ footer b{color:#fff;font-weight:600}
 .btn-primary{background:var(--grad);color:#fff;box-shadow:0 10px 24px -8px rgba(105,11,45,.6)}
 .btn-outline{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
 @media (max-width:960px){.hero .wrap{grid-template-columns:1fr;gap:28px}}
-@media (max-width:640px){.clock{display:none}.nav-brand{font-size:1rem}.quote-card{padding:26px 22px 24px}}
+@media (max-width:640px){.clock{display:none}.nav-brand{font-size:1rem}.dem-card{padding:14px 16px 12px 20px;justify-self:stretch;max-width:none}}
 </style>
 </head>
 <body>
@@ -141,15 +176,16 @@ footer b{color:#fff;font-weight:600}
       <div>
         <div class="badge" id="greetBox" title="Clique para alterar seu nome"><span class="dot">✦</span><span id="greet">Bem-vindo(a)</span><span class="pen">✎</span></div>
         <h2>Juntos, fazemos a <span class="hl">educação acontecer</span> todos os dias.</h2>
-        <p class="sub">Seus sistemas e documentos reunidos em um só lugar, a um clique de distância.</p>
+        <p class="mini-quote" id="qLine"><q id="qText"></q><span>— <b id="qName"></b> · <span id="qInfo" style="display:inline"></span></span></p>
       </div>
-      <div class="quote-card">
-        <div class="q-tag"><span>Pensadores da educação</span><div class="q-mark">“</div></div>
-        <div class="q-body" id="qBody">
-          <p class="q-text" id="qText"></p>
-          <div class="q-author"><div class="av" id="qAv"></div><div><b id="qName"></b><small id="qInfo"></small></div></div>
+      <div class="dem-card" id="demCard">
+        <div class="dem-head">
+          <span class="tg">Demandas da semana</span>
+          
         </div>
-        <div class="q-progress"><i id="qBar"></i></div>
+        <div class="dem-track" id="demTrack" tabindex="0"></div>
+        <div class="dem-ctl" id="demCtl"><div class="dem-dots" id="demDots"></div><div class="dem-nav"><span id="demCount"></span><button id="demPrev" aria-label="Anterior">‹</button><button id="demNext" aria-label="Próxima">›</button></div></div>
+        <div class="dem-progress"><i id="demBar"></i></div>
       </div>
     </div>
   </header>
@@ -186,7 +222,7 @@ footer b{color:#fff;font-weight:600}
    LINKS — para incluir, remover ou mudar um botão,
    edite esta lista e suba o arquivo de novo no GitHub.
    icon: news, folder, idcard, history, school, inclusao, doc, chart, search, link, calendar, mail, users, globe, star
-   color: 0 vinho · 1 laranja · 2 roxo · 3 verde · 4 dourado · 5 vermelho · 6 verde-azulado
+   color: 0 vinho · 1 laranja · 2 roxo · 3 verde · 4 dourado · 5 vermelho · 6 verde-azulado · 7 azul
    ====================================================== */
 const LINKS = [
   { title:"Publicação", desc:"Acompanhe as publicações do Diário Oficial relacionadas aos servidores.",
@@ -202,7 +238,56 @@ const LINKS = [
   { title:"Busca Ativa Escolar", desc:"Acompanhamento da frequência e busca ativa dos estudantes.",
     url:"https://script.google.com/macros/s/AKfycbwcEWkZatOmmkHdTdPBd8_BOqTH8jMk_A-5EqniFNjcFIqnXsMXUU45HmGPipfHl1Pa/exec", icon:"search", color:5 },
   { title:"Atendimento à Educação Especial", desc:"Painel pedagógico dos estudantes da Educação Especial.",
-    url:"https://edilson2107-cyber.github.io/material-escolar/painel-pedagogico-af-em.html", icon:"inclusao", color:6 }
+    url:"https://edilson2107-cyber.github.io/material-escolar/painel-pedagogico-af-em.html", icon:"inclusao", color:6 },
+  { title:"SEPES", desc:"Serviços de pessoal e vida funcional dos servidores.",
+    url:"https://edilson2107-cyber.github.io/material-escolar/sepes.html", icon:"users", color:7 }
+];
+
+/* ======================================================
+   DEMANDAS DA SEMANA — para atualizar, edite a lista abaixo
+   e suba o arquivo de novo no GitHub.
+   Campos de cada demanda:
+     tipo: "urgente" (laranja) ou "info" (azul)
+     etiqueta, data, titulo, texto
+     prazos: datas sempre à vista  {data:"até 30/11", texto:"..."}
+     rotulo + passos: lista que abre ao clicar (ex.: "O que fazer")
+     obs, fonte: opcionais (deixe "" se não usar)
+   ====================================================== */
+const DEMANDA_SEGUNDOS = 8;
+const DEMANDAS = [
+  { tipo:"urgente", etiqueta:"Prazo · não permanência", data:"Portaria DIPES nº 65/2026",
+    titulo:"Não permanência: novas datas",
+    texto:"Indicação prorrogada para efetivos, não efetivos e contratados.",
+    prazos:[{data:"até 25/11",texto:"Indicação à não permanência"},
+            {data:"até 30/11",texto:"Escola SP Conecta (efetivos e não efetivos não permanentes)"},
+            {data:"até 17/12",texto:"Feedback aos indicados à permanência"},
+            {data:"a partir de 18/12",texto:"Painel para contratados e indicados à permanência"}],
+    rotulo:"Detalhes",
+    passos:["Efetivos e não efetivos não permanentes: painel e e-mail logo após a indicação.",
+            "Contratados não permanentes: sem e-mail e sem Escola SP Conecta."],
+    obs:"", fonte:"Altera a Portaria DIPES nº 64/2026." },
+  { tipo:"urgente", etiqueta:"Prazo · Escola SP Conecta", data:"DOE de 24/11/2026",
+    titulo:"Escola SP Conecta: novo cronograma",
+    texto:"Portaria DIPES altera a nº 64/2026 (análise de perfil para a atribuição 2027).",
+    prazos:[{data:"23 a 25/11",texto:"Comunicação aos docentes indicados à não permanência"},
+            {data:"24 a 30/11",texto:"Perfil profissional com vídeo: docentes P, N e F não permanentes"},
+            {data:"24 a 30/11",texto:"Indicação de até 20 escolas, em ordem de prioridade"},
+            {data:"01 a 11/12",texto:"Perfil profissional: todas as categorias e candidatos PSS/FGV ao PEI"}],
+    rotulo:"O que mudou",
+    passos:["Não permanente não terá aulas em 2027 na escola em que foi indicado, exceto se for a sede de classificação (§ 4º).",
+            "P, N e F do PEI com carga suplementar em escola de tempo parcial no mesmo DI participam pelo inciso II (§ 5º)."],
+    obs:"", fonte:"Altera os arts. 2º e 18 da Portaria DIPES nº 64/2026." },
+  { tipo:"urgente", etiqueta:"Urgente · prazo encerrando", data:"E-mail de 25/11/2026",
+    titulo:"Exames periódicos",
+    texto:"Agendar já os exames pendentes. Após o bloqueio do sistema, não haverá novos agendamentos.",
+    prazos:[], rotulo:"O que fazer",
+    passos:["Conferir os servidores pendentes.","Agendar os exames não realizados.","Acompanhar até a conclusão."],
+    obs:"Contrato extinto com demissional feito: enviar Ofício com nome, data da extinção e data do exame.",
+    fonte:"E-mail da URE aos Diretores e GOEs." },
+  { tipo:"info", etiqueta:"Sistema · aviso", data:"SED, 25/11/2026",
+    titulo:"SIPAF indisponível",
+    texto:"Em ajustes para as férias não docentes de 2027. Aguarde a liberação para lançar.",
+    prazos:[], rotulo:"", passos:[], obs:"", fonte:"Aviso DIPES/COAPES." }
 ];
 
 /* Frases de pensadores da educação — trocam sozinhas */
@@ -260,7 +345,7 @@ const ICONS = {
   globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
   star:'<path d="m12 3 2.8 5.8 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.3l1-6.2L3 9.7l6.2-.9Z"/>'
 };
-const COLORS = [["#7a1035","#f8edf1"],["#f97316","#fff1e6"],["#7c3aed","#f1eafe"],["#10b981","#e5f7f0"],["#a0782b","#f7f0e1"],["#e11d48","#fdebef"],["#0f766e","#e3f4f1"]];
+const COLORS = [["#7a1035","#f8edf1"],["#f97316","#fff1e6"],["#7c3aed","#f1eafe"],["#10b981","#e5f7f0"],["#a0782b","#f7f0e1"],["#e11d48","#fdebef"],["#0f766e","#e3f4f1"],["#1d4ed8","#e8effd"]];
 const esc = s => String(s||"").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const svg = n => `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICONS[n]||ICONS.link}</svg>`;
 
@@ -278,19 +363,66 @@ document.getElementById("count").textContent = LINKS.length + " acessos";
 /* Frases: ordem embaralhada, sem repetir até passar por todas */
 let order = [], pos = 0;
 function shuffle(){ order = QUOTES.map((_,i)=>i).sort(()=>Math.random()-.5); pos = 0; }
-function initials(n){ const p=n.replace(/[^A-Za-zÀ-ÿ ]/g,"").split(" ").filter(Boolean); return (p[0][0]+(p.length>1?p[p.length-1][0]:"")).toUpperCase(); }
 function showQuote(){
   if(pos >= order.length) shuffle();
   const [t,a,info] = QUOTES[order[pos++]];
-  qBody.classList.add("out");
-  setTimeout(()=>{
-    qText.textContent = "“" + t + "”"; qName.textContent = a; qInfo.textContent = info; qAv.textContent = initials(a);
-    qBody.classList.remove("out");
-    qBar.classList.remove("run"); void qBar.offsetWidth;
-    qBar.style.animationDuration = QUOTE_SECONDS + "s"; qBar.classList.add("run");
-  }, 600);
+  qLine.classList.add("out");
+  setTimeout(()=>{ qText.textContent = t; qName.textContent = a; qInfo.textContent = info; qLine.classList.remove("out"); }, 600);
 }
 shuffle(); showQuote(); setInterval(showQuote, QUOTE_SECONDS*1000);
+
+/* ---------- Demandas da semana ---------- */
+let demandas = DEMANDAS, demIdx = 0, demPause = false;
+const reduz = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function renderDemandas(){
+  if(!demandas.length){
+    demTrack.innerHTML = `<div class="aviso"><p class="dem-empty">Nenhuma demanda publicada para esta semana.</p></div>`;
+  } else {
+    demTrack.innerHTML = demandas.map(d=>`
+      <article class="aviso ${d.tipo==="info"?"info":""}">
+        <div class="topo">${d.etiqueta?`<span class="et">${esc(d.etiqueta)}</span>`:"<span></span>"}${d.data?`<time>${esc(d.data)}</time>`:""}</div>
+        <h3>${esc(d.titulo)}</h3>
+        ${d.texto?`<p>${esc(d.texto)}</p>`:""}
+        ${(d.prazos&&d.prazos.length)||(d.passos&&d.passos.length)||d.obs?`<details><summary>${esc(d.prazos&&d.prazos.length?"Confira as datas":(d.rotulo||"O que fazer"))}</summary>
+          ${d.prazos&&d.prazos.length?`<ul class="prazos">${d.prazos.map(x=>`<li><b>${esc(x.data)}</b><span>${esc(x.texto)}</span></li>`).join("")}</ul>`:""}
+          ${d.passos&&d.passos.length?`<ul>${d.passos.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:""}
+          ${d.obs?`<p style="margin-top:8px">${esc(d.obs)}</p>`:""}</details>`:""}
+        ${d.fonte?`<span class="fonte">${esc(d.fonte)}</span>`:""}
+      </article>`).join("");
+  }
+  const n = Math.max(demandas.length,1);
+  demCtl.style.display = n>1 ? "" : "none";
+  demDots.innerHTML = demandas.map((_,k)=>`<button aria-label="Ir para demanda ${k+1}" data-k="${k}"></button>`).join("");
+  demIdx = 0; marcaDem(); reiniciaBarra();
+}
+function marcaDem(){
+  [...demDots.children].forEach((b,k)=>b.setAttribute("aria-current", k===demIdx?"true":"false"));
+  demCount.textContent = demandas.length>1 ? (demIdx+1)+" / "+demandas.length : "";
+}
+function irDem(k){
+  const sl = demTrack.children; if(!sl.length) return;
+  demIdx = (k+sl.length)%sl.length;
+  demTrack.scrollTo({left: sl[demIdx].offsetLeft - demTrack.offsetLeft, behavior: reduz?"auto":"smooth"});
+  marcaDem(); reiniciaBarra();
+}
+function reiniciaBarra(){
+  demBar.classList.remove("run"); void demBar.offsetWidth;
+  if(demandas.length>1 && !reduz){ demBar.style.animationDuration = DEMANDA_SEGUNDOS+"s"; demBar.classList.add("run"); }
+}
+demDots.onclick = e=>{ const b=e.target.closest("button"); if(b) irDem(+b.dataset.k); };
+demPrev.onclick = ()=>irDem(demIdx-1);
+demNext.onclick = ()=>irDem(demIdx+1);
+demTrack.addEventListener("keydown",e=>{ if(e.key==="ArrowRight"){e.preventDefault();irDem(demIdx+1)} if(e.key==="ArrowLeft"){e.preventDefault();irDem(demIdx-1)} });
+let demDeb; demTrack.addEventListener("scroll",()=>{ clearTimeout(demDeb); demDeb=setTimeout(()=>{ const k=Math.round(demTrack.scrollLeft/demTrack.clientWidth); if(k!==demIdx){ demIdx=Math.max(0,Math.min(demandas.length-1,k)); marcaDem(); } },80); });
+["mouseenter","focusin","touchstart"].forEach(ev=>demCard.addEventListener(ev,()=>{ demPause=true; demBar.classList.add("paused"); },{passive:true}));
+["mouseleave","focusout"].forEach(ev=>demCard.addEventListener(ev,()=>{ demPause=false; demBar.classList.remove("paused"); }));
+demTrack.addEventListener("toggle",()=>{ demPause=true; demBar.classList.add("paused"); },true);
+demBar.addEventListener("animationend",()=>{ if(!demPause && !document.hidden) irDem(demIdx+1); else reiniciaBarra(); });
+window.addEventListener("resize",()=>{ const sl=demTrack.children; if(sl[demIdx]) demTrack.scrollLeft = sl[demIdx].offsetLeft - demTrack.offsetLeft; });
+
+renderDemandas();
+
 
 /* Relógio, data e saudação */
 const NAME_KEY = "portal-servidores-nome";
